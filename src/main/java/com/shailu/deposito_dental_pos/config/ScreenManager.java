@@ -3,6 +3,7 @@ package com.shailu.deposito_dental_pos.config;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,10 @@ public class ScreenManager {
             loader.setControllerFactory(context::getBean);
 
             Parent root = loader.load();
+            stage.getIcons().add(
+                    new Image(getClass().getResourceAsStream("/Shailu.jpeg"))
+            );
+
             stage.setScene(new Scene(root));
             stage.setTitle(title);
             stage.show();

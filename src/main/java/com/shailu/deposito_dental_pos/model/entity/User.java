@@ -10,8 +10,7 @@ import lombok.Setter;
 @Table(name = "users")
 public class User extends OnlyDatesBaseEntity {
     @Id
-    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_seq_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")

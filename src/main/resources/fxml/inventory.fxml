@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController"
+            prefWidth="1200"
+            prefHeight="800">
+
+    <!-- ================= LEFT PANEL ================= -->
+    <left>
+        <VBox spacing="10"
+              prefWidth="300"
+              style="-fx-padding:15; -fx-background-color:#f5f5f5;">
+
+            <Label text="Producto"
+                   style="-fx-font-size:18px; -fx-font-weight:bold;" />
+
+            <Label text="Código"/>
+            <TextField fx:id="txtCode"
+                       promptText="Escribe el código"/>
+
+            <Label text="Código de barras"/>
+            <TextField fx:id="txtBarCode"
+                       promptText="Escanea código"/>
+
+            <Label text="Nombre"/>
+            <TextField fx:id="txtName"/>
+
+            <Label text="Descripción"/>
+            <TextField fx:id="txtDescription"
+                       prefHeight="60"
+                       promptText="Descripción del producto"/>
+
+            <Label text="Precio de compra"/>
+            <TextField fx:id="txtPurchasePrice"/>
+
+            <Label text="Ganancia"/>
+            <TextField fx:id="txtProfit"/>
+
+            <Button text="Agregar"
+                    fx:id="btnAdd"
+                    prefHeight="45"
+                    maxWidth="Infinity"
+                    style="-fx-font-size:16px; -fx-background-color:#2c7be5; -fx-text-fill:white;" />
+        </VBox>
+    </left>
+
+    <!-- ================= CENTER TABLE ================= -->
+    <center>
+        <VBox spacing="10" style="-fx-padding:15;">
+            <Label text="Inventario"
+                   style="-fx-font-size:20px; -fx-font-weight:bold;" />
+
+            <TableView fx:id="tableProducts">
+                <columns>
+
+                    <TableColumn fx:id="colCode"
+                                 text="Código"
+                                 prefWidth="120"/>
+
+                    <TableColumn fx:id="colName"
+                                 text="Nombre"
+                                 prefWidth="200"/>
+
+                    <TableColumn fx:id="colPrice"
+                                 text="Precio"
+                                 prefWidth="100"/>
+
+                    <TableColumn fx:id="colStock"
+                                 text="Stock"
+                                 prefWidth="80"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+</BorderPane>

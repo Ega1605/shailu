@@ -1,6 +1,7 @@
 package com.shailu.deposito_dental_pos.controller;
 
 import com.shailu.deposito_dental_pos.config.ScreenManager;
+import com.shailu.deposito_dental_pos.config.UserSession;
 import com.shailu.deposito_dental_pos.service.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -27,17 +28,23 @@ public class LoginController {
     @Autowired
     private ScreenManager screenManager;
 
+    @Autowired
+    private UserSession userSession;
+
 
     @FXML
     public void onLogin() {
+
+        String userName = usernameField.getText();
         boolean success = userService.login(
-                usernameField.getText(),
+                userName,
                 passwordField.getText()
         );
 
         if (success) {
             errorLabel.setText("Login correcto");
             // aquí abrimos la siguiente pantalla
+            userSession.setUsername(userName);
             screenManager.show("main.fxml", "Inicio");
         } else {
             errorLabel.setText("Usuario o contraseña incorrectos");

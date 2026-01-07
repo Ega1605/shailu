@@ -20,7 +20,7 @@
       </ImageView>
 
         <TextField fx:id="usernameField" prefHeight="12.0" prefWidth="250.0" promptText="Usuario" />
-        <PasswordField fx:id="passwordField" promptText="Contraseña" />
+        <PasswordField fx:id="passwordField" promptText="Contraseña"  onAction="#onLogin" />
 
         <Button onAction="#onLogin" text="Ingresar" />
 
