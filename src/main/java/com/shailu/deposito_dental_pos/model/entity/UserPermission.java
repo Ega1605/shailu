@@ -12,8 +12,7 @@ public class UserPermission extends OnlyDatesBaseEntity {
 
 
     @Id
-    @SequenceGenerator(name = "user_permissions_seq_gen", sequenceName = "user_permissions_seq_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_permissions_seq_gen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

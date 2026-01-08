@@ -13,8 +13,7 @@ import java.util.List;
 public class Role extends OnlyDatesBaseEntity{
 
     @Id
-    @SequenceGenerator(name = "role_seq_gen", sequenceName = "role_seq_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq_gen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "role_name")
