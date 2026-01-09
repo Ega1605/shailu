@@ -1,0 +1,29 @@
+.mi-boton {
+    -fx-background-color: #d0aac1;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10px 20px;
+    -fx-border: none;
+    -fx-border-radius: 10px;
+    -fx-cursor: pointer;
+    -fx-font-size: 17px;
+    -fx-transition: background-color 0.3s ease; /* Transición suave */
+    -fx-display: inline-block; /* Para que se comporte como un bloque pero en línea */
+}
+
+.mi-boton:hover {
+    -fx-background-color: #DB7093 ;
+    -fx-text-fill: #ffffff;
+}
+
+.root {
+    -fx-background-color: white;
+}
+.mi-input {
+    /* Sintaxis: drop-shadow( tipo, color, radio, propagación, desplazamientoX, desplazamientoY ) */
+    -fx-effect: drop-shadow(three-pass-box, rgba(0, 0, 0, 0.4), 10, 0, 0, 4);
+}
+
+/* Sombra más intensa cuando el usuario está escribiendo */
+.mi-input:focused {
+    -fx-effect: drop-shadow(three-pass-box, #d0aac1, 15, 0, 0, 0);
+}
