@@ -10,6 +10,10 @@
     -fx-display: inline-block; /* Para que se comporte como un bloque pero en línea */
 }
 
+.btn-eliminar{
+    -fx-background-color: #DC143C;
+}
+
 .mi-boton:hover {
     -fx-background-color: #DB7093 ;
     -fx-text-fill: #ffffff;
