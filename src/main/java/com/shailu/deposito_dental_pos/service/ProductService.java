@@ -24,6 +24,15 @@ public class ProductService {
     public static final String DEFAULT_UNIT_OF_MEASURE = "Unit";
     public static final int DEFAULT_MINIMUM_STOCK = 5;
 
+    public Optional<ProductDto> findByBarCode(String barCode) {
+        return productRepository.findByBarCode(barCode)
+                .map(productMapper::entityToDto);
+    }
+
+    public Optional<ProductDto> searchProductByName(String barCode) {
+        return productRepository.findByName(barCode)
+                .map(productMapper::entityToDto);
+    }
 
     public void addProduct(ProductDto productDto){
 
@@ -31,13 +40,16 @@ public class ProductService {
 
         if(product.isPresent()){
             addProductStock(product.get());
-        }
-        productDto.setUnitOfMeasure(DEFAULT_UNIT_OF_MEASURE);
-        productDto.setCurrentStock(ADD_UNIT_TO_CURRENT_STOCK);
-        productDto.setMinimumStock(DEFAULT_MINIMUM_STOCK);
-        Product newProduct = productMapper.dtoToEntity(productDto);
+        } else {
 
-        productRepository.save(newProduct);
+            productDto.setUnitOfMeasure(DEFAULT_UNIT_OF_MEASURE);
+            productDto.setCurrentStock(ADD_UNIT_TO_CURRENT_STOCK);
+            productDto.setMinimumStock(DEFAULT_MINIMUM_STOCK);
+            Product newProduct = productMapper.dtoToEntity(productDto);
+
+            productRepository.save(newProduct);
+        }
+
     }
 
     private void addProductStock(Product product){

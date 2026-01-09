@@ -17,7 +17,7 @@ public class JavaFxConfig {
     @Bean
     public FXMLLoader fxmlLoader() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setControllerFactory(context::getBean);//Cuando cargues un controlador, pídeselo a Spring
+        loader.setControllerFactory(context::getBean);
         return loader;
     }
 }

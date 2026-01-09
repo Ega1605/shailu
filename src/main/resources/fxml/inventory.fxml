@@ -7,6 +7,9 @@
             fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController"
             prefWidth="1200"
             prefHeight="800">
+    <top>
+        <fx:include source="menuBar.fxml"/>
+    </top>
 
     <!-- ================= LEFT PANEL ================= -->
     <left>

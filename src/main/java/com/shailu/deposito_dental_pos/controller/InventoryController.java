@@ -49,15 +49,6 @@ public class InventoryController {
     @FXML
     public void initialize() {
 
-        tableProducts.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
-        tableProducts.prefWidthProperty().bind(
-                colCode.widthProperty()
-                        .add(colName.widthProperty())
-                        .add(colPrice.widthProperty())
-                        .add(colStock.widthProperty())
-        );
-
         colCode.setCellValueFactory(
                 new PropertyValueFactory<>("code")
         );
@@ -70,8 +61,31 @@ public class InventoryController {
         colPrice.setCellValueFactory(
                 new PropertyValueFactory<>("price")
         );
+
+        txtBarCode.setOnAction(e -> onBarCodeScanned());
+
+        txtBarCode.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                onBarCodeScanned();
+            }
+        });
         btnAdd.setOnAction(e -> addProduct());
         loadProducts();
+    }
+
+    private void onBarCodeScanned() {
+
+        String barCode = txtBarCode.getText();
+
+        if (barCode == null || barCode.isBlank()) {
+            return;
+        }
+
+        productService.findByBarCode(barCode)
+                .ifPresentOrElse(
+                        this::fillProductFields,
+                        this::clearProductFields
+                );
     }
 
     private void addProduct() {
@@ -101,11 +115,27 @@ public class InventoryController {
     private void clearForm() {
         txtCode.clear();
         txtBarCode.clear();
+        clearProductFields();
+    }
+
+    private void fillProductFields(ProductDto product) {
+
+        txtCode.setText(product.getCode());
+        txtName.setText(product.getName());
+        txtDescription.setText(product.getDescription());
+        txtPurchasePrice.setText(String.valueOf(product.getPurchasePrice()));
+        txtProfit.setText(String.valueOf(product.getProfit()));
+
+        btnAdd.requestFocus();
+    }
+
+    private void clearProductFields() {
         txtName.clear();
         txtDescription.clear();
         txtPurchasePrice.clear();
         txtProfit.clear();
     }
+
 
 
 }

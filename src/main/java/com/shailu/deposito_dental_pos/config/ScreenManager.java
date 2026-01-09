@@ -39,6 +39,7 @@ public class ScreenManager {
             stage.show();
 
         } catch (Exception e) {
+            e.getCause().printStackTrace();
             throw new RuntimeException("Error cargando pantalla " + fxml, e);
         }
     }

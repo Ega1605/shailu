@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import java.net.URL?>
+
+<BorderPane xmlns="javafx.com"
+            xmlns:fx="javafx.com"
+            fx:controller="com.shailu.deposito_dental_pos.controller.SalesController"
+            fx:id="mainContainer"
+            styleClass="main-container">
+
+    <top>
+        <fx:include source="menuBar.fxml"/>
+    </top>
+
+    <left>
+        <VBox spacing="15" prefWidth="300" styleClass="form-panel">
+            <Label text="Búsqueda de Producto" styleClass="section-title"/>
+
+            <VBox spacing="5">
+                <Label text="Escanear / Buscar"/>
+                <TextField fx:id="searchProduct" promptText="🔍 Código o nombre..."
+                           styleClass="search-field"/>
+            </VBox>
+
+            <Separator/>
+
+            <VBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Nombre del Producto"/>
+                    <TextField fx:id="txtName"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Descripcion"/>
+                    <TextField fx:id="txtDesc" editable="false" styleClass="read-only-field"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Precio"/>
+                    <TextField fx:id="txtPrice" editable="false" styleClass="read-only-field"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Cantidad"/>
+                    <TextField fx:id="txtQuantity" promptText="0"/>
+                </VBox>
+
+                <Button text="AGREGAR (Enter)" fx:id="btnAddProduct"
+                        maxWidth="Infinity" prefHeight="45" styleClass="btn-add"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- CENTRO: TABLA DE PRODUCTOS AGREGADOS -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 0 15 15 15;">
+            <Label text="Detalle de Venta" styleClass="section-title" style="-fx-padding: 10 0;"/>
+            <TableView fx:id="tableSales" VBox.vgrow="ALWAYS" styleClass="sales-table">
+                <columns>
+                    <TableColumn fx:id="colName" text="Nombre" prefWidth="100"/>
+                    <TableColumn fx:id="colDesc" text="Descripción" prefWidth="250"/>
+                    <TableColumn fx:id="colPrice" text="Precio Unit." prefWidth="100"/>
+                    <TableColumn fx:id="colQty" text="Cant." prefWidth="70"/>
+                    <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <!-- DERECHA: RESUMEN DE PAGO -->
+    <right>
+        <VBox spacing="15" prefWidth="300" styleClass="checkout-panel">
+            <Label text="Resumen" styleClass="panel-title"/>
+            <Separator/>
+
+            <HBox styleClass="summary-row">
+                <Label text="Subtotal:"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblSubtotal" text="0.00"/>
+            </HBox>
+
+            <HBox styleClass="summary-row">
+                <Label text="IVA (16%):"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblTax" text="0.00"/>
+            </HBox>
+
+            <VBox spacing="5" styleClass="total-container">
+                <Label text="TOTAL A PAGAR" style="-fx-text-fill: white;"/>
+                <Label fx:id="lblTotal" text="0.00" styleClass="total-amount"/>
+            </VBox>
+
+            <Button text="FINALIZAR VENTA" maxWidth="Infinity" styleClass="btn-pay" prefHeight="60"/>
+            <Button text="Cancelar" maxWidth="Infinity" styleClass="btn-cancel"/>
+        </VBox>
+    </right>
+
+</BorderPane>

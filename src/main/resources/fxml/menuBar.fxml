@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+
+<MenuBar xmlns:fx="javafx.com"
+         fx:controller="com.shailu.deposito_dental_pos.controller.MenuBarController">
+    <Menu text="Navegación">
+        <MenuItem text="Home" onAction="#goToHome"/>
+        <MenuItem text="Ventas" onAction="#goToSales"/>
+        <MenuItem text="Clientes" onAction="#goToClients"/>
+        <MenuItem text="Inventario" onAction="#goToInventory"/>
+        <MenuItem text="Reportes" onAction="#goToReports"/>
+        <MenuItem text="Facturación" onAction="#goToInvoice"/>
+    </Menu>
+</MenuBar>

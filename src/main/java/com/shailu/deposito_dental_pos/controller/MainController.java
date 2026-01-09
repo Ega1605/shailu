@@ -30,4 +30,9 @@ public class MainController {
         screenManager.show("inventory.fxml", "Inventario");
     }
 
+    @FXML
+    private void openSales() {
+        screenManager.show("sales.fxml", "Sales");
+    }
+
 }

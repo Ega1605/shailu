@@ -39,6 +39,7 @@
                     style="-fx-font-size:18px;" />
 
             <Button text="Ventas"
+                    onAction="#openSales"
                     prefWidth="200"
                     prefHeight="200"
                     GridPane.rowIndex="0"
