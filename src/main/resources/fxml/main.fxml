@@ -1,42 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.shailu.deposito_dental_pos.controller.MainController"
-            prefWidth="1024"
-            prefHeight="768">
+<BorderPane prefHeight="768" prefWidth="1024" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.MainController">
 
     <!-- ================= TOP BAR ================= -->
     <top>
-        <HBox spacing="20"
-              style="-fx-background-color:#2c7be5; -fx-padding:15;"
-              alignment="CENTER_LEFT">
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color:#2c7be5; -fx-padding:15;">
 
-            <Label fx:id="lblUsuario"
-                   text="Usuario: Admin"
-                   style="-fx-text-fill:white; -fx-font-size:16px;" />
+            <Label fx:id="lblUsuario" style="-fx-text-fill:white; -fx-font-size:16px;" text="Usuario: Admin" />
 
-            <Region HBox.hgrow="ALWAYS"/>
+            <Region HBox.hgrow="ALWAYS" />
         </HBox>
     </top>
 
     <!-- ================= CENTER ================= -->
     <center>
-        <GridPane hgap="40"
-                  vgap="40"
-                  alignment="CENTER"
-                  style="-fx-padding:40;">
+        <GridPane alignment="CENTER" hgap="40" style="-fx-padding:40;" vgap="40">
 
             <!-- Fila 1 -->
-            <Button text="Inventario"
-                    onAction="#openInventario"
-                    prefWidth="200"
-                    prefHeight="200"
-                    GridPane.rowIndex="0"
-                    GridPane.columnIndex="0"
-                    style="-fx-font-size:18px;" />
+            <Button id="btn_inventario" onAction="#openInventario" prefHeight="200" prefWidth="200" styleClass="mi-boton" stylesheets="@styles.css" text="Inventario" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
             <Button text="Ventas"
                     onAction="#openSales"
@@ -46,28 +36,21 @@
                     GridPane.columnIndex="1"
                     style="-fx-font-size:18px;" />
 
-            <Button text="Clientes"
-                    prefWidth="200"
-                    prefHeight="200"
-                    GridPane.rowIndex="0"
-                    GridPane.columnIndex="2"
-                    style="-fx-font-size:18px;" />
+            <Button prefHeight="200" prefWidth="200" style="-fx-font-size:18px;" text="Clientes" GridPane.columnIndex="2" GridPane.rowIndex="0" />
 
             <!-- Fila 2 -->
-            <Button text="Reportes"
-                    prefWidth="200"
-                    prefHeight="200"
-                    GridPane.rowIndex="1"
-                    GridPane.columnIndex="0"
-                    GridPane.columnSpan="2"
-                    style="-fx-font-size:18px;" />
+            <Button prefHeight="200" prefWidth="200" style="-fx-font-size:18px;" text="Reportes" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
 
-            <Button text="Facturación"
-                    prefWidth="200"
-                    prefHeight="200"
-                    GridPane.rowIndex="1"
-                    GridPane.columnIndex="2"
-                    style="-fx-font-size:18px;" />
+            <Button prefHeight="200" prefWidth="200" style="-fx-font-size:18px;" text="Facturación" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
 
         </GridPane>
     </center>
