@@ -7,13 +7,15 @@ import lombok.Setter;
 @Setter
 public class SalesDto {
 
+    private String code;
     private String name;
     private String description;
     private Double price;
     private Integer quantity;
     private Double subtotal;
 
-    public SalesDto(String name, String description, double price, int quantity) {
+    public SalesDto(String code, String name, String description, double price, int quantity) {
+        this.code = code;
         this.name = name;
         this.description = description;
         this.price = price;

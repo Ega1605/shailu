@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -44,7 +46,8 @@ public class Product extends OnlyDatesBaseEntity{
     @Column(name = "minimum_stock")
     private int minimumStock;
 
-    @Column(name = "maximum_stock")
-    private int maximumStock;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
+    private List<InventoryMovements> movements;
+
 
 }

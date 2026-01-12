@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.Pagination?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController"
             prefWidth="1200"
@@ -41,8 +42,9 @@
 
             <Label text="Ganancia" />
             <TextField fx:id="txtProfit" />
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad" />
-         <TextField />
+
+            <Label text="Cantidad" />
+            <TextField fx:id="txtQuantity" />
 
             <Button fx:id="btnAdd" maxWidth="Infinity" prefHeight="45" styleClass="mi-boton" stylesheets="@styles.css" text="Procesar" />
         </VBox>
@@ -55,8 +57,10 @@
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Busqueda" />
          <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-               <TextField alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="400.0" promptText="Nombre del producto" />
-               <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0" styleClass="btn-eliminar" stylesheets="@styles.css" text="Eliminar" textFill="WHITE">
+               <TextField fx:id="txtSearch" alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="400.0" promptText="Nombre del producto" />
+               <Button fx:id="btnDelete" mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0" styleClass="btn-eliminar"
+                       stylesheets="@styles.css" text="Eliminar" textFill="WHITE"
+                       onAction="#deleteSelectedProduct">
                   <HBox.margin>
                      <Insets left="300.0" />
                   </HBox.margin>
@@ -79,6 +83,7 @@
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
             </TableView>
+            <Pagination fx:id="pagination" maxPageIndicatorCount="5" />
         </VBox>
     </center>
 

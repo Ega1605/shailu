@@ -2,7 +2,6 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import java.net.URL?>
 
 <BorderPane xmlns="javafx.com"
             xmlns:fx="javafx.com"
@@ -19,14 +18,18 @@
             <Label text="Búsqueda de Producto" styleClass="section-title"/>
 
             <VBox spacing="5">
-                <Label text="Escanear / Buscar"/>
-                <TextField fx:id="searchProduct" promptText="🔍 Código o nombre..."
+                <Label text="Escanear"/>
+                <TextField fx:id="searchProduct" promptText="🔍 Código"
                            styleClass="search-field"/>
             </VBox>
 
             <Separator/>
 
             <VBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Código del Producto"/>
+                    <TextField fx:id="txtCode"/>
+                </VBox>
                 <VBox spacing="5">
                     <Label text="Nombre del Producto"/>
                     <TextField fx:id="txtName"/>
@@ -52,7 +55,7 @@
         </VBox>
     </left>
 
-    <!-- CENTRO: TABLA DE PRODUCTOS AGREGADOS -->
+    <!-- CENTRO: Table of products -->
     <center>
         <VBox spacing="10" style="-fx-padding: 0 15 15 15;">
             <Label text="Detalle de Venta" styleClass="section-title" style="-fx-padding: 10 0;"/>
@@ -68,31 +71,19 @@
         </VBox>
     </center>
 
-    <!-- DERECHA: RESUMEN DE PAGO -->
+
     <right>
         <VBox spacing="15" prefWidth="300" styleClass="checkout-panel">
             <Label text="Resumen" styleClass="panel-title"/>
             <Separator/>
-
-            <HBox styleClass="summary-row">
-                <Label text="Subtotal:"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Label fx:id="lblSubtotal" text="0.00"/>
-            </HBox>
-
-            <HBox styleClass="summary-row">
-                <Label text="IVA (16%):"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Label fx:id="lblTax" text="0.00"/>
-            </HBox>
 
             <VBox spacing="5" styleClass="total-container">
                 <Label text="TOTAL A PAGAR" style="-fx-text-fill: white;"/>
                 <Label fx:id="lblTotal" text="0.00" styleClass="total-amount"/>
             </VBox>
 
-            <Button text="FINALIZAR VENTA" maxWidth="Infinity" styleClass="btn-pay" prefHeight="60"/>
-            <Button text="Cancelar" maxWidth="Infinity" styleClass="btn-cancel"/>
+            <Button text="FINALIZAR VENTA" maxWidth="Infinity" styleClass="btn-pay" prefHeight="60" onAction="#finalizeSale"/>
+            <Button text="Cancelar" maxWidth="Infinity" styleClass="btn-cancel" onAction="#cancelSale"/>
         </VBox>
     </right>
 
