@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
 
-<MenuBar xmlns:fx="javafx.com"
-         fx:controller="com.shailu.deposito_dental_pos.controller.MenuBarController">
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar style="-fx-background-color: SILVER;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.shailu.deposito_dental_pos.controller.MenuBarController">
     <Menu text="Navegación">
-        <MenuItem text="Home" onAction="#goToHome"/>
-        <MenuItem text="Ventas" onAction="#goToSales"/>
-        <MenuItem text="Clientes" onAction="#goToClients"/>
-        <MenuItem text="Inventario" onAction="#goToInventory"/>
-        <MenuItem text="Reportes" onAction="#goToReports"/>
-        <MenuItem text="Facturación" onAction="#goToInvoice"/>
+        <MenuItem onAction="#goToHome" text="Home" />
+        <MenuItem onAction="#goToSales" text="Ventas" />
+        <MenuItem onAction="#goToClients" text="Clientes" />
+        <MenuItem onAction="#goToInventory" text="Inventario" />
+        <MenuItem onAction="#goToReports" text="Reportes" />
+        <MenuItem onAction="#goToInvoice" text="Facturación" />
     </Menu>
 </MenuBar>

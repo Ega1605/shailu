@@ -21,13 +21,9 @@
 
 .root {
     -fx-background-color: white;
-}
-.mi-input {
-    /* Sintaxis: drop-shadow( tipo, color, radio, propagación, desplazamientoX, desplazamientoY ) */
-    -fx-effect: drop-shadow(three-pass-box, rgba(0, 0, 0, 0.4), 10, 0, 0, 4);
+/*    -fx-background-image: url("/Users/mb92029/Documents/GIT_ED/Proyecto/shailu/src/main/resources/img/fondo.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;*/
 }
 
-/* Sombra más intensa cuando el usuario está escribiendo */
-.mi-input:focused {
-    -fx-effect: drop-shadow(three-pass-box, #d0aac1, 15, 0, 0, 0);
-}
+
