@@ -4,8 +4,6 @@ import com.shailu.deposito_dental_pos.config.ScreenManager;
 import com.shailu.deposito_dental_pos.config.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +18,11 @@ public class MainController {
     @FXML
     private Label lblUsuario, lblFecha, lblHora;
 
+
     public void initialize() {
         //Crontolador conecta la UI con el negocio
-        //lblUsuario.setText("Bienvenido: " +userSession.getUsername());
+        lblUsuario.setText("Bienvenido: " +userSession.getUsername());
         System.out.println("Pantalla principal cargada");
-
     }
 
     @FXML

@@ -43,7 +43,6 @@ public class LoginController {
 
         if (success) {
             errorLabel.setText("Login correcto");
-            // aquí abrimos la siguiente pantalla
             userSession.setUsername(userName);
             screenManager.show("main.fxml", "Inicio");
         } else {

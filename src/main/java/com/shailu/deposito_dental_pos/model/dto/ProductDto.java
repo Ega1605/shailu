@@ -30,5 +30,5 @@ public class ProductDto {
 
     private int minimumStock;
 
-    private int maximumStock;
+    private int quantity;
 }

@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -12,48 +11,51 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController"
+            prefWidth="1200"
+            prefHeight="800">
     <top>
-        <fx:include source="menuBar.fxml" />
+        <fx:include source="menuBar.fxml"/>
     </top>
     <!-- ================= LEFT PANEL ================= -->
     <left>
         <VBox prefWidth="300" spacing="10" style="-fx-padding:15; -fx-background-color:#f5f5f5;">
 
-                                    <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Producto" />
+            <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Producto" />
 
-                                    <Label text="Código" />
+            <Label text="Código" />
             <TextField fx:id="txtCode" promptText="Escribe el código" />
 
-                                    <Label text="Código de barras" />
+            <Label text="Código de barras" />
             <TextField fx:id="txtBarCode" promptText="Escanea código" />
 
-                                    <Label text="Nombre" />
+            <Label text="Nombre" />
             <TextField fx:id="txtName" />
 
-                                    <Label text="Descripción" />
+            <Label text="Descripción" />
             <TextField fx:id="txtDescription" prefHeight="60" />
 
-                                    <Label text="Precio de compra" />
+            <Label text="Precio de compra" />
             <TextField fx:id="txtPurchasePrice" />
 
-                                    <Label text="Ganancia" />
+            <Label text="Ganancia" />
             <TextField fx:id="txtProfit" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad" />
          <TextField />
 
-                                    <Button fx:id="btnAdd" maxWidth="Infinity" prefHeight="45" styleClass="mi-boton" stylesheets="@styles.css" text="Procesar" />
+            <Button fx:id="btnAdd" maxWidth="Infinity" prefHeight="45" styleClass="mi-boton" stylesheets="@styles.css" text="Procesar" />
         </VBox>
     </left>
 
     <!-- ================= CENTER TABLE ================= -->
     <center>
-        <VBox spacing="10" style="-fx-padding: 15; -fx-background-color: white;">
+        <VBox spacing="10" style="-fx-padding:15;">
             <Label style="-fx-font-size:20px; -fx-font-weight:bold;" text="Inventario" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Busqueda" />
          <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-               <TextField alignment="TOP_LEFT" maxWidth="-Infinity" prefHeight="31.0" prefWidth="401.0" promptText="Nombre del producto" />
+               <TextField alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="400.0" promptText="Nombre del producto" />
                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0" styleClass="btn-eliminar" stylesheets="@styles.css" text="Eliminar" textFill="WHITE">
                   <HBox.margin>
                      <Insets left="300.0" />
@@ -62,16 +64,16 @@
             </children>
          </HBox>
 
-                           <TableView fx:id="tableProducts">
+            <TableView fx:id="tableProducts">
                 <columns>
 
-                                   <TableColumn fx:id="colCode" prefWidth="120" text="Código" />
+                    <TableColumn fx:id="colCode" prefWidth="120" text="Código" />
 
-                                   <TableColumn fx:id="colName" prefWidth="200" text="Nombre" />
+                    <TableColumn fx:id="colName" prefWidth="200" text="Nombre" />
 
-                                   <TableColumn fx:id="colPrice" prefWidth="100" text="Precio" />
+                    <TableColumn fx:id="colPrice" prefWidth="100" text="Precio" />
 
-                                   <TableColumn fx:id="colStock" prefWidth="80" text="Stock" />
+                    <TableColumn fx:id="colStock" prefWidth="80" text="Stock" />
                 </columns>
             <columnResizePolicy>
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -79,12 +81,5 @@
             </TableView>
         </VBox>
     </center>
-   <bottom>
-      <VBox prefHeight="51.0" prefWidth="1200.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER">
-         <children>
-            <Separator prefHeight="53.0" prefWidth="200.0" />
-         </children>
-      </VBox>
-   </bottom>
 
 </BorderPane>
