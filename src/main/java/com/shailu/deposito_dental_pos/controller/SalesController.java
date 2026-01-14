@@ -1,8 +1,13 @@
 package com.shailu.deposito_dental_pos.controller;
 
 import com.shailu.deposito_dental_pos.config.UserSession;
+import com.shailu.deposito_dental_pos.model.dto.CurrentSaleDto;
+import com.shailu.deposito_dental_pos.model.dto.CustomerDto;
 import com.shailu.deposito_dental_pos.model.dto.ProductDto;
 import com.shailu.deposito_dental_pos.model.dto.SalesDto;
+import com.shailu.deposito_dental_pos.model.enums.PaymentType;
+import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
+import com.shailu.deposito_dental_pos.service.CustomerService;
 import com.shailu.deposito_dental_pos.service.ProductService;
 import com.shailu.deposito_dental_pos.service.SalesService;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
@@ -44,6 +49,9 @@ public class SalesController {
     @FXML private TextField txtQuantity;
     @FXML public TextField searchProduct;
     @FXML private Label lblTotal;
+    @FXML private TextField txtCustomerSearch;
+    @FXML private Label lblSelectedCustomer;
+    @FXML private TextArea txtNotes;
 
     @FXML private Button btnAddProduct;
 
@@ -56,10 +64,16 @@ public class SalesController {
     @Autowired
     private UserSession userSession;
 
+    @Autowired
+    private CustomerService customerService;
+
     private final ObservableList<SalesDto> saleItems =
             FXCollections.observableArrayList();
 
-    private static final double TAX = 0.16;
+    private Long selectedCustomerIdSale = 1L;
+
+    @FXML private ComboBox<PaymentType> cbPaymentType;
+    @FXML private ComboBox<SaleStatus> cbStatus;
 
     @FXML
     public void initialize() {
@@ -137,6 +151,39 @@ public class SalesController {
             fillProductFields(selectedProduct);
         });
 
+
+
+        //Customers
+
+        lblSelectedCustomer.setText("Público General");
+        TextFields.bindAutoCompletion(txtCustomerSearch, suggestionRequest -> {
+            String text = suggestionRequest.getUserText();
+            if (text == null || text.trim().length() < 3) return Collections.emptyList();
+            return customerService.findByName(suggestionRequest.getUserText());
+        }, new StringConverter<CustomerDto>() {
+            @Override
+            public String toString(CustomerDto customer) {
+                return customer == null ? "" : customer.getFirstName() + " " + customer.getLastName();
+            }
+            @Override
+            public CustomerDto fromString(String string) { return null; }
+        }).setOnAutoCompleted(event -> {
+            CustomerDto customer = event.getCompletion();
+            selectedCustomerIdSale = customer.getId();
+            lblSelectedCustomer.setText(customer.getFirstName() + " " + customer.getLastName());
+            txtCustomerSearch.clear();
+        });
+
+        //Fields for paymentType
+        cbPaymentType.setItems(FXCollections.observableArrayList(PaymentType.values()));
+        cbPaymentType.setValue(PaymentType.CASH);  //Default
+
+        //Fields for paymentType
+
+        cbStatus.setItems(FXCollections.observableArrayList(SaleStatus.values()));
+        cbStatus.setValue(SaleStatus.COMPLETED); // Default
+
+
     }
 
     private void searchProductByCodeBar(String productCodeBar) {
@@ -198,6 +245,8 @@ public class SalesController {
     private void finalizeSale() {
         try {
 
+            CurrentSaleDto currentSaleDto = new CurrentSaleDto();
+
             List<SalesDto> items = tableSales.getItems();
 
             if (items.isEmpty()) {
@@ -205,17 +254,28 @@ public class SalesController {
                 return;
             }
 
+            currentSaleDto.setItems(items);
+            currentSaleDto.setPaymentType(cbPaymentType.getValue());
+            currentSaleDto.setStatus(cbStatus.getValue());
+            currentSaleDto.setNotes(txtNotes.getText());
+            currentSaleDto.setTotal(Double.valueOf(lblTotal.getText()));
 
-            salesService.processSale(items, userSession.getUsername());
+            salesService.processSale(currentSaleDto, userSession.getUsername(), selectedCustomerIdSale);
 
             ValidateFields.showInfo("Venta procesada con éxito");
 
             // clean
             cancelSale();
+            resetToDefaultCustomer();
 
         } catch (Exception e) {
             ValidateFields.showError("Error al procesar: " + e.getMessage());
         }
+    }
+
+    private void resetToDefaultCustomer() {
+        selectedCustomerIdSale = 1L;
+        lblSelectedCustomer.setText("Público General");
     }
 
     private boolean isFormValid() {
@@ -242,6 +302,7 @@ public class SalesController {
         clearProductFields();
         tableSales.getItems().clear();
         lblTotal.setText("0.00");
+        resetToDefaultCustomer();
     }
 
 

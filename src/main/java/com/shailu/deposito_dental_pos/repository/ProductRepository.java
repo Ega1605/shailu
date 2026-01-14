@@ -13,7 +13,6 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findByBarCode(String barCode);
-    Optional<Product> findByName(String name);
     Optional<Product> findByCode(String code);
     Page<Product> findByNameContainingIgnoreCaseOrCodeContainingIgnoreCase(String name, String code, Pageable pageable);
     List<Product> findByNameContainingIgnoreCaseOrderByNameAsc(String name);
