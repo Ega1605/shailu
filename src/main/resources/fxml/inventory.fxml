@@ -3,20 +3,21 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController"
-            prefWidth="1200"
-            prefHeight="800">
+<BorderPane prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController">
     <top>
-        <fx:include source="menuBar.fxml"/>
+        <fx:include source="menuBar.fxml" />
     </top>
     <!-- ================= LEFT PANEL ================= -->
     <left>
@@ -41,8 +42,9 @@
 
             <Label text="Ganancia" />
             <TextField fx:id="txtProfit" />
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad" />
-         <TextField />
+
+            <Label text="Cantidad" />
+            <TextField fx:id="txtQuantity" />
 
             <Button fx:id="btnAdd" maxWidth="Infinity" prefHeight="45" styleClass="mi-boton" stylesheets="@styles.css" text="Procesar" />
         </VBox>
@@ -50,12 +52,20 @@
 
     <!-- ================= CENTER TABLE ================= -->
     <center>
-        <VBox spacing="10" style="-fx-padding:15;">
+        <VBox spacing="10" style="-fx-padding: 15;">
             <Label style="-fx-font-size:20px; -fx-font-weight:bold;" text="Inventario" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Busqueda" />
          <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-               <TextField alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="400.0" promptText="Nombre del producto" />
+               <TextField fx:id="txtSearch" alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="400.0" promptText="Nombre del producto" />
+               <ImageView fitHeight="27.0" fitWidth="31.0" opacity="0.54" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../img/borrar.png" />
+                  </image>
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+               </ImageView>
                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0" styleClass="btn-eliminar" stylesheets="@styles.css" text="Eliminar" textFill="WHITE">
                   <HBox.margin>
                      <Insets left="300.0" />
@@ -64,7 +74,7 @@
             </children>
          </HBox>
 
-            <TableView fx:id="tableProducts">
+            <TableView fx:id="tableProducts" stylesheets="@styles.css">
                 <columns>
 
                     <TableColumn fx:id="colCode" prefWidth="120" text="Código" />
@@ -79,7 +89,14 @@
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
             </TableView>
+            <Pagination fx:id="pagination" maxPageIndicatorCount="5" prefHeight="26.0" prefWidth="870.0" />
         </VBox>
     </center>
-
+    <bottom>
+        <VBox prefHeight="51.0" prefWidth="1200.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER">
+            <children>
+                <Separator prefHeight="41.0" prefWidth="1200.0" />
+            </children>
+        </VBox>
+    </bottom>
 </BorderPane>
