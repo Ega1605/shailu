@@ -1,58 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="768" prefWidth="1024" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.MainController">
-
-    <!-- ================= TOP BAR ================= -->
-    <top>
-        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color:#2c7be5; -fx-padding:15;">
-
-            <Label fx:id="lblUsuario" style="-fx-text-fill:white; -fx-font-size:16px;" text="Usuario: Admin" />
-
-            <Region HBox.hgrow="ALWAYS" />
-        </HBox>
-    </top>
-
-    <!-- ================= CENTER ================= -->
-    <center>
-        <GridPane alignment="CENTER" hgap="40" style="-fx-padding:40;" vgap="40">
-
-            <!-- Fila 1 -->
-            <Button id="btn_inventario" onAction="#openInventario" prefHeight="200" prefWidth="200" styleClass="mi-boton" stylesheets="@styles.css" text="Inventario" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-
-            <Button text="Ventas"
-                    onAction="#openSales"
-                    prefWidth="200"
-                    prefHeight="200"
-                    GridPane.rowIndex="0"
-                    GridPane.columnIndex="1"
-                    style="-fx-font-size:18px;" />
-
-            <Button prefHeight="200" prefWidth="200" style="-fx-font-size:18px;" text="Clientes" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-
-            <!-- Fila 2 -->
-            <Button prefHeight="200" prefWidth="200" style="-fx-font-size:18px;" text="Reportes" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-
-            <Button prefHeight="200" prefWidth="200" style="-fx-font-size:18px;" text="Facturación" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-
-        </GridPane>
-    </center>
+<BorderPane prefHeight="700.0" prefWidth="1442.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.MainController">
+   <top>
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="871.0" fitWidth="1486.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+               <image>
+                  <Image url="@../img/fondo4.jpeg" />
+               </image>
+            </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#668db2" height="45.0" opacity="0.8" stroke="#668db2" strokeType="INSIDE" width="450.0" StackPane.alignment="TOP_LEFT">
+               <StackPane.margin>
+                  <Insets top="125.0" />
+               </StackPane.margin>
+            </Rectangle>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d0aac1" height="44.0" stroke="#d0aac1" strokeType="INSIDE" width="1442.0" StackPane.alignment="BOTTOM_LEFT" />
+            <HBox>
+               <children>
+                  <HBox prefHeight="753.0" prefWidth="550.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido" wrappingWidth="106.21630859375">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="45.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Label id="lblUsuario" prefHeight="28.0" prefWidth="447.0" text="Day_1105" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="45.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+               <StackPane.margin>
+                  <Insets left="90.0" top="88.0" />
+               </StackPane.margin>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox maxWidth="-Infinity" prefHeight="116.0" prefWidth="1551.0">
+                     <children>
+                        <Separator opacity="0.9" prefHeight="87.0" prefWidth="653.0" style="-fx-background-color: #d0aac1;">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Separator>
+                        <ImageView fitHeight="116.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Shailu_Ajustada-removebg-preview.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Separator opacity="0.9" prefHeight="69.0" prefWidth="669.0" style="-fx-background-color: #d0aac1;" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+              <GridPane alignment="CENTER" hgap="15.0" prefHeight="818.0" prefWidth="1367.0" style="-fx-padding:40;" vgap="15.0">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="570.0" GridPane.columnIndex="5" />
+               <ImageView fitHeight="123.0" fitWidth="125.0" nodeOrientation="INHERIT" onMouseClicked="#openInventario" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                  <image>
+                     <Image url="@../img/image2.png" />
+                  </image>
+               </ImageView>
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventario" textAlignment="CENTER" wrappingWidth="198.2001953125" GridPane.rowIndex="1">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Text>
+               <Separator prefWidth="200.0" GridPane.rowIndex="2" />
+               <ImageView fitHeight="125.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                  <image>
+                     <Image url="@../img/image1.png" />
+                  </image>
+               </ImageView>
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Clientes" textAlignment="CENTER" wrappingWidth="198.2001953125" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Text>
+               <Separator prefWidth="200.0" GridPane.rowIndex="5" />
+               <ImageView fitHeight="125.0" fitWidth="125.0" onMouseClicked="#openSales" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+                  <image>
+                     <Image url="@../img/image5.png" />
+                  </image>
+               </ImageView>
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Ventas" textAlignment="CENTER" wrappingWidth="197.3828125" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Text>
+               <ImageView fitHeight="132.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <image>
+                     <Image url="@../img/image4.png" />
+                  </image>
+               </ImageView>
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Reportes" textAlignment="CENTER" wrappingWidth="197.1181640625" GridPane.rowIndex="4">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Text>
+               <ImageView fitHeight="125.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <image>
+                     <Image url="@../img/image3.png" />
+                  </image>
+               </ImageView>
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Facturación" textAlignment="CENTER" wrappingWidth="198.4580078125" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Text>
+               <Separator prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+               <Separator prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+               <Separator prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+               <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" />
+               <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+               <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="3" />
+                  <columnConstraints>
+                      <ColumnConstraints />
+                      <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  </columnConstraints>
+                  <rowConstraints>
+                      <RowConstraints valignment="CENTER" />
+                      <RowConstraints valignment="CENTER" />
+                  <RowConstraints valignment="CENTER" />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  </rowConstraints>
+               <StackPane.margin>
+                  <Insets top="35.0" />
+               </StackPane.margin>
+      
+                                      </GridPane>
+         </children>
+      </StackPane>
+   </top>
 
 </BorderPane>

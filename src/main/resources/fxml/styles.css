@@ -22,12 +22,51 @@
 .root {
     -fx-background-color: white;
 }
-.mi-input {
-    /* Sintaxis: drop-shadow( tipo, color, radio, propagación, desplazamientoX, desplazamientoY ) */
-    -fx-effect: drop-shadow(three-pass-box, rgba(0, 0, 0, 0.4), 10, 0, 0, 4);
+
+
+.menu-bar .menu .label {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 3 12 0 12 !important;
 }
 
-/* Sombra más intensa cuando el usuario está escribiendo */
-.mi-input:focused {
-    -fx-effect: drop-shadow(three-pass-box, #d0aac1, 15, 0, 0, 0);
+.menu-bar .menu:hover,
+.menu-bar .menu:focused,
+.menu-bar .menu:showing {
+    -fx-background-color: #2c3e50 !important;
 }
+
+.menu:hover .menu .label,
+.menu:focused .menu .label,
+.menu:showing .menu .label{
+    -fx-text-fill: WHITE;
+}
+
+.menu-item {
+    -fx-background-color: #ecf0f1;
+}
+
+.menu-item .label{
+    -fx-text-fill: black !important;
+}
+
+.menu-item:focused {
+    -fx-background-color: #d0aac1;
+}
+
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color: #2c3e50;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/*.table-row-cell:odd {
+    -fx-background-color: #ffffff;
+}
+.table-row-cell:even {
+    -fx-background-color: #EFF3F5;
+}*/

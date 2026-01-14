@@ -20,8 +20,8 @@ public class MainController {
 
 
     public void initialize() {
-        //Controller  connects  UI to business
-        lblUsuario.setText("Bienvenido: " +userSession.getUsername());
+        //Crontolador conecta la UI con el negocio
+        //lblUsuario.setText("Bienvenido: " +userSession.getUsername());
         System.out.println("Pantalla principal cargada");
     }
 
