@@ -20,13 +20,13 @@ public class MainController {
 
 
     public void initialize() {
-        //Crontolador conecta la UI con el negocio
-        //lblUsuario.setText("Bienvenido: " +userSession.getUsername());
+        //Crontoller connects UI with business logic
+        lblUsuario.setText("Bienvenido: " +userSession.getUsername());
         System.out.println("Pantalla principal cargada");
     }
 
     @FXML
-    private void openInventario() {
+    private void openInventory() {
         screenManager.show("inventory.fxml", "Inventario");
     }
 

@@ -35,15 +35,7 @@
                <children>
                   <HBox prefHeight="753.0" prefWidth="550.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido" wrappingWidth="106.21630859375">
-                           <font>
-                              <Font name="System Bold" size="22.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets top="45.0" />
-                           </HBox.margin>
-                        </Text>
-                        <Label id="lblUsuario" prefHeight="28.0" prefWidth="447.0" text="Day_1105" textFill="WHITE">
+                        <Label fx:id="lblUsuario" prefHeight="28.0" prefWidth="447.0" text="" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -85,7 +77,7 @@
             </VBox>
               <GridPane alignment="CENTER" hgap="15.0" prefHeight="818.0" prefWidth="1367.0" style="-fx-padding:40;" vgap="15.0">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="570.0" GridPane.columnIndex="5" />
-               <ImageView fitHeight="123.0" fitWidth="125.0" nodeOrientation="INHERIT" onMouseClicked="#openInventario" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+               <ImageView fitHeight="123.0" fitWidth="125.0" nodeOrientation="INHERIT" onMouseClicked="#openInventory" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                   <image>
                      <Image url="@../img/image2.png" />
                   </image>

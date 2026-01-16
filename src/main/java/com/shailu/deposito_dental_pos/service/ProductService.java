@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,16 +75,20 @@ public class ProductService {
         Page<Product> productPage;
 
         if (filter == null || filter.isEmpty()) {
-            productPage = productRepository.findAll(pageable);
+            productPage = productRepository.findByDeleteDateIsNull(pageable);
         } else {
-            productPage = productRepository.findByNameContainingIgnoreCaseOrCodeContainingIgnoreCase(filter, filter, pageable);
+            productPage = productRepository
+                    .findByDeleteDateIsNullAndNameContainingIgnoreCaseOrDeleteDateIsNullAndCodeContainingIgnoreCase(filter, filter, pageable);
         }
 
         return productPage.map(productMapper::entityToDto);
     }
 
     public void deleteById(Long id) {
-        productRepository.deleteById(id);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Prodcut not found"));
+        product.setDeleteDate(Timestamp.valueOf(LocalDateTime.now()));
+        productRepository.save(product);
     }
 
 }

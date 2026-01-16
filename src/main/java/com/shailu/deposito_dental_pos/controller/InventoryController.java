@@ -6,11 +6,12 @@ import com.shailu.deposito_dental_pos.utils.ValidateFields;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,7 @@ public class InventoryController {
     @FXML private TextField txtPurchasePrice;
     @FXML private TextField txtProfit;
     @FXML private TextField txtQuantity;
+    @FXML private ImageView btnResetSearch;
 
     @FXML private Button btnAdd;
 
@@ -105,12 +107,35 @@ public class InventoryController {
             txtBarCode.requestFocus();
             txtBarCode.selectAll();
         });
+
+        //ClearSearch
+
+        btnResetSearch.setCursor(Cursor.HAND);
+
+        btnResetSearch.setOnMouseEntered(e -> {
+            btnResetSearch.setOpacity(1.0);
+        });
+
+        btnResetSearch.setOnMouseExited(e -> {
+            btnResetSearch.setOpacity(0.5);
+        });
+
+        // Click
+        btnResetSearch.setOnMousePressed(e -> {
+            btnResetSearch.setScaleX(0.85);
+            btnResetSearch.setScaleY(0.85);
+        });
+
+        btnResetSearch.setOnMouseReleased(e -> {
+            btnResetSearch.setScaleX(1.0);  // change size of the image
+            btnResetSearch.setScaleY(1.0);
+        });
     }
 
     // this method  is called when you change the number of page
     private Node createPage(int pageIndex) {
         String filter = txtSearch.getText();
-        int ROWS_PER_PAGE = 10;
+        int ROWS_PER_PAGE = 15;
         Page<ProductDto> productPage = productService.findPaginated(filter, pageIndex, ROWS_PER_PAGE);
 
         // Update totalPages dynamic
@@ -207,6 +232,11 @@ public class InventoryController {
         if (!ValidateFields.isInteger(txtQuantity)) return ValidateFields.showError("Cantidad inválida");
 
         return true;
+    }
+
+    @FXML
+    private void clearSearch() {
+        txtSearch.clear();
     }
 
 

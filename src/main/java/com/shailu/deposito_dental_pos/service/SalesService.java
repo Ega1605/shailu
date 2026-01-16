@@ -5,6 +5,7 @@ import com.shailu.deposito_dental_pos.model.dto.SalesDto;
 import com.shailu.deposito_dental_pos.model.entity.*;
 import com.shailu.deposito_dental_pos.model.enums.MovementReason;
 import com.shailu.deposito_dental_pos.model.enums.MovementType;
+import com.shailu.deposito_dental_pos.model.enums.PaymentType;
 import com.shailu.deposito_dental_pos.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,12 @@ public class SalesService {
 
     @Autowired
     private SalesRepository salesRepository;
+
+    @Autowired
+    private SaleDetailRepository saleDetailRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Transactional
     public void processSale(CurrentSaleDto currentSaleDto, String currentUser, Long customerId) {
@@ -65,7 +72,41 @@ public class SalesService {
 
         System.out.println("ID sale: " + sale.getId());
 
+        saveSaleDetail(currentSaleDto, sale);
 
+        savePayment(sale,user, currentSaleDto.getPaymentType());
+
+    }
+
+    private void savePayment(Sales sale, User user, PaymentType paymentType){
+
+        Payment payment = new Payment();
+        payment.setSale(sale);
+        payment.setPaymentMethod(paymentType);
+        payment.setAmount(sale.getTotal());
+        payment.setUser(user);
+        payment.setNotes(sale.getNotes());
+
+        paymentRepository.save(payment);
+
+    }
+
+    private void saveSaleDetail(CurrentSaleDto currentSaleDto, Sales sale){
+
+        for (SalesDto item : currentSaleDto.getItems()) {
+            Product product = productRepository.findByCode(item.getCode())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + item.getCode()));
+
+            // Create Detail
+            SaleDetail detail = new SaleDetail();
+            detail.setSales(sale);
+            detail.setProduct(product);
+            detail.setQuantity(item.getQuantity());
+            detail.setUnitPrice(item.getPrice());
+            detail.setItemSubtotal(item.getSubtotal());
+
+            saleDetailRepository.save(detail);
+        }
 
     }
 

@@ -23,9 +23,9 @@ public class OnlyDatesBaseEntity {
     @Column( name = "updated_date")
     private Timestamp updatedDate;
 
-    @Column( name = "")
+    @Column( name = "deleted_date")
     @JsonIgnore
-    private Timestamp deleted_date;
+    private Timestamp deleteDate;
 
 
 }

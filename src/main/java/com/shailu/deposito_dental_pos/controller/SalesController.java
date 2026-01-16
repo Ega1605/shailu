@@ -305,5 +305,22 @@ public class SalesController {
         resetToDefaultCustomer();
     }
 
+    @FXML
+    private void removeSelectedItem() {
+
+        SalesDto selectedItem = tableSales.getSelectionModel().getSelectedItem();
+
+        if (selectedItem != null) {
+
+            saleItems.remove(selectedItem);
+
+            calculateTotals();
+
+        } else {
+            ValidateFields.showError("Por favor, selecciona un artículo de la tabla para eliminarlo.");
+        }
+    }
+
+
 
 }

@@ -68,6 +68,12 @@
                     <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100"/>
                 </columns>
             </TableView>
+            <HBox alignment="CENTER_RIGHT">
+                <Button text="Eliminar Artículo Seleccionado"
+                        onAction="#removeSelectedItem"
+                        styleClass="btn-cancel"
+                        style="-fx-background-color: #e3342f; -fx-text-fill: white; -fx-padding: 8 15;"/>
+            </HBox>
         </VBox>
     </center>
 
