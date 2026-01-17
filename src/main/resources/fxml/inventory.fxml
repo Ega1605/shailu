@@ -52,7 +52,7 @@
                      <Insets right="15.0" top="8.0" />
                   </HBox.margin>
                </ImageView>
-      
+
                   <Button fx:id="btnAdd" maxWidth="Infinity" prefHeight="45" prefWidth="228.0" styleClass="mi-boton" stylesheets="@../styles/styles.css" text="Procesar" />
             </children>
          </HBox>

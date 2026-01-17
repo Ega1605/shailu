@@ -68,6 +68,12 @@
                     <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100"/>
                 </columns>
             </TableView>
+            <HBox alignment="CENTER_RIGHT">
+                <Button text="Eliminar Artículo Seleccionado"
+                        onAction="#removeSelectedItem"
+                        styleClass="btn-cancel"
+                        style="-fx-background-color: #e3342f; -fx-text-fill: white; -fx-padding: 8 15;"/>
+            </HBox>
         </VBox>
     </center>
 
@@ -75,6 +81,33 @@
     <right>
         <VBox spacing="15" prefWidth="300" styleClass="checkout-panel">
             <Label text="Resumen" styleClass="panel-title"/>
+            <!-- Customer section -->
+            <VBox spacing="8" style="-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 5;">
+                <Label text="CLIENTE" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
+                <TextField fx:id="txtCustomerSearch" promptText="🔍 Buscar cliente..." styleClass="search-field"/>
+                <Label fx:id="lblSelectedCustomer" text="Público General" wrapText="true"
+                       style="-fx-text-fill: #2c7be5; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+            </VBox>
+            <Separator/>
+
+            <!-- payment and extra fields -->
+            <VBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Método de Pago" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="cbPaymentType" maxWidth="Infinity" promptText="Seleccionar..."/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Estado de Venta" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="cbStatus" maxWidth="Infinity" promptText="Seleccionar..."/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Notas / Observaciones" style="-fx-font-weight: bold;"/>
+                    <TextArea fx:id="txtNotes" prefHeight="60" promptText="Notas adicionales..." wrapText="true"/>
+                </VBox>
+            </VBox>
+
             <Separator/>
 
             <VBox spacing="5" styleClass="total-container">
