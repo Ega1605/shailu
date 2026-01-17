@@ -70,3 +70,16 @@
 .table-row-cell:even {
     -fx-background-color: #EFF3F5;
 }*/
+
+.menuButtons{
+    -fx-background-color: #B6C1D3;
+}
+
+.menuButtons .text {
+    -fx-font-weight: bold;
+}
+
+.menuButtons:pressed {
+    -fx-background-color: #DB7093 ;
+    -fx-text-fill: #ffffff;
+}

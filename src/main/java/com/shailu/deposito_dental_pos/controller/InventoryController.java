@@ -1,12 +1,12 @@
 package com.shailu.deposito_dental_pos.controller;
 
+import com.shailu.deposito_dental_pos.config.ScreenManager;
 import com.shailu.deposito_dental_pos.model.dto.ProductDto;
 import com.shailu.deposito_dental_pos.service.ProductService;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -26,6 +26,8 @@ public class InventoryController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ScreenManager screenManager;
 
     @FXML private TextField txtCode;
     @FXML private TextField txtBarCode;
@@ -234,4 +236,5 @@ public class InventoryController {
             }
         });
     }
+
 }

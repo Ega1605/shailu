@@ -23,7 +23,7 @@
     </VBox>
    <Label contentDisplay="CENTER" layoutX="228.0" layoutY="338.0" />
 
-     <Button layoutX="194.0" layoutY="373.0" onAction="#onLogin" styleClass="mi-boton" stylesheets="@styles.css" text="Ingresar" />
+     <Button layoutX="194.0" layoutY="373.0" onAction="#onLogin" styleClass="mi-boton" stylesheets="@../styles/styles.css" text="Ingresar" />
 
      <TextField fx:id="usernameField" layoutX="27.0" layoutY="254.0" prefHeight="26.0" prefWidth="434.0" promptText="Usuario" />
      <PasswordField fx:id="passwordField" layoutX="26.0" layoutY="301.0" onAction="#onLogin" prefHeight="26.0" prefWidth="434.0" promptText="Contraseña" />
