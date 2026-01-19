@@ -25,7 +25,7 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="CLIENTES" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="INVENTARIO" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToInventory" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="INVENTARIO" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="REPORTES" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
