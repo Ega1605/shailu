@@ -44,7 +44,7 @@ public class LoginController {
         if (success) {
             errorLabel.setText("Login correcto");
             userSession.setUsername(userName);
-            screenManager.show("main.fxml", "Inicio");
+            screenManager.show("main.fxml", "Inicio",true);
         } else {
             errorLabel.setText("Usuario o contraseña incorrectos");
         }

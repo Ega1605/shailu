@@ -19,17 +19,17 @@
                </image>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="10.21630859375" />
-            <Button mnemonicParsing="false" onAction="#goToHome" prefHeight="86.0" prefWidth="170.0" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="HOME" textFill="#5b4e63" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goToHome" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="HOME" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button mnemonicParsing="false" onAction="#goToSales" prefHeight="86.0" prefWidth="170.0" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="VENTAS" textFill="#5b4e63" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goToSales" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="VENTAS" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button mnemonicParsing="false" prefHeight="86.0" prefWidth="175.0" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="CLIENTES" textFill="#5b4e63" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="CLIENTES" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button mnemonicParsing="false" prefHeight="86.0" prefWidth="175.0" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="INVENTARIO" textFill="#5b4e63" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="INVENTARIO" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button mnemonicParsing="false" prefHeight="86.0" prefWidth="175.0" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="REPORTES" textFill="#5b4e63" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="REPORTES" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button mnemonicParsing="false" prefHeight="86.0" prefWidth="175.0" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="FACTURACIÓN" textFill="#5b4e63" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menuButtons" stylesheets="@../styles/styles.css" text="FACTURACIÓN" textFill="#5b4e63" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </top>

@@ -6,8 +6,8 @@
     -fx-border-radius: 10px;
     -fx-cursor: pointer;
     -fx-font-size: 17px;
-    -fx-transition: background-color 0.3s ease; /* Transición suave */
-    -fx-display: inline-block; /* Para que se comporte como un bloque pero en línea */
+    -fx-transition: background-color 0.3s ease;
+    -fx-display: inline-block;
 }
 
 .btn-eliminar{

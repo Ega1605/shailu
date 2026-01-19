@@ -22,7 +22,7 @@ public class ScreenManager {
         this.stage = stage;
     }
 
-    public void show(String fxml, String title) {
+    public void show(String fxml, String title, boolean bigScreen) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/fxml/" + fxml)
@@ -35,6 +35,7 @@ public class ScreenManager {
             );
 
             stage.setScene(new Scene(root));
+            stage.setMaximized(bigScreen);
             stage.setTitle(title);
             stage.show();
 

@@ -85,9 +85,9 @@
             </VBox>
               <GridPane alignment="CENTER" hgap="15.0" prefHeight="818.0" prefWidth="1367.0" style="-fx-padding:40;" vgap="15.0">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="570.0" GridPane.columnIndex="5" />
-               <ImageView fitHeight="155.0" fitWidth="158.0" nodeOrientation="INHERIT" onMouseClicked="#openInventario" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+               <ImageView fitHeight="204.0" fitWidth="199.0" nodeOrientation="INHERIT" onMouseClicked="#openInventory" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                   <image>
-                     <Image url="@../img/inventario111.png" />
+                     <Image url="@../img/inventarioNuevo-removebg-preview.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventario" textAlignment="CENTER" wrappingWidth="198.2001953125" GridPane.rowIndex="1">
@@ -117,22 +117,22 @@
                      <Font size="20.0" />
                   </font>
                </Text>
-               <ImageView fitHeight="159.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                  <image>
-                     <Image url="@../img/icon1-removebg-preview.png" />
-                  </image>
-               </ImageView>
-               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Reportes" textAlignment="CENTER" wrappingWidth="197.1181640625" GridPane.rowIndex="4">
-                  <font>
-                     <Font size="20.0" />
-                  </font>
-               </Text>
-               <ImageView fitHeight="171.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <ImageView fitHeight="174.0" fitWidth="173.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                   <image>
                      <Image url="@../img/factura-removebg-preview.png" />
                   </image>
                </ImageView>
-               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Facturación" textAlignment="CENTER" wrappingWidth="198.4580078125" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Facturación" textAlignment="CENTER" wrappingWidth="197.1181640625" GridPane.rowIndex="4">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Text>
+               <ImageView fitHeight="149.0" fitWidth="152.0" onMouseClicked="#openDetalleVenta" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <image>
+                     <Image url="@../img/DetVenta-removebg-preview.png" />
+                  </image>
+               </ImageView>
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Detalle de venta" textAlignment="CENTER" wrappingWidth="198.4580078125" GridPane.columnIndex="4" GridPane.rowIndex="4">
                   <font>
                      <Font size="20.0" />
                   </font>

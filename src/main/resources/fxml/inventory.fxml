@@ -67,7 +67,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                 <children>
                     <TextField fx:id="txtSearch" alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="400.0" promptText="Nombre del producto" />
-                    <ImageView fitHeight="26.0" fitWidth="25.0" opacity="0.54" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="25.0" opacity="0.54" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../img/borrar.png" />
                         </image>

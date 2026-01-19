@@ -11,10 +11,10 @@ public class MenuBarController {
     private ScreenManager screenManager;
 
     @FXML
-    public void goToHome() { screenManager.show("main.fxml", "Inicio"); }
-    @FXML public void goToSales() { screenManager.show("sales.fxml", "Ventas"); }
-    @FXML public void goToClients() { screenManager.show("Clients.fxml", "Clientes"); }
-    @FXML public void goToInventory() { screenManager.show("inventory.fxml", "Inventario"); }
-    @FXML public void goToReports() { screenManager.show("Reports.fxml", "Reportes"); }
-    @FXML public void goToInvoice() { screenManager.show("Invoice.fxml", "Facturación"); }
+    public void goToHome() { screenManager.show("main.fxml", "Inicio", true); }
+    @FXML public void goToSales() { screenManager.show("sales.fxml", "Ventas",true); }
+    @FXML public void goToClients() { screenManager.show("Clients.fxml", "Clientes", true); }
+    @FXML public void goToInventory() { screenManager.show("inventory.fxml", "Inventario", true); }
+    @FXML public void goToReports() { screenManager.show("Reports.fxml", "Reportes", true); }
+    @FXML public void goToInvoice() { screenManager.show("Invoice.fxml", "Facturación",true ); }
 }
