@@ -87,7 +87,7 @@
                <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="570.0" GridPane.columnIndex="5" />
                <ImageView fitHeight="204.0" fitWidth="199.0" nodeOrientation="INHERIT" onMouseClicked="#openInventory" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                   <image>
-                     <Image url="@../img/inventarioNuevo-removebg-preview.png" />
+                     <Image url="@../img/inventarioNuevo.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventario" textAlignment="CENTER" wrappingWidth="198.2001953125" GridPane.rowIndex="1">
@@ -98,7 +98,7 @@
                <Separator prefWidth="200.0" GridPane.rowIndex="2" />
                <ImageView fitHeight="154.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                   <image>
-                     <Image url="@../img/icon2-removebg-preview.png" />
+                     <Image url="@../img/icon2.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Clientes" textAlignment="CENTER" wrappingWidth="198.2001953125" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -109,7 +109,7 @@
                <Separator prefWidth="200.0" GridPane.rowIndex="5" />
                <ImageView fitHeight="182.0" fitWidth="181.0" onMouseClicked="#openSales" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER">
                   <image>
-                     <Image url="@../img/salesIcon2-removebg-preview.png" />
+                     <Image url="@../img/salesIcon2.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Ventas" textAlignment="CENTER" wrappingWidth="197.3828125" GridPane.columnIndex="4" GridPane.rowIndex="1">
@@ -119,7 +119,7 @@
                </Text>
                <ImageView fitHeight="174.0" fitWidth="173.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                   <image>
-                     <Image url="@../img/factura-removebg-preview.png" />
+                     <Image url="@../img/factura.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Facturación" textAlignment="CENTER" wrappingWidth="197.1181640625" GridPane.rowIndex="4">
@@ -129,7 +129,7 @@
                </Text>
                <ImageView fitHeight="149.0" fitWidth="152.0" onMouseClicked="#openDetalleVenta" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                   <image>
-                     <Image url="@../img/DetVenta-removebg-preview.png" />
+                     <Image url="@../img/DetVenta.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Detalle de venta" textAlignment="CENTER" wrappingWidth="198.4580078125" GridPane.columnIndex="4" GridPane.rowIndex="4">

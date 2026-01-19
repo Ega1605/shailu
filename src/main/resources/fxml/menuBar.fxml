@@ -15,7 +15,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="36.21630859375" />
             <ImageView fitHeight="94.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../img/Shailu_Ajustada-removebg-preview.png" />
+                  <Image url="@../img/Shailu_Ajustada.png" />
                </image>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="10.21630859375" />
