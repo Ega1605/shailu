@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+
+<?import javafx.scene.image.Image?>
+<VBox fx:id="ticketContainer"
+      alignment="TOP_CENTER"
+      prefWidth="140"
+      minWidth="140"
+      maxWidth="140"
+      spacing="5"
+      style="-fx-background-color: white; -fx-padding: 5 4 5 4;"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1">
+
+    <children>
+        <ImageView
+                fitWidth="120"
+                preserveRatio="true"
+                smooth="false">
+            <image>
+                <Image url="@/Shailu_black.png"/>
+            </image>
+        </ImageView>
+
+        <Label text="DEPÓSITO DENTAL SHAILU"
+               wrapText="true"
+               textAlignment="CENTER"
+               maxWidth="140"
+               style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+
+        <Label text="Av.Aguacalientes Sur #1054, Aguascalientes"
+               wrapText="true"
+               textAlignment="CENTER"
+               maxWidth="140"
+               style="-fx-font-size: 9px;" />
+
+        <Label fx:id="lblPhone"
+               text="Tel: 449-344-6893"
+               style="-fx-font-size: 9px;" />
+
+        <Label fx:id="lblSaleId"
+               text="Venta: "
+               style="-fx-font-size: 9px;" />
+
+        <Label fx:id="lblDateTime"
+               text="Fecha: "
+               style="-fx-font-size: 9px;" />
+
+        <Label fx:id="lblCustomer"
+               text="Cliente: "
+               wrapText="true"
+               maxWidth="140"
+               style="-fx-font-size: 9px;" />
+
+
+        <Label text="-------------------------" />
+
+        <GridPane fx:id="gridProducts" hgap="4" vgap="2">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="40" />
+                <ColumnConstraints percentWidth="25" />
+                <ColumnConstraints percentWidth="10" />
+                <ColumnConstraints percentWidth="25" />
+            </columnConstraints>
+        </GridPane>
+
+        <Label text="---------------------------" />
+
+        <HBox alignment="CENTER_RIGHT">
+            <Label text="TOTAL: "  style="-fx-font-weight: bold; -fx-font-family: Monospaced;" />
+            <Label fx:id="lblTotal" text="0.00" style="-fx-font-weight: bold;" />
+        </HBox>
+
+        <Label text="¡GRACIAS POR SU COMPRA!"
+               style="-fx-font-size: 10px; -fx-padding: 10 0 0 0;" />
+
+        <Label text="No se aceptan cambios ni devoluciones"
+               style="-fx-font-size: 5px; -fx-padding: 10 0 0 0;" />
+
+        <Label text="Solicita factura via WhatsApp con ticket de compra"
+               style="-fx-font-size: 5px; -fx-padding: 10 0 0 0;" />
+    </children>
+</VBox>

@@ -26,7 +26,7 @@ public class JavaFxApplication extends Application {
         ScreenManager screenManager = context.getBean(ScreenManager.class);
         screenManager.setStage(stage);
 
-        screenManager.show("login.fxml", "Login");
+        screenManager.show("login.fxml", "Login", false);
 
     }
     //Cierra Spring cuando se cierra la ventana

@@ -49,7 +49,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findByCode(productDto.getCode());
 
         if(product.isPresent()){
-            addProductStock(product.get(), productDto.getQuantity());
+            addProductStock(product.get(), productDto.getQuantity(), productDto);
         } else {
 
             productDto.setUnitOfMeasure(DEFAULT_UNIT_OF_MEASURE);
@@ -62,8 +62,23 @@ public class ProductService {
 
     }
 
-    private void addProductStock(Product product, int quantity){
+    public void updateName(ProductDto productDto){
 
+        Optional<Product> product = productRepository.findByCode(productDto.getCode());
+
+        if(product.isPresent()){
+
+            Product productUpdated = product.get();
+            productUpdated.setName(productDto.getName());
+            productRepository.save(productUpdated);
+        }
+    }
+
+
+    private void addProductStock(Product product, int quantity, ProductDto productDto){
+
+        product.setBarCode(productDto.getBarCode());
+        product.setPurchasePrice(productDto.getPurchasePrice());
         product.setCurrentStock(product.getCurrentStock() + quantity);
 
         productRepository.save(product);

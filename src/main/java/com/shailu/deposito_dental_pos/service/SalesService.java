@@ -38,7 +38,7 @@ public class SalesService {
     private PaymentRepository paymentRepository;
 
     @Transactional
-    public void processSale(CurrentSaleDto currentSaleDto, String currentUser, Long customerId) {
+    public Sales processSale(CurrentSaleDto currentSaleDto, String currentUser, Long customerId) {
 
         Long finalCustomerId = (customerId != null) ? customerId : 1L;
 
@@ -75,6 +75,8 @@ public class SalesService {
         saveSaleDetail(currentSaleDto, sale);
 
         savePayment(sale,user, currentSaleDto.getPaymentType());
+
+        return sale;
 
     }
 

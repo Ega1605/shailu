@@ -1,28 +1,35 @@
 package com.shailu.deposito_dental_pos.controller;
 
 import com.shailu.deposito_dental_pos.config.UserSession;
-import com.shailu.deposito_dental_pos.model.dto.CurrentSaleDto;
-import com.shailu.deposito_dental_pos.model.dto.CustomerDto;
-import com.shailu.deposito_dental_pos.model.dto.ProductDto;
-import com.shailu.deposito_dental_pos.model.dto.SalesDto;
+import com.shailu.deposito_dental_pos.model.dto.*;
+import com.shailu.deposito_dental_pos.model.entity.Sales;
 import com.shailu.deposito_dental_pos.model.enums.PaymentType;
 import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
 import com.shailu.deposito_dental_pos.service.CustomerService;
+import com.shailu.deposito_dental_pos.service.FXMLPrintService;
 import com.shailu.deposito_dental_pos.service.ProductService;
 import com.shailu.deposito_dental_pos.service.SalesService;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +60,11 @@ public class SalesController {
     @FXML private Label lblSelectedCustomer;
     @FXML private TextArea txtNotes;
 
+    @FXML private VBox cashContainer;
+    @FXML private TextField txtCashReceived;
+    @FXML private TextField txtChange;
+
+
     @FXML private Button btnAddProduct;
 
     @Autowired
@@ -66,6 +78,12 @@ public class SalesController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private FXMLPrintService fxmlPrintService;
+
+    @Autowired
+    private ApplicationContext springContext;
 
     private final ObservableList<SalesDto> saleItems =
             FXCollections.observableArrayList();
@@ -183,8 +201,66 @@ public class SalesController {
         cbStatus.setItems(FXCollections.observableArrayList(SaleStatus.values()));
         cbStatus.setValue(SaleStatus.COMPLETED); // Default
 
+        //chagePayment
+
+        cbPaymentType.valueProperty().addListener((obs, oldVal, newVal) -> {
+            boolean isCash = newVal != null && newVal.toString().equalsIgnoreCase(PaymentType.CASH.getPaymentType());
+
+            cashContainer.setVisible(isCash);
+            cashContainer.setManaged(isCash);
+
+            if (!isCash) {
+                txtCashReceived.clear();
+                txtChange.clear();
+            }
+        });
+
+        txtCashReceived.textProperty().addListener((obs, oldVal, newVal) -> {
+            calculateChange();
+        });
+
+        Platform.runLater(() -> {
+            updateCashVisibility(cbPaymentType.getValue());
+        });
+
+
+
+
 
     }
+
+    private void calculateChange() {
+        try {
+            double total = Double.parseDouble(lblTotal.getText());
+            double cash = Double.parseDouble(txtCashReceived.getText());
+
+            double change = cash - total;
+
+            if (change >= 0) {
+                txtChange.setText(String.format("%.2f", change));
+            } else {
+                txtChange.setText("0.00");
+            }
+
+        } catch (NumberFormatException e) {
+            txtChange.setText("0.00");
+        }
+    }
+
+    private void updateCashVisibility(PaymentType paymentType) {
+
+        boolean isCash = paymentType == PaymentType.CASH;
+
+        cashContainer.setVisible(isCash);
+        cashContainer.setManaged(isCash);
+
+        if (!isCash) {
+            txtCashReceived.clear();
+            txtChange.clear();
+        }
+    }
+
+
 
     private void searchProductByCodeBar(String productCodeBar) {
         if(ValidateFields.validateStringEmpty(productCodeBar)) return;
@@ -243,6 +319,23 @@ public class SalesController {
 
     @FXML
     private void finalizeSale() {
+
+        if (PaymentType.CASH.getPaymentType().equalsIgnoreCase(cbPaymentType.getValue().toString())) {
+
+            if (txtCashReceived.getText().isBlank()) {
+                ValidateFields.showError("Ingresa el efectivo recibido");
+                return;
+            }
+
+            double cash = Double.parseDouble(txtCashReceived.getText());
+            double total = Double.parseDouble(lblTotal.getText());
+
+            if (cash < total) {
+                ValidateFields.showError("El efectivo es menor al total");
+                return;
+            }
+        }
+
         try {
 
             CurrentSaleDto currentSaleDto = new CurrentSaleDto();
@@ -260,9 +353,60 @@ public class SalesController {
             currentSaleDto.setNotes(txtNotes.getText());
             currentSaleDto.setTotal(Double.valueOf(lblTotal.getText()));
 
-            salesService.processSale(currentSaleDto, userSession.getUsername(), selectedCustomerIdSale);
+            Sales sale = salesService.processSale(currentSaleDto, userSession.getUsername(), selectedCustomerIdSale);
 
-            ValidateFields.showInfo("Venta procesada con éxito");
+
+            //print Sale
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ticket_template.fxml"));
+                loader.setControllerFactory(springContext::getBean);
+                VBox ticketNode = loader.load();
+
+                ((Label) ticketNode.lookup("#lblTotal")).setText("$ " + lblTotal.getText());
+                ((Label) ticketNode.lookup("#lblSaleId")).setText(String.format("Venta: #%06d", sale.getId()));
+                ((Label) ticketNode.lookup("#lblCustomer"))
+                        .setText(sale.getCustomer().getFirstName() +" "+ sale.getCustomer().getLastName());
+
+                DateTimeFormatter formatter =
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+                ((Label) ticketNode.lookup("#lblDateTime"))
+                        .setText("Fecha: " + LocalDateTime.now().format(formatter));
+
+
+                GridPane gridProducts = (GridPane) ticketNode.lookup("#gridProducts");
+
+                int row = 0;
+                for (SalesDto item : items) {
+
+                    Label lblName = new Label(item.getName());
+                    lblName.setWrapText(true);
+                    lblName.setStyle("-fx-font-size: 8px; -fx-font-family: Monospaced;");
+
+                    Label lblUnit = new Label(String.format("%.2f", item.getPrice()));
+                    lblUnit.setStyle("-fx-font-size: 8px; -fx-font-family: Monospaced;");
+
+                    Label lblQty = new Label("x" + item.getQuantity());
+                    lblQty.setStyle("-fx-font-size: 8px; -fx-font-family: Monospaced;");
+
+                    double subtotal = item.getPrice() * item.getQuantity();
+                    Label lblSub = new Label(String.format("%.2f", subtotal));
+                    lblSub.setStyle("-fx-font-size: 8px; -fx-font-family: Monospaced;");
+
+                    gridProducts.add(lblName, 0, row);
+                    gridProducts.add(lblUnit, 1, row);
+                    gridProducts.add(lblQty, 2, row);
+                    gridProducts.add(lblSub, 3, row);
+
+                    row++;
+                }
+
+
+                fxmlPrintService.printNode(ticketNode, "POS-58");
+
+            } catch (Exception printEx) {
+                System.err.println("Error de impresión: " + printEx.getMessage());
+            }
 
             // clean
             cancelSale();

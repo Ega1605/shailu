@@ -3,7 +3,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<BorderPane xmlns="javafx.com"
+<BorderPane prefHeight="800" prefWidth="1486.0"
+        xmlns="javafx.com"
             xmlns:fx="javafx.com"
             fx:controller="com.shailu.deposito_dental_pos.controller.SalesController"
             fx:id="mainContainer"
@@ -106,6 +107,25 @@
                     <Label text="Notas / Observaciones" style="-fx-font-weight: bold;"/>
                     <TextArea fx:id="txtNotes" prefHeight="60" promptText="Notas adicionales..." wrapText="true"/>
                 </VBox>
+            </VBox>
+
+            <VBox spacing="8" fx:id="cashContainer" visible="false" managed="false">
+
+                <VBox spacing="4">
+                    <Label text="Efectivo recibido" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="txtCashReceived"
+                               promptText="0.00"
+                               maxWidth="Infinity"/>
+                </VBox>
+
+                <VBox spacing="4">
+                    <Label text="Cambio" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="txtChange"
+                               promptText="0.00"
+                               editable="false"
+                               style="-fx-background-color: #e9ecef;"/>
+                </VBox>
+
             </VBox>
 
             <Separator/>

@@ -5,6 +5,8 @@ import com.shailu.deposito_dental_pos.model.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -29,8 +31,13 @@ public interface ProductMapper {
             return 0.0;
         }
 
-        return (entity.getPurchasePrice() + (entity.getPurchasePrice()* entity.getTax())
-                + entity.getProfit());
+        double subtotal = entity.getPurchasePrice() * (1 + (entity.getProfit() / 100));
+
+        double total = subtotal * (1 + entity.getTax());
+
+        return BigDecimal.valueOf(total)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
 }

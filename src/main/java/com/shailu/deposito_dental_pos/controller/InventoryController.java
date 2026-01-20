@@ -11,6 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,8 +75,48 @@ public class InventoryController {
                 new PropertyValueFactory<>("price")
         );
 
+        //validate current stock less or equal than 2
+        tableProducts.setRowFactory(tv -> new TableRow<ProductDto>() {
+            @Override
+            protected void updateItem(ProductDto item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setStyle("");
+                } else {
+                    if (item.getCurrentStock() <= 2) {
+                        setStyle("-fx-background-color: #d0aac1; -fx-text-background-color: black;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            }
+        });
+
         //Pagination
         pagination.setPageFactory(this::createPage);
+
+        //Edit ProdcutName in the table
+        tableProducts.setEditable(true);
+
+        colName.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        // Manage when the user enter de value in ColName
+
+        colName.setOnEditCommit(event -> {
+            ProductDto product = event.getRowValue();
+            String newName = event.getNewValue();
+
+            if (newName == null || newName.trim().isEmpty()) {
+                ValidateFields.showError("El nombre no puede estar vacío");
+                tableProducts.refresh();
+                return;
+            }
+            product.setName(newName);
+            productService.updateName(product);
+        });
+
+
 
         //Listeners
 
@@ -154,7 +195,11 @@ public class InventoryController {
 
     private void onBarCodeScanned() {
 
-        handleSearchProductResult(productService.findByBarCode(txtBarCode.getText()),txtBarCode.getText());
+        if(!txtBarCode.getText().isBlank()){
+
+            handleSearchProductResult(productService.findByBarCode(txtBarCode.getText()),txtBarCode.getText());
+        }
+
 
     }
 

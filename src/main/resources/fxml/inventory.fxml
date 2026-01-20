@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane prefHeight="800" prefWidth="1486.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController">
     <top>
         <fx:include source="menuBar.fxml" />
@@ -41,7 +41,7 @@
             <Label text="Precio de compra" />
             <TextField fx:id="txtPurchasePrice" />
 
-            <Label text="Ganancia" />
+            <Label text="Ganancia %" />
             <TextField fx:id="txtProfit" />
 
             <Label text="Cantidad" />
