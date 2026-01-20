@@ -1,5 +1,6 @@
 package com.shailu.deposito_dental_pos.controller;
 
+import com.shailu.deposito_dental_pos.config.ScreenManager;
 import com.shailu.deposito_dental_pos.model.dto.ProductDto;
 import com.shailu.deposito_dental_pos.service.ProductService;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
@@ -28,6 +29,8 @@ public class InventoryController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ScreenManager screenManager;
 
     @FXML private TextField txtCode;
     @FXML private TextField txtBarCode;
@@ -309,4 +312,5 @@ public class InventoryController {
             }
         });
     }
+
 }

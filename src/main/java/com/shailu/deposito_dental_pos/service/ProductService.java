@@ -101,7 +101,7 @@ public class ProductService {
 
     public void deleteById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Prodcut not found"));
+                .orElseThrow(() -> new RuntimeException("Product not found"));
         product.setDeleteDate(Timestamp.valueOf(LocalDateTime.now()));
         productRepository.save(product);
     }

@@ -1,111 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="800" prefWidth="1486.0"
-        xmlns="javafx.com"
-            xmlns:fx="javafx.com"
-            fx:controller="com.shailu.deposito_dental_pos.controller.SalesController"
-            fx:id="mainContainer"
-            styleClass="main-container">
+
+<BorderPane fx:id="mainContainer" style="-fx-background-color: WHITE;" styleClass="main-container"
+            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.shailu.deposito_dental_pos.controller.SalesController">
 
     <top>
-        <fx:include source="menuBar.fxml"/>
+        <fx:include source="menuBar.fxml" />
     </top>
 
     <left>
-        <VBox spacing="15" prefWidth="300" styleClass="form-panel">
-            <Label text="Búsqueda de Producto" styleClass="section-title"/>
+        <VBox prefWidth="300" spacing="15" style="-fx-background-color: WHITE;">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0">
+            <VBox.margin>
+               <Insets top="13.0" />
+            </VBox.margin></Text>
+            <Label styleClass="section-title" text="Búsqueda de Producto">
+            <font>
+               <Font name="Tahoma Bold" size="14.0" />
+            </font></Label>
 
-            <VBox spacing="5">
-                <Label text="Escanear"/>
-                <TextField fx:id="searchProduct" promptText="🔍 Código"
-                           styleClass="search-field"/>
+            <VBox spacing="8.0" style="-fx-background-color: #f8f9fa;">
+                <Label style="-fx-font-weight: bold; -fx-font-size: 11;" text="ESCANEAR">
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin></Label>
+                <TextField fx:id="searchProduct" promptText="🔍 Código" styleClass="search-field">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin></TextField>
+            <padding>
+               <Insets bottom="15.0" top="5.0" />
+            </padding>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
             </VBox>
-
-            <Separator/>
 
             <VBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Código del Producto"/>
-                    <TextField fx:id="txtCode"/>
+                    <Label text="Código del Producto" />
+                    <TextField fx:id="txtCode" />
                 </VBox>
                 <VBox spacing="5">
-                    <Label text="Nombre del Producto"/>
-                    <TextField fx:id="txtName"/>
+                    <Label text="Nombre del Producto" />
+                    <TextField fx:id="txtName" />
                 </VBox>
                 <VBox spacing="5">
-                    <Label text="Descripcion"/>
-                    <TextField fx:id="txtDesc" editable="false" styleClass="read-only-field"/>
+                    <Label text="Descripcion" />
+                    <TextField fx:id="txtDesc" editable="false" styleClass="read-only-field" />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Precio"/>
-                    <TextField fx:id="txtPrice" editable="false" styleClass="read-only-field"/>
+                    <Label text="Precio" />
+                    <TextField fx:id="txtPrice" editable="false" styleClass="read-only-field" />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Cantidad"/>
-                    <TextField fx:id="txtQuantity" promptText="0"/>
+                    <Label text="Cantidad" />
+                    <TextField fx:id="txtQuantity" promptText="0" />
                 </VBox>
 
-                <Button text="AGREGAR (Enter)" fx:id="btnAddProduct"
-                        maxWidth="Infinity" prefHeight="45" styleClass="btn-add"/>
+                <Button fx:id="btnAddProduct" maxWidth="Infinity" prefHeight="45" styleClass="mi-boton" stylesheets="@../styles/sales.css" text="AGREGAR" />
             </VBox>
+         <BorderPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </BorderPane.margin>
         </VBox>
     </left>
 
     <!-- CENTRO: Table of products -->
     <center>
-        <VBox spacing="10" style="-fx-padding: 0 15 15 15;">
-            <Label text="Detalle de Venta" styleClass="section-title" style="-fx-padding: 10 0;"/>
-            <TableView fx:id="tableSales" VBox.vgrow="ALWAYS" styleClass="sales-table">
+        <VBox spacing="10.0" style="-fx-padding: 0 15 15 15; -fx-background-color: #DCDCDC;">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Detalle de Venta">
+            <font>
+               <Font name="Tahoma Bold" size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets bottom="33.0" />
+            </VBox.margin>
+         </Text>
+            <TableView fx:id="tableSales" stylesheets="@../styles/sales.css" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="colName" text="Nombre" prefWidth="100"/>
-                    <TableColumn fx:id="colDesc" text="Descripción" prefWidth="250"/>
-                    <TableColumn fx:id="colPrice" text="Precio Unit." prefWidth="100"/>
-                    <TableColumn fx:id="colQty" text="Cant." prefWidth="70"/>
-                    <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100"/>
+                    <TableColumn fx:id="colName" prefWidth="100" text="Nombre" />
+                    <TableColumn fx:id="colDesc" prefWidth="250" text="Descripción" />
+                    <TableColumn fx:id="colPrice" prefWidth="100" text="Precio Unit." />
+                    <TableColumn fx:id="colQty" prefWidth="70" text="Cant." />
+                    <TableColumn fx:id="colSubtotal" prefWidth="100" text="Subtotal" />
                 </columns>
             </TableView>
             <HBox alignment="CENTER_RIGHT">
-                <Button text="Eliminar Artículo Seleccionado"
-                        onAction="#removeSelectedItem"
-                        styleClass="btn-cancel"
-                        style="-fx-background-color: #e3342f; -fx-text-fill: white; -fx-padding: 8 15;"/>
+                <Button onAction="#removeSelectedItem" style="-fx-background-color: #e3342f; -fx-text-fill: white; -fx-padding: 8 15;" styleClass="btn-cancel" text="Eliminar Artículo Seleccionado" />
             </HBox>
         </VBox>
     </center>
 
 
     <right>
-        <VBox spacing="15" prefWidth="300" styleClass="checkout-panel">
-            <Label text="Resumen" styleClass="panel-title"/>
+        <VBox prefWidth="300" spacing="15" styleClass="checkout-panel">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+         <Label text="Resumen">
+            <font>
+               <Font name="Tahoma Bold" size="14.0" />
+            </font>
+         </Label>
             <!-- Customer section -->
             <VBox spacing="8" style="-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 5;">
-                <Label text="CLIENTE" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
-                <TextField fx:id="txtCustomerSearch" promptText="🔍 Buscar cliente..." styleClass="search-field"/>
-                <Label fx:id="lblSelectedCustomer" text="Público General" wrapText="true"
-                       style="-fx-text-fill: #2c7be5; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="CLIENTE" />
+                <TextField fx:id="txtCustomerSearch" promptText="🔍 Buscar cliente..." styleClass="search-field" />
+                <Label fx:id="lblSelectedCustomer" style="-fx-text-fill: #2c7be5; -fx-font-size: 13px; -fx-font-weight: bold;" text="Público General" wrapText="true" />
             </VBox>
-            <Separator/>
+            <Separator opacity="0.39" prefHeight="12.0" prefWidth="290.0" />
 
             <!-- payment and extra fields -->
             <VBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Método de Pago" style="-fx-font-weight: bold;"/>
-                    <ComboBox fx:id="cbPaymentType" maxWidth="Infinity" promptText="Seleccionar..."/>
+                    <Label style="-fx-font-weight: bold;" text="Método de Pago" />
+                    <ComboBox fx:id="cbPaymentType" maxWidth="Infinity" promptText="Seleccionar..." />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Estado de Venta" style="-fx-font-weight: bold;"/>
-                    <ComboBox fx:id="cbStatus" maxWidth="Infinity" promptText="Seleccionar..."/>
+                    <Label style="-fx-font-weight: bold;" text="Estado de Venta" />
+                    <ComboBox fx:id="cbStatus" maxWidth="Infinity" promptText="Seleccionar..." />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Notas / Observaciones" style="-fx-font-weight: bold;"/>
-                    <TextArea fx:id="txtNotes" prefHeight="60" promptText="Notas adicionales..." wrapText="true"/>
+                    <Label style="-fx-font-weight: bold;" text="Notas / Observaciones" />
+                    <TextArea fx:id="txtNotes" prefHeight="60" promptText="Notas adicionales..." wrapText="true" />
                 </VBox>
             </VBox>
 
@@ -131,13 +168,25 @@
             <Separator/>
 
             <VBox spacing="5" styleClass="total-container">
-                <Label text="TOTAL A PAGAR" style="-fx-text-fill: white;"/>
-                <Label fx:id="lblTotal" text="0.00" styleClass="total-amount"/>
+                <Label style="-fx-text-fill: white;" text="TOTAL A PAGAR" />
+                <Label fx:id="lblTotal" styleClass="total-amount" text="0.00" />
             </VBox>
 
-            <Button text="FINALIZAR VENTA" maxWidth="Infinity" styleClass="btn-pay" prefHeight="60" onAction="#finalizeSale"/>
-            <Button text="Cancelar" maxWidth="Infinity" styleClass="btn-cancel" onAction="#cancelSale"/>
+            <Button maxWidth="Infinity" onAction="#finalizeSale" prefHeight="60" styleClass="btn-pay" text="FINALIZAR VENTA" />
+            <Button maxWidth="Infinity" onAction="#cancelSale" style="-fx-background-color: #e3342f; -fx-text-fill: WHITE;" text="Cancelar" />
+         <BorderPane.margin>
+            <Insets right="10.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
         </VBox>
     </right>
+   <bottom>
+      <Separator prefHeight="39.0" prefWidth="1282.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="15.0" />
+         </BorderPane.margin></Separator>
+   </bottom>
 
 </BorderPane>

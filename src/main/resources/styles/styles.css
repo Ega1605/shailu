@@ -6,8 +6,8 @@
     -fx-border-radius: 10px;
     -fx-cursor: pointer;
     -fx-font-size: 17px;
-    -fx-transition: background-color 0.3s ease; /* Transición suave */
-    -fx-display: inline-block; /* Para que se comporte como un bloque pero en línea */
+    -fx-transition: background-color 0.3s ease;
+    -fx-display: inline-block;
 }
 
 .btn-eliminar{
@@ -70,3 +70,16 @@
 .table-row-cell:even {
     -fx-background-color: #EFF3F5;
 }*/
+
+.menuButtons{
+    -fx-background-color: #B6C1D3;
+}
+
+.menuButtons .text {
+    -fx-font-weight: bold;
+}
+
+.menuButtons:pressed {
+    -fx-background-color: #DB7093 ;
+    -fx-text-fill: #ffffff;
+}

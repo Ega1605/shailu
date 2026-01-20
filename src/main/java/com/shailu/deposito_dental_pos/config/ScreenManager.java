@@ -22,11 +22,9 @@ public class ScreenManager {
         this.stage = stage;
     }
 
-    public void show(String fxml, String title) {
-        show(fxml, title, true);
-    }
 
-    public void show(String fxml, String title, boolean maximize) {
+
+    public void show(String fxml, String title, boolean bigScreen) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/fxml/" + fxml)
@@ -39,16 +37,8 @@ public class ScreenManager {
             );
 
             stage.setScene(new Scene(root));
+            stage.setMaximized(bigScreen);
             stage.setTitle(title);
-            if (maximize) {
-                stage.setMaximized(true);
-                stage.setResizable(true);
-            } else {
-                stage.setMaximized(false);
-                stage.setResizable(false); // avoid user changes size
-                stage.sizeToScene();       // adjust edge for FXML size
-                stage.centerOnScreen();
-            }
             stage.show();
 
         } catch (Exception e) {

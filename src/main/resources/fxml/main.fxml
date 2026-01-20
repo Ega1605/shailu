@@ -35,7 +35,15 @@
                <children>
                   <HBox prefHeight="753.0" prefWidth="550.0">
                      <children>
-                        <Label fx:id="lblUsuario" prefHeight="28.0" prefWidth="447.0" text="" textFill="WHITE">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido" wrappingWidth="106.21630859375">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="45.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Label id="lblUsuario" prefHeight="28.0" prefWidth="447.0" text="Day_1105" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -57,7 +65,7 @@
                <children>
                   <HBox maxWidth="-Infinity" prefHeight="116.0" prefWidth="1551.0">
                      <children>
-                        <Separator opacity="0.9" prefHeight="87.0" prefWidth="653.0" style="-fx-background-color: #d0aac1;">
+                        <Separator opacity="0.9" prefHeight="71.0" prefWidth="633.0" style="-fx-background-color: #d0aac1;">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -70,16 +78,16 @@
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Separator opacity="0.9" prefHeight="69.0" prefWidth="669.0" style="-fx-background-color: #d0aac1;" />
+                        <Separator opacity="0.9" prefHeight="71.0" prefWidth="666.0" style="-fx-background-color: #d0aac1;" />
                      </children>
                   </HBox>
                </children>
             </VBox>
               <GridPane alignment="CENTER" hgap="15.0" prefHeight="818.0" prefWidth="1367.0" style="-fx-padding:40;" vgap="15.0">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="570.0" GridPane.columnIndex="5" />
-               <ImageView fitHeight="123.0" fitWidth="125.0" nodeOrientation="INHERIT" onMouseClicked="#openInventory" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+               <ImageView fitHeight="204.0" fitWidth="199.0" nodeOrientation="INHERIT" onMouseClicked="#openInventory" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                   <image>
-                     <Image url="@../img/image2.png" />
+                     <Image url="@../img/inventarioNuevo.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventario" textAlignment="CENTER" wrappingWidth="198.2001953125" GridPane.rowIndex="1">
@@ -88,9 +96,9 @@
                   </font>
                </Text>
                <Separator prefWidth="200.0" GridPane.rowIndex="2" />
-               <ImageView fitHeight="125.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+               <ImageView fitHeight="154.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                   <image>
-                     <Image url="@../img/image1.png" />
+                     <Image url="@../img/icon2.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Clientes" textAlignment="CENTER" wrappingWidth="198.2001953125" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -99,9 +107,9 @@
                   </font>
                </Text>
                <Separator prefWidth="200.0" GridPane.rowIndex="5" />
-               <ImageView fitHeight="125.0" fitWidth="125.0" onMouseClicked="#openSales" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+               <ImageView fitHeight="182.0" fitWidth="181.0" onMouseClicked="#openSales" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER">
                   <image>
-                     <Image url="@../img/image5.png" />
+                     <Image url="@../img/salesIcon2.png" />
                   </image>
                </ImageView>
                <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Ventas" textAlignment="CENTER" wrappingWidth="197.3828125" GridPane.columnIndex="4" GridPane.rowIndex="1">
@@ -109,22 +117,22 @@
                      <Font size="20.0" />
                   </font>
                </Text>
-               <ImageView fitHeight="132.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <ImageView fitHeight="174.0" fitWidth="173.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                   <image>
-                     <Image url="@../img/image4.png" />
+                     <Image url="@../img/factura.png" />
                   </image>
                </ImageView>
-               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Reportes" textAlignment="CENTER" wrappingWidth="197.1181640625" GridPane.rowIndex="4">
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Facturación" textAlignment="CENTER" wrappingWidth="197.1181640625" GridPane.rowIndex="4">
                   <font>
                      <Font size="20.0" />
                   </font>
                </Text>
-               <ImageView fitHeight="125.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <ImageView fitHeight="149.0" fitWidth="152.0" onMouseClicked="#openDetalleVenta" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                   <image>
-                     <Image url="@../img/image3.png" />
+                     <Image url="@../img/DetVenta.png" />
                   </image>
                </ImageView>
-               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Facturación" textAlignment="CENTER" wrappingWidth="198.4580078125" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <Text fill="#5e5b5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Detalle de venta" textAlignment="CENTER" wrappingWidth="198.4580078125" GridPane.columnIndex="4" GridPane.rowIndex="4">
                   <font>
                      <Font size="20.0" />
                   </font>
