@@ -27,7 +27,7 @@ public class MainController {
 
     public void initialize() {
         //Crontoller connects UI with business logic
-        //lblUsuario.setText("Bienvenido: " +userSession.getUsername());
+        lblUsuario.setText(userSession.getUsername());
         System.out.println("Pantalla principal cargada");
     }
 

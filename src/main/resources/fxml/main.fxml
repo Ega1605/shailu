@@ -43,7 +43,7 @@
                               <Insets top="45.0" />
                            </HBox.margin>
                         </Text>
-                        <Label id="lblUsuario" prefHeight="28.0" prefWidth="447.0" text="Day_1105" textFill="WHITE">
+                        <Label fx:id="lblUsuario" prefHeight="28.0" prefWidth="447.0" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -72,7 +72,7 @@
                         </Separator>
                         <ImageView fitHeight="116.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/Shailu_Ajustada-removebg-preview.png" />
+                              <Image url="@../img/Shailu_Ajustada.png" />
                            </image>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />

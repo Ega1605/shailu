@@ -22,7 +22,7 @@
                 preserveRatio="true"
                 smooth="false">
             <image>
-                <Image url="@/Shailu_black.png"/>
+                <Image url="@/Shailu_Ticket.png"/>
             </image>
         </ImageView>
 
