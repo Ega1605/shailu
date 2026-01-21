@@ -15,10 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<BorderPane fx:id="mainContainer" style="-fx-background-color: WHITE;" styleClass="main-container"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.shailu.deposito_dental_pos.controller.SalesController">
+<BorderPane fx:id="mainContainer" style="-fx-background-color: WHITE;" styleClass="main-container" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.SalesController">
 
     <top>
         <fx:include source="menuBar.fxml" />
@@ -104,6 +101,9 @@
                     <TableColumn fx:id="colQty" prefWidth="70" text="Cant." />
                     <TableColumn fx:id="colSubtotal" prefWidth="100" text="Subtotal" />
                 </columns>
+            <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
             </TableView>
             <HBox alignment="CENTER_RIGHT">
                 <Button onAction="#removeSelectedItem" style="-fx-background-color: #e3342f; -fx-text-fill: white; -fx-padding: 8 15;" styleClass="btn-cancel" text="Eliminar Artículo Seleccionado" />
@@ -146,26 +146,21 @@
                 </VBox>
             </VBox>
 
-            <VBox spacing="8" fx:id="cashContainer" visible="false" managed="false">
+            <VBox fx:id="cashContainer" managed="false" spacing="8" visible="false">
 
                 <VBox spacing="4">
-                    <Label text="Efectivo recibido" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="txtCashReceived"
-                               promptText="0.00"
-                               maxWidth="Infinity"/>
+                    <Label style="-fx-font-weight: bold;" text="Efectivo recibido" />
+                    <TextField fx:id="txtCashReceived" maxWidth="Infinity" promptText="0.00" />
                 </VBox>
 
                 <VBox spacing="4">
-                    <Label text="Cambio" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="txtChange"
-                               promptText="0.00"
-                               editable="false"
-                               style="-fx-background-color: #e9ecef;"/>
+                    <Label style="-fx-font-weight: bold;" text="Cambio" />
+                    <TextField fx:id="txtChange" editable="false" promptText="0.00" style="-fx-background-color: #e9ecef;" />
                 </VBox>
 
             </VBox>
 
-            <Separator/>
+            <Separator />
 
             <VBox spacing="5" styleClass="total-container">
                 <Label style="-fx-text-fill: white;" text="TOTAL A PAGAR" />
