@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -10,14 +13,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <top>
        <fx:include source="menuBar.fxml" />
    </top>
    <right>
-        <HBox prefHeight="330.0" prefWidth="197.0" BorderPane.alignment="CENTER">
+        <HBox prefHeight="713.0" prefWidth="307.0" BorderPane.alignment="CENTER">
             <children>
-                <VBox prefHeight="313.0" prefWidth="200.0">
+                <VBox prefHeight="633.0" prefWidth="307.0" style="-fx-background-color: WHITE;">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Detalle por venta" textAlignment="CENTER" wrappingWidth="197.4951171875">
                      <VBox.margin>
@@ -26,12 +29,104 @@
                      <font>
                         <Font size="15.0" />
                      </font></Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <HBox prefHeight="20.0" prefWidth="198.0">
+                     <children>
+                        <Label id="txt_venta" text="ID:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin></Label>
+                        <Text id="txt_venta" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="181.21630859375" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="21.0" prefWidth="198.0">
+                     <children>
+                        <Label id="txt_cliente" prefHeight="17.0" prefWidth="49.0" style="-fx-font-weight: bold;" text="Cliente:">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin></Label>
+                        <Text id="txt_cliente" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="144.21630859375" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="20.0" prefWidth="198.0">
+                     <children>
+                        <Label id="txt_total" prefHeight="17.0" prefWidth="36.0" style="-fx-font-weight: bold;" text="Total:">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin></Label>
+                        <Text id="txt_tipo" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="159.21630859375" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="20.0" prefWidth="198.0">
+                     <children>
+                        <Label id="txt_fecha" style="-fx-font-weight: bold;" text="Fecha: ">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin></Label>
+                        <Text id="txt_fecha" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="20.0" prefWidth="198.0">
+                     <children>
+                        <Label id="txt_tipo" style="-fx-font-weight: bold;" text="Tipo de pago:">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin></Label>
+                        <Text id="txt_tipoPago" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="19.0" prefWidth="307.0">
+                     <children>
+                        <Label id="txt_fechaPago" style="-fx-font-weight: bold;" text="Fecha de pago: ">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Text id="txt_fechaPago" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="200.21630859375" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="20.0" prefWidth="307.0">
+                     <children>
+                        <Label id="txt_cantidadPagada" style="-fx-font-weight: bold;" text="Cantidad pagada: ">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Text id="txt_cantidad" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="21.0" prefWidth="307.0">
+                     <children>
+                        <Label id="txt_cantidadPendiente" prefHeight="17.0" prefWidth="124.0" style="-fx-font-weight: bold;" text="Cantidad pendiente: ">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Text id="txt_cantidadPendiente" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.21630859375" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="21.0" prefWidth="307.0">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Producto:" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="376.0" prefWidth="287.0">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                     <children>
+                        <ListView prefHeight="445.0" prefWidth="287.0" />
+                     </children>
+                  </HBox>
                </children></VBox>
             </children>
         </HBox>
    </right>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="621.0" prefWidth="893.0" BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Ventas">
                <font>
@@ -42,10 +137,13 @@
                </VBox.margin></Text>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Búsqueda">
                <VBox.margin>
-                  <Insets left="5.0" top="15.0" />
+                  <Insets left="10.0" top="15.0" />
                </VBox.margin></Text>
-            <TextField promptText="Nombre" />
-            <TableView prefHeight="508.0" prefWidth="999.0">
+            <TextField promptText="Nombre">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin></TextField>
+            <TableView prefHeight="501.0" prefWidth="873.0" stylesheets="@../styles/styles.css">
               <columns>
                 <TableColumn prefWidth="75.0" text="Folio" />
                 <TableColumn prefWidth="75.0" text="Nombre" />
@@ -57,10 +155,13 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <VBox.margin>
-                  <Insets top="15.0" />
+                  <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </TableView>
          </children>
       </VBox>
    </center>
+   <bottom>
+      <Separator prefHeight="72.0" prefWidth="1200.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
