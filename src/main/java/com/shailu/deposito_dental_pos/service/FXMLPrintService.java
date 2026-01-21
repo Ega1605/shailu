@@ -24,18 +24,13 @@ public class FXMLPrintService {
             return;
         }
 
-        // 🔥 FORZAR SCENE CON TAMAÑO REAL
+        // get SCENE real size
         if (node instanceof Parent parent) {
             Scene scene = new Scene(parent, 140, 1000);
             parent.applyCss();
             parent.layout();
         }
 
-        // DEBUG (déjalos por ahora)
-        System.out.println("Node width  : " + node.getBoundsInParent().getWidth());
-        System.out.println("Node height : " + node.getBoundsInParent().getHeight());
-        System.out.println("Layout X    : " + node.getLayoutBounds().getWidth());
-        System.out.println("Layout Y    : " + node.getLayoutBounds().getHeight());
 
         Paper thermalPaper = PrintHelper.createPaper(
                 "THERMAL_58",

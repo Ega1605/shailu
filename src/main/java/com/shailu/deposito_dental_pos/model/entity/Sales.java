@@ -24,9 +24,6 @@ public class Sales extends OnlyDatesBaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sale_date")
-    private LocalDateTime saleDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customers customer;

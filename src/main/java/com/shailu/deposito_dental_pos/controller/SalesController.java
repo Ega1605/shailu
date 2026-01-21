@@ -10,18 +10,24 @@ import com.shailu.deposito_dental_pos.service.FXMLPrintService;
 import com.shailu.deposito_dental_pos.service.ProductService;
 import com.shailu.deposito_dental_pos.service.SalesService;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -354,8 +360,6 @@ public class SalesController {
             currentSaleDto.setTotal(Double.valueOf(lblTotal.getText()));
 
             Sales sale = salesService.processSale(currentSaleDto, userSession.getUsername(), selectedCustomerIdSale);
-
-
             //print Sale
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ticket_template.fxml"));
@@ -401,6 +405,7 @@ public class SalesController {
                     row++;
                 }
 
+                showInfo("Venta finalizada.\nImprimiendo ticket…");
 
                 fxmlPrintService.printNode(ticketNode, "POS-58");
 
@@ -415,6 +420,16 @@ public class SalesController {
         } catch (Exception e) {
             ValidateFields.showError("Error al procesar: " + e.getMessage());
         }
+    }
+
+    private void showInfo(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Venta");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.initOwner(lblTotal.getScene().getWindow());
+        alert.show();
     }
 
     private void resetToDefaultCustomer() {
@@ -446,6 +461,8 @@ public class SalesController {
         clearProductFields();
         tableSales.getItems().clear();
         lblTotal.setText("0.00");
+        txtCashReceived.setText("0.00");
+        txtChange.setText("0.00");
         resetToDefaultCustomer();
     }
 

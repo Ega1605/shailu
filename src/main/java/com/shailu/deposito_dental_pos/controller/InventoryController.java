@@ -40,6 +40,7 @@ public class InventoryController {
     @FXML private TextField txtProfit;
     @FXML private TextField txtQuantity;
     @FXML private ImageView btnResetSearch;
+    @FXML private  ImageView btnCleanProductInfo;
 
     @FXML private Button btnAdd;
 
@@ -164,7 +165,7 @@ public class InventoryController {
             btnResetSearch.setOpacity(0.5);
         });
 
-        // Click
+        // Click Reset Search
         btnResetSearch.setOnMousePressed(e -> {
             btnResetSearch.setScaleX(0.85);
             btnResetSearch.setScaleY(0.85);
@@ -174,6 +175,35 @@ public class InventoryController {
             btnResetSearch.setScaleX(1.0);  // change size of the image
             btnResetSearch.setScaleY(1.0);
         });
+
+        // Click Clean Product
+        btnCleanProductInfo.setCursor(Cursor.HAND);
+
+        btnCleanProductInfo.setOnMousePressed(e -> {
+            btnCleanProductInfo.setScaleX(0.85);
+            btnCleanProductInfo.setScaleY(0.85);
+        });
+
+        btnCleanProductInfo.setOnMouseReleased(e -> {
+            btnCleanProductInfo.setScaleX(1.0);
+            btnCleanProductInfo.setScaleY(1.0);
+        });
+
+        btnCleanProductInfo.setOnMouseEntered(e -> {
+            btnCleanProductInfo.setOpacity(1.0);
+        });
+
+        btnCleanProductInfo.setOnMouseExited(e -> {
+            btnCleanProductInfo.setOpacity(0.54);
+            btnCleanProductInfo.setScaleX(1.0);
+            btnCleanProductInfo.setScaleY(1.0);
+        });
+
+    }
+
+    @FXML
+    private void onCleanProductInfo() {
+        clearForm();
     }
 
     // this method  is called when you change the number of page
