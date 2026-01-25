@@ -3,14 +3,13 @@ package com.shailu.deposito_dental_pos.service;
 import com.shailu.deposito_dental_pos.model.dto.CurrentSaleDto;
 import com.shailu.deposito_dental_pos.model.dto.SalesDto;
 import com.shailu.deposito_dental_pos.model.entity.*;
-import com.shailu.deposito_dental_pos.model.enums.MovementReason;
-import com.shailu.deposito_dental_pos.model.enums.MovementType;
-import com.shailu.deposito_dental_pos.model.enums.PaymentType;
+import com.shailu.deposito_dental_pos.model.enums.*;
 import com.shailu.deposito_dental_pos.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,6 +35,9 @@ public class SalesService {
 
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    private AccountReceivableRepository accountReceivableRepository;
 
     @Transactional
     public Sales processSale(CurrentSaleDto currentSaleDto, String currentUser, Long customerId) {
@@ -76,7 +78,26 @@ public class SalesService {
 
         savePayment(sale,user, currentSaleDto.getPaymentType());
 
+        if(currentSaleDto.getPaymentType().equals(PaymentType.CREDIT)){
+            saveAccountReceivable(sale, currentSaleDto, customer, user);
+        }
+
         return sale;
+
+    }
+
+    private void saveAccountReceivable(Sales sale, CurrentSaleDto currentSaleDto, Customers customer, User user ){
+        AccountReceivable accountReceivable = new AccountReceivable();
+        accountReceivable.setSales(sale);
+        accountReceivable.setCustomers(customer);
+        accountReceivable.setTotalAmount(currentSaleDto.getTotal());
+        accountReceivable.setPaidAmount(0.0);
+        accountReceivable.setRemainingBalance(currentSaleDto.getTotal());
+        accountReceivable.setDueDate(LocalDate.now().plusWeeks(1));
+        accountReceivable.setStatus(AccountStatus.PENDING.getAccountStatus());
+        accountReceivable.setDaysOverdue(0);
+
+        accountReceivableRepository.save(accountReceivable);
 
     }
 
