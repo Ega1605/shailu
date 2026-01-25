@@ -1,4 +1,5 @@
-package com.shailu.deposito_dental_pos.model.entity;import com.shailu.deposito_dental_pos.model.enums.PaymentType;
+package com.shailu.deposito_dental_pos.model.entity;
+import com.shailu.deposito_dental_pos.model.enums.PaymentType;
 import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
 
 import jakarta.persistence.*;
@@ -6,11 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.shailu.deposito_dental_pos.model.enums.PaymentType;
-import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "sales")

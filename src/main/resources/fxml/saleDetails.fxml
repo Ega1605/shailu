@@ -13,7 +13,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.Pagination?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.shailu.deposito_dental_pos.controller.SaleDetailsController">
    <top>
        <fx:include source="menuBar.fxml" />
    </top>
@@ -32,80 +35,80 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" />
                   <HBox prefHeight="20.0" prefWidth="198.0">
                      <children>
-                        <Label id="txt_venta" text="ID:">
+                        <Label id="txtSale" text="ID:">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin></Label>
-                        <Text id="txt_venta" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="181.21630859375" />
+                        <Text fx:id="txtSaleId" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="181.21630859375" />
                      </children>
                   </HBox>
                   <HBox prefHeight="21.0" prefWidth="198.0">
                      <children>
-                        <Label id="txt_cliente" prefHeight="17.0" prefWidth="49.0" style="-fx-font-weight: bold;" text="Cliente:">
+                        <Label id="txtCustomer" prefHeight="17.0" prefWidth="49.0" style="-fx-font-weight: bold;" text="Cliente:">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin></Label>
-                        <Text id="txt_cliente" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="144.21630859375" />
+                        <Text fx:id="txtCustomer" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="144.21630859375" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="198.0">
                      <children>
-                        <Label id="txt_total" prefHeight="17.0" prefWidth="36.0" style="-fx-font-weight: bold;" text="Total:">
+                        <Label id="txtTotal" prefHeight="17.0" prefWidth="36.0" style="-fx-font-weight: bold;" text="Total:">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin></Label>
-                        <Text id="txt_tipo" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="159.21630859375" />
+                        <Text fx:id="txtTotal" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="159.21630859375" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="198.0">
                      <children>
-                        <Label id="txt_fecha" style="-fx-font-weight: bold;" text="Fecha: ">
+                        <Label id="txtDate" style="-fx-font-weight: bold;" text="Fecha: ">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin></Label>
-                        <Text id="txt_fecha" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="txtDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="198.0">
                      <children>
-                        <Label id="txt_tipo" style="-fx-font-weight: bold;" text="Tipo de pago:">
+                        <Label id="txtPaymentType" style="-fx-font-weight: bold;" text="Tipo de pago:">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin></Label>
-                        <Text id="txt_tipoPago" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="txtPaymentType" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </HBox>
                   <HBox prefHeight="19.0" prefWidth="307.0">
                      <children>
-                        <Label id="txt_fechaPago" style="-fx-font-weight: bold;" text="Fecha de pago: ">
+                        <Label id="txtPaidDate" style="-fx-font-weight: bold;" text="Fecha de pago: ">
                            <HBox.margin>
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Text id="txt_fechaPago" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="200.21630859375" />
+                        <Text fx:id="txtPaidDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="200.21630859375" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="307.0">
                      <children>
-                        <Label id="txt_cantidadPagada" style="-fx-font-weight: bold;" text="Cantidad pagada: ">
+                        <Label id="txtPaidAmount" style="-fx-font-weight: bold;" text="Cantidad pagada: ">
                            <HBox.margin>
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Text id="txt_cantidad" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="txtPaidAmount" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </HBox>
                   <HBox prefHeight="21.0" prefWidth="307.0">
                      <children>
-                        <Label id="txt_cantidadPendiente" prefHeight="17.0" prefWidth="124.0" style="-fx-font-weight: bold;" text="Cantidad pendiente: ">
+                        <Label id="txtRemainingBalance" prefHeight="17.0" prefWidth="124.0" style="-fx-font-weight: bold;" text="Cantidad pendiente: ">
                            <HBox.margin>
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <Text id="txt_cantidadPendiente" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.21630859375" />
+                        <Text fx:id="txtRemainingBalance" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.21630859375" />
                      </children>
                   </HBox>
                   <HBox prefHeight="21.0" prefWidth="307.0">
@@ -118,7 +121,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                      <children>
-                        <ListView prefHeight="445.0" prefWidth="287.0" />
+                        <ListView fx:id="lvProducts" prefHeight="445.0" prefWidth="287.0" />
                      </children>
                   </HBox>
                </children></VBox>
@@ -139,17 +142,17 @@
                <VBox.margin>
                   <Insets left="10.0" top="15.0" />
                </VBox.margin></Text>
-            <TextField promptText="Nombre">
+            <TextField fx:id="txtSearch" promptText="Id de venta">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin></TextField>
-            <TableView prefHeight="501.0" prefWidth="873.0" stylesheets="@../styles/styles.css">
+            <TableView fx:id="salesTable" prefHeight="501.0" prefWidth="873.0" stylesheets="@../styles/styles.css">
               <columns>
-                <TableColumn prefWidth="75.0" text="Folio" />
-                <TableColumn prefWidth="75.0" text="Nombre" />
-                  <TableColumn prefWidth="75.0" text="Nombre" />
-                  <TableColumn prefWidth="75.0" text="Fecha" />
-                  <TableColumn prefWidth="75.0" text="Tipo" />
+                 <TableColumn fx:id="colFolio" prefWidth="75.0" text="Folio" />
+                 <TableColumn fx:id="colName" prefWidth="75.0" text="Nombre" />
+                 <TableColumn fx:id="colTotal" prefWidth="75.0" text="Total" />
+                 <TableColumn fx:id="colDate" prefWidth="75.0" text="Fecha" />
+                 <TableColumn fx:id="colType" prefWidth="75.0" text="Tipo" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -158,6 +161,7 @@
                   <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </TableView>
+            <Pagination fx:id="pagination" maxPageIndicatorCount="5" prefHeight="26.0" prefWidth="870.0" />
          </children>
       </VBox>
    </center>

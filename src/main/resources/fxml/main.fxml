@@ -127,7 +127,7 @@
                      <Font size="20.0" />
                   </font>
                </Text>
-               <ImageView fitHeight="149.0" fitWidth="152.0" onMouseClicked="#openDetalleVenta" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <ImageView fitHeight="149.0" fitWidth="152.0" onMouseClicked="#openSaleDetails" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                   <image>
                      <Image url="@../img/DetVenta.png" />
                   </image>
