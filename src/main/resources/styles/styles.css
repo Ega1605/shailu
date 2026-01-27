@@ -12,6 +12,7 @@
 
 .btn-eliminar{
     -fx-background-color: #DC143C;
+    -fx-text-fill: #ffffff;
 }
 
 .mi-boton:hover {
@@ -70,6 +71,16 @@
 .table-row-cell:even {
     -fx-background-color: #EFF3F5;
 }*/
+
+.tableProducts .column-header,
+.tableProducts .column-header-background .filler {
+    -fx-background-color: #d0aac1;
+}
+
+.tableProducts .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
 
 .menuButtons{
     -fx-background-color: #B6C1D3;
