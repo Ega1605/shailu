@@ -228,11 +228,6 @@ public class SalesController {
         Platform.runLater(() -> {
             updateCashVisibility(cbPaymentType.getValue());
         });
-
-
-
-
-
     }
 
     private void calculateChange() {

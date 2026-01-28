@@ -1,20 +1,27 @@
 package com.shailu.deposito_dental_pos.controller;
 
+import com.shailu.deposito_dental_pos.config.ScreenManager;
 import com.shailu.deposito_dental_pos.model.dto.ProductDto;
 import com.shailu.deposito_dental_pos.model.dto.SaleDetailsDto;
 import com.shailu.deposito_dental_pos.model.dto.SalesDto;
 import com.shailu.deposito_dental_pos.model.entity.AccountReceivable;
 import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
 import com.shailu.deposito_dental_pos.model.enums.PaymentType;
+import com.shailu.deposito_dental_pos.service.AccountReceivablePaymentService;
 import com.shailu.deposito_dental_pos.service.AccountReceivableService;
 import com.shailu.deposito_dental_pos.service.SaleDetailsService;
+import com.shailu.deposito_dental_pos.utils.ValidateFields;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +36,15 @@ import java.util.List;
 public class SaleDetailsController {
 
 
+
     @Autowired
     private SaleDetailsService saleDetailService;
+
+    @Autowired
+    private ScreenManager screenManager;
+
+    @Autowired
+    private AccountReceivablePaymentService accountReceivablePaymentService;
 
     @Autowired
     private AccountReceivableService accountReceivableService;
@@ -68,16 +82,60 @@ public class SaleDetailsController {
 
     @FXML private Text txtRemainingBalance;
 
-    @FXML private ListView<String> lvProducts;
+    @FXML private Button btnRegisterPayment;
+
+    @FXML private ImageView btnResetSearch;
+
+
+    @FXML
+    private TableView<SaleDetail> lvProducts;
+
+    @FXML
+    private TableColumn<SaleDetail, String> colNameDetail;
+
+    @FXML
+    private TableColumn<SaleDetail, Integer> colQuantityDetail;
+
+    @FXML
+    private TableColumn<SaleDetail, Double> colTotalDetail;
+
 
     private final ObservableList<SaleDetailsDto> sales =
             FXCollections.observableArrayList();
 
     private Long currentFilter;
 
+    private SaleDetailsDto saleSelected;
+    private AccountReceivable currentAccountReceivable;
+
+
 
     @FXML
     public void initialize() {
+
+        btnRegisterPayment.setDisable(true);
+
+        colNameDetail.setCellValueFactory(cell ->
+                new SimpleStringProperty(
+                        cell.getValue().getProduct().getName()
+                )
+        );
+
+        colQuantityDetail.setCellValueFactory(
+                new PropertyValueFactory<>("quantity")
+        );
+
+        colTotalDetail.setCellValueFactory(
+                new PropertyValueFactory<>("itemSubtotal")
+        );
+
+        colTotalDetail.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty || value == null ? null : String.format("$ %.2f", value));
+            }
+        });
 
         colFolio.setCellValueFactory(new PropertyValueFactory<>("folio"));
         colName.setCellValueFactory(
@@ -159,11 +217,103 @@ public class SaleDetailsController {
             return row;
         });
 
+        //ClearSearch
+
+        btnResetSearch.setCursor(Cursor.HAND);
+
+        btnResetSearch.setOnMouseEntered(e -> {
+            btnResetSearch.setOpacity(1.0);
+        });
+
+        btnResetSearch.setOnMouseExited(e -> {
+            btnResetSearch.setOpacity(0.5);
+        });
+
+        // Click Reset Search
+        btnResetSearch.setOnMousePressed(e -> {
+            btnResetSearch.setScaleX(0.85);
+            btnResetSearch.setScaleY(0.85);
+        });
+
+        btnResetSearch.setOnMouseReleased(e -> {
+            btnResetSearch.setScaleX(1.0);  // change size of the image
+            btnResetSearch.setScaleY(1.0);
+        });
+
 
     }
 
+    @FXML
+    private void clearSearch() {
+        txtSearch.clear();
+    }
+
+    @FXML
+    private void onRegisterPayment() {
+
+        screenManager.showDialog(
+                "registerPaymentDialog.fxml",
+                "Registrar pago",
+                controller -> {//executes just after load fxml but before the user can see the window
+                    RegisterPaymentDialogController c = (RegisterPaymentDialogController) controller;
+                    c.init(currentAccountReceivable.getRemainingBalance());
+                },
+                controller -> {
+                    RegisterPaymentDialogController c = (RegisterPaymentDialogController) controller;
+                    return c.getResult();
+                }
+        ).ifPresent(
+            result -> {
+
+                accountReceivablePaymentService.savePayment(
+                        currentAccountReceivable,
+                        result.get().getAmount(),
+                        result.get().getPaymentType()
+                );
+
+                loadCreditInfo(currentAccountReceivable.getSales().getId());
+        });
+
+
+        /*if (saleSelected == null) return;
+
+        double amount;
+
+        try {
+            amount = Double.parseDouble(txtPaidAmount.getText());
+        } catch (NumberFormatException e) {
+            ValidateFields.showError("Cantidad inválida");
+            return;
+        }
+
+        AccountReceivable updated =
+                accountReceivableService.registerPayment(
+                        saleSelected.getFolio(), amount
+                );
+
+        refreshCreditInfo(updated);*/
+    }
+
+    private void refreshCreditInfo(AccountReceivable ar) {
+
+        txtPaidAmount.setText(String.format("$ %.2f", ar.getPaidAmount()));
+        txtRemainingBalance.setText(
+                String.format("$ %.2f", ar.getRemainingBalance())
+        );
+
+        if (ar.getPaidAt() != null) {
+            txtPaidDate.setText(
+                    ar.getPaidAt()
+                            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+            );
+        }
+    }
+
+
+
     private void onSaleDoubleClick(SaleDetailsDto sale) {
-        // Datos comunes
+
+        this.saleSelected = sale;
         txtSaleId.setText(String.valueOf(sale.getFolio()));
         txtCustomer.setText(sale.getCustomerName());
         txtTotal.setText(String.format("$ %.2f", sale.getTotal()));
@@ -177,56 +327,46 @@ public class SaleDetailsController {
         // load Product's list
         loadProducts(sale.getFolio());
 
-        // Validar tipo de pago
+        // validate Payment type
         if (sale.getPaymentType().equalsIgnoreCase(PaymentType.CREDIT.getPaymentType())) {
             loadCreditInfo(sale.getFolio());
             showCreditFields(true);
+            btnRegisterPayment.setDisable(false);
         } else {
             clearCreditFields();
             showCreditFields(false);
+            btnRegisterPayment.setDisable(true);
         }
 
     }
 
     private void loadProducts(Long saleId) {
 
-        lvProducts.getItems().clear();
-
         List<SaleDetail> details =
                 saleDetailService.findItemsBySaleId(saleId);
 
-        for (SaleDetail detail : details) {
-
-            String line = String.format(
-                    "%s  x%d  $%.2f",
-                    detail.getProduct().getName(),
-                    detail.getQuantity(),
-                    detail.getItemSubtotal()
-            );
-
-            lvProducts.getItems().add(line);
-        }
+        lvProducts.getItems().setAll(details);
     }
 
 
     private void loadCreditInfo(Long saleId) {
 
-        AccountReceivable ar =
+        this.currentAccountReceivable =
                 accountReceivableService.findBySaleId(saleId);
 
         txtPaidDate.setText(
-                ar.getPaidAt() != null
-                        ? ar.getPaidAt()
+                currentAccountReceivable.getPaidAt() != null
+                        ? currentAccountReceivable.getPaidAt()
                         .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                         : "—"
         );
 
         txtPaidAmount.setText(
-                String.format("$ %.2f", ar.getPaidAmount())
+                String.format("$ %.2f", currentAccountReceivable.getPaidAmount())
         );
 
         txtRemainingBalance.setText(
-                String.format("$ %.2f", ar.getRemainingBalance())
+                String.format("$ %.2f", currentAccountReceivable.getRemainingBalance())
         );
     }
 
@@ -245,11 +385,6 @@ public class SaleDetailsController {
         txtPaidAmount.setText("");
         txtRemainingBalance.setText("");
     }
-
-
-
-
-
 
     // this method  is called when you change the number of page
     private Node createPage(int pageIndex) {
