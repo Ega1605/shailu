@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -47,6 +49,14 @@ public class AccountReceivable extends OnlyDatesBaseEntity{
 
     @Column(name = "days_overdue")
     private Integer daysOverdue = 0;
+
+    @OneToMany(
+            mappedBy = "accountReceivable",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<AccountReceivablePayment> payments = new ArrayList<>();
+
 
 
     @PrePersist
