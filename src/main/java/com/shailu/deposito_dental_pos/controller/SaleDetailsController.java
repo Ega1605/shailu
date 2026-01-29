@@ -267,31 +267,13 @@ public class SaleDetailsController {
 
                 accountReceivablePaymentService.savePayment(
                         currentAccountReceivable,
-                        result.get().getAmount(),
-                        result.get().getPaymentType()
+                        result.getAmount(),
+                        result.getPaymentType()
                 );
 
                 loadCreditInfo(currentAccountReceivable.getSales().getId());
         });
 
-
-        /*if (saleSelected == null) return;
-
-        double amount;
-
-        try {
-            amount = Double.parseDouble(txtPaidAmount.getText());
-        } catch (NumberFormatException e) {
-            ValidateFields.showError("Cantidad inválida");
-            return;
-        }
-
-        AccountReceivable updated =
-                accountReceivableService.registerPayment(
-                        saleSelected.getFolio(), amount
-                );
-
-        refreshCreditInfo(updated);*/
     }
 
     private void refreshCreditInfo(AccountReceivable ar) {

@@ -59,7 +59,7 @@ public class ScreenManager {
             String fxml,
             String title,
             Consumer<Object> initializer,
-            Function<Object, T> resultMapper
+            Function<Object,  Optional<T>> resultMapper
     ) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxml));
@@ -92,7 +92,7 @@ public class ScreenManager {
 
             dialogStage.showAndWait();
 
-            return Optional.ofNullable(resultMapper.apply(controller));
+            return resultMapper.apply(controller);
 
         } catch (Exception e) {
             e.printStackTrace();
