@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Separator?>
@@ -15,17 +16,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.Button?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="811.0" prefWidth="1209.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.SaleDetailsController">
    <top>
        <fx:include source="menuBar.fxml" />
    </top>
    <right>
-        <HBox prefHeight="713.0" prefWidth="307.0" BorderPane.alignment="CENTER">
+        <HBox prefHeight="652.0" prefWidth="349.0" BorderPane.alignment="CENTER">
             <children>
-                <VBox prefHeight="646.0" prefWidth="307.0" style="-fx-background-color: #f5f5f5;">
+                <VBox prefHeight="652.0" prefWidth="350.0" style="-fx-background-color: #f5f5f5;">
                <children>
-                  <Text fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Detalle por venta" textAlignment="CENTER" wrappingWidth="307.4951171875">
+                  <Text fill="#4d4d4d" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Detalle por venta" textAlignment="CENTER" wrappingWidth="348.4951171875">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
@@ -113,12 +113,9 @@
                               <Text fx:id="txtPaidAmount" strokeType="OUTSIDE" strokeWidth="0.0" />
                            </children>
                         </HBox>
-                        <Button text="Registrar pago"
-                                fx:id="btnRegisterPayment"
-                                onAction="#onRegisterPayment"
-                                prefWidth="200">
+                        <Button fx:id="btnRegisterPayment" onAction="#onRegisterPayment" prefWidth="200" text="Registrar pago">
                            <HBox.margin>
-                              <Insets left="15" top="10"/>
+                              <Insets left="15" top="10" />
                            </HBox.margin>
                         </Button>
                         <HBox prefHeight="21.0" prefWidth="307.0">
@@ -152,11 +149,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                      <children>
-                        <TableView fx:id="lvProducts"
-                                   prefHeight="362.0"
-                                   prefWidth="287.0"
-                                   styleClass="tableProducts"
-                                   stylesheets="@../styles/styles.css">
+                        <TableView fx:id="lvProducts" prefHeight="370.0" prefWidth="330.0" styleClass="tableProducts" stylesheets="@../styles/styles.css">
                           <columns>
                             <TableColumn fx:id="colNameDetail" prefWidth="75.0" text="Nombre" />
                             <TableColumn fx:id="colQuantityDetail" prefWidth="75.0" text="Cantidad" />
@@ -193,8 +186,7 @@
                         <Insets left="10.0" top="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="24.0" opacity="0.71" pickOnBounds="true"
-                             preserveRatio="true"  onMouseClicked="#clearSearch">
+                  <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="24.0" onMouseClicked="#clearSearch" opacity="0.71" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/borrar.png" />
                      </image>
