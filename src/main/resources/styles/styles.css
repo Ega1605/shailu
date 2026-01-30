@@ -13,6 +13,7 @@
 .btn-eliminar{
     -fx-background-color: #DC143C;
     -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
 }
 
 .mi-boton:hover {
@@ -93,4 +94,11 @@
 .menuButtons:pressed {
     -fx-background-color: #DB7093 ;
     -fx-text-fill: #ffffff;
+}
+
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #B0B0B0 transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 0;
 }

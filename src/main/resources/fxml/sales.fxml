@@ -15,24 +15,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="mainContainer" style="-fx-background-color: WHITE;" styleClass="main-container"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.shailu.deposito_dental_pos.controller.SalesController">
+<BorderPane fx:id="mainContainer" style="-fx-background-color: WHITE;" styleClass="main-container" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.SalesController">
 
     <top>
         <fx:include source="menuBar.fxml" />
     </top>
 
     <left>
-        <VBox prefWidth="300" spacing="15" style="-fx-background-color: WHITE;">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0">
-            <VBox.margin>
-               <Insets top="13.0" />
-            </VBox.margin></Text>
+        <VBox prefWidth="300" spacing="25.0" style="-fx-background-color: WHITE;">
             <Label styleClass="section-title" text="Búsqueda de Producto">
             <font>
                <Font name="Tahoma Bold" size="14.0" />
-            </font></Label>
+            </font>
+            <VBox.margin>
+               <Insets top="25.0" />
+            </VBox.margin></Label>
 
             <VBox spacing="8.0" style="-fx-background-color: #f8f9fa;">
                 <Label style="-fx-font-weight: bold; -fx-font-size: 11;" text="ESCANEAR">
@@ -47,27 +44,27 @@
                <Insets bottom="15.0" top="5.0" />
             </padding>
             <VBox.margin>
-               <Insets />
+               <Insets top="25.0" />
             </VBox.margin>
             </VBox>
 
             <VBox spacing="10">
                 <VBox spacing="5">
                     <Label text="Código del Producto" />
-                    <TextField fx:id="txtCode" />
+                    <TextField fx:id="txtCode" prefHeight="25.0" prefWidth="300.0" stylesheets="@../styles/styles.css" />
                 </VBox>
                 <VBox spacing="5">
                     <Label text="Nombre del Producto" />
-                    <TextField fx:id="txtName" />
+                    <TextField fx:id="txtName" prefHeight="25.0" prefWidth="300.0" stylesheets="@../styles/styles.css" />
                 </VBox>
                 <VBox spacing="5">
                     <Label text="Descripcion" />
-                    <TextField fx:id="txtDesc" editable="false" styleClass="read-only-field" />
+                    <TextField fx:id="txtDesc" editable="false" prefHeight="25.0" prefWidth="300.0" stylesheets="@../styles/styles.css" />
                 </VBox>
 
                 <VBox spacing="5">
                     <Label text="Precio" />
-                    <TextField fx:id="txtPrice" editable="false" styleClass="read-only-field" />
+                    <TextField fx:id="txtPrice" editable="false" />
                 </VBox>
 
                 <VBox spacing="5">
@@ -75,7 +72,13 @@
                     <TextField fx:id="txtQuantity" promptText="0" />
                 </VBox>
 
-                <Button fx:id="btnAddProduct" maxWidth="Infinity" prefHeight="45" styleClass="mi-boton" stylesheets="@../styles/sales.css" text="AGREGAR" />
+                <Button fx:id="btnAddProduct" maxWidth="Infinity" prefHeight="45" styleClass="mi-boton" stylesheets="@../styles/sales.css" text="AGREGAR">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin></Button>
+            <VBox.margin>
+               <Insets top="5.0" />
+            </VBox.margin>
             </VBox>
          <BorderPane.margin>
             <Insets left="10.0" right="10.0" />
@@ -87,15 +90,16 @@
     <center>
         <VBox spacing="10.0" style="-fx-padding: 0 15 15 15; -fx-background-color: #DCDCDC;">
          <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Detalle de Venta">
-            <font>
-               <Font name="Tahoma Bold" size="14.0" />
-            </font>
-            <VBox.margin>
-               <Insets bottom="33.0" />
-            </VBox.margin>
-         </Text>
-            <TableView fx:id="tableSales" stylesheets="@../styles/sales.css" VBox.vgrow="ALWAYS">
+         <HBox prefHeight="23.0" prefWidth="399.0">
+            <children>
+               <Label contentDisplay="CENTER" prefHeight="19.0" prefWidth="1173.0" text="Detalle de venta" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font name="System Bold" size="15.0" />
+                  </font>
+               </Label>
+            </children>
+         </HBox>
+            <TableView fx:id="tableSales" prefWidth="622.0" stylesheets="@../styles/sales.css" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="colName" prefWidth="100" text="Nombre" />
                     <TableColumn fx:id="colDesc" prefWidth="250" text="Descripción" />
@@ -106,24 +110,32 @@
             <columnResizePolicy>
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
+            <VBox.margin>
+               <Insets top="27.0" />
+            </VBox.margin>
             </TableView>
-            <HBox alignment="CENTER_RIGHT">
-                <Button onAction="#removeSelectedItem" style="-fx-background-color: #e3342f; -fx-text-fill: white; -fx-padding: 8 15;" styleClass="btn-cancel" text="Eliminar Artículo Seleccionado" />
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="501.0">
+                <Button onAction="#removeSelectedItem" prefHeight="26.0" prefWidth="183.0" styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Eliminar Artículo Seleccionado">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
             </HBox>
         </VBox>
     </center>
 
 
     <right>
-        <VBox prefWidth="300" spacing="15" styleClass="checkout-panel">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+        <VBox prefWidth="300.0" spacing="15" styleClass="checkout-panel">
          <Label text="Resumen">
             <font>
                <Font name="Tahoma Bold" size="14.0" />
             </font>
+            <VBox.margin>
+               <Insets top="15.0" />
+            </VBox.margin>
          </Label>
             <!-- Customer section -->
-            <VBox spacing="8" style="-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 5;">
+            <VBox prefWidth="305.0" spacing="8" style="-fx-background-color: #D2D9E4; -fx-padding: 10; -fx-background-radius: 5;">
                 <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="CLIENTE" />
                 <TextField fx:id="txtCustomerSearch" promptText="🔍 Buscar cliente..." styleClass="search-field" />
                 <Label fx:id="lblSelectedCustomer" style="-fx-text-fill: #2c7be5; -fx-font-size: 13px; -fx-font-weight: bold;" text="Público General" wrapText="true" />
@@ -134,12 +146,12 @@
             <VBox spacing="10">
                 <VBox spacing="5">
                     <Label style="-fx-font-weight: bold;" text="Método de Pago" />
-                    <ComboBox fx:id="cbPaymentType" maxWidth="Infinity" promptText="Seleccionar..." />
+                    <ComboBox fx:id="cbPaymentType" maxWidth="Infinity" promptText="Seleccionar..." style="-fx-background-color: #f8f9fa;" />
                 </VBox>
 
                 <VBox spacing="5">
                     <Label style="-fx-font-weight: bold;" text="Estado de Venta" />
-                    <ComboBox fx:id="cbStatus" maxWidth="Infinity" promptText="Seleccionar..." />
+                    <ComboBox fx:id="cbStatus" maxWidth="Infinity" promptText="Seleccionar..." style="-fx-background-color: #f8f9fa;" />
                 </VBox>
 
                 <VBox spacing="5">
@@ -170,12 +182,12 @@
             </VBox>
 
             <Button maxWidth="Infinity" onAction="#finalizeSale" prefHeight="60" styleClass="btn-pay" text="FINALIZAR VENTA" />
-            <Button maxWidth="Infinity" onAction="#cancelSale" style="-fx-background-color: #e3342f; -fx-text-fill: WHITE;" text="Cancelar" />
+            <Button maxWidth="Infinity" onAction="#cancelSale" styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Cancelar" />
          <BorderPane.margin>
-            <Insets right="10.0" />
+            <Insets right="5.0" />
          </BorderPane.margin>
          <padding>
-            <Insets left="10.0" />
+            <Insets left="5.0" />
          </padding>
         </VBox>
     </right>
