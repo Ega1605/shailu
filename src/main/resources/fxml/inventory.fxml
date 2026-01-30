@@ -73,7 +73,8 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                 <children>
                     <TextField fx:id="txtSearch" alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="400.0" promptText="Nombre del producto" />
-                    <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="25.0" opacity="0.54" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="25.0" opacity="0.54" pickOnBounds="true" preserveRatio="true"
+                               onMouseClicked="#clearSearch">
                         <image>
                             <Image url="@../img/borrar.png" />
                         </image>
@@ -81,7 +82,9 @@
                             <Insets left="10.0" />
                         </HBox.margin>
                     </ImageView>
-                    <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0" styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Eliminar" textFill="WHITE">
+                    <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0"
+                            styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Eliminar" textFill="WHITE"
+                            onAction="#deleteSelectedProduct">
                         <HBox.margin>
                             <Insets left="300.0" />
                         </HBox.margin>

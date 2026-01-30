@@ -15,6 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.Button?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="811.0" prefWidth="1209.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.SaleDetailsController">
    <top>
        <fx:include source="menuBar.fxml" />
@@ -112,6 +113,14 @@
                               <Text fx:id="txtPaidAmount" strokeType="OUTSIDE" strokeWidth="0.0" />
                            </children>
                         </HBox>
+                        <Button text="Registrar pago"
+                                fx:id="btnRegisterPayment"
+                                onAction="#onRegisterPayment"
+                                prefWidth="200">
+                           <HBox.margin>
+                              <Insets left="15" top="10"/>
+                           </HBox.margin>
+                        </Button>
                         <HBox prefHeight="21.0" prefWidth="307.0">
                            <children>
                               <Label id="txtRemainingBalance" prefHeight="17.0" prefWidth="116.0" style="-fx-font-weight: bold;" text="Cantidad pendiente: " textFill="#778087">
@@ -143,11 +152,15 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                      <children>
-                        <TableView id="tableProducts" prefHeight="362.0" prefWidth="287.0" styleClass="tableProducts" stylesheets="@../styles/styles.css">
+                        <TableView fx:id="lvProducts"
+                                   prefHeight="362.0"
+                                   prefWidth="287.0"
+                                   styleClass="tableProducts"
+                                   stylesheets="@../styles/styles.css">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Nombre" />
-                            <TableColumn prefWidth="75.0" text="Cantidad" />
-                              <TableColumn prefWidth="75.0" text="Precio" />
+                            <TableColumn fx:id="colNameDetail" prefWidth="75.0" text="Nombre" />
+                            <TableColumn fx:id="colQuantityDetail" prefWidth="75.0" text="Cantidad" />
+                              <TableColumn fx:id="colTotalDetail" prefWidth="75.0" text="Precio" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -180,7 +193,8 @@
                         <Insets left="10.0" top="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <ImageView fitHeight="26.0" fitWidth="24.0" opacity="0.71" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="24.0" opacity="0.71" pickOnBounds="true"
+                             preserveRatio="true"  onMouseClicked="#clearSearch">
                      <image>
                         <Image url="@../img/borrar.png" />
                      </image>
