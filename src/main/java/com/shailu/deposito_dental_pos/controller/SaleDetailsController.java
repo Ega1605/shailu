@@ -313,7 +313,7 @@ public class SaleDetailsController {
         if (sale.getPaymentType().equalsIgnoreCase(PaymentType.CREDIT.getPaymentType())) {
             loadCreditInfo(sale.getFolio());
             showCreditFields(true);
-            btnRegisterPayment.setDisable(false);
+
         } else {
             clearCreditFields();
             showCreditFields(false);
@@ -350,6 +350,9 @@ public class SaleDetailsController {
         txtRemainingBalance.setText(
                 String.format("$ %.2f", currentAccountReceivable.getRemainingBalance())
         );
+
+        btnRegisterPayment.setDisable(currentAccountReceivable.getRemainingBalance() <= 0);
+
     }
 
     private void showCreditFields(boolean show) {
