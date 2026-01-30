@@ -40,5 +40,10 @@ public class MainController {
         screenManager.show("saleDetails.fxml", "Sales details", true);
     }
 
+    @FXML
+    private void openCustomers() {
+        screenManager.show("customers.fxml", "Customers", true);
+    }
+
 
 }
