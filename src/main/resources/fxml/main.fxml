@@ -96,7 +96,7 @@
                   </font>
                </Text>
                <Separator prefWidth="200.0" GridPane.rowIndex="2" />
-               <ImageView fitHeight="154.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+               <ImageView fitHeight="154.0" fitWidth="155.0" onMouseClicked="#openCustomers" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                   <image>
                      <Image url="@../img/icon2.png" />
                   </image>
