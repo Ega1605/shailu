@@ -45,5 +45,4 @@ public class MainController {
         screenManager.show("customers.fxml", "Customers", true);
     }
 
-
 }
