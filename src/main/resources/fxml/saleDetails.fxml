@@ -33,7 +33,7 @@
                         <Font size="16.0" />
                      </font></Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <VBox prefHeight="162.0" prefWidth="276.0" style="-fx-background-color: #EBDAE4;">
+                  <VBox prefHeight="190.0" prefWidth="329.0" style="-fx-background-color: #EBDAE4;">
                      <children>
                         <HBox prefHeight="20.0" prefWidth="198.0">
                            <children>
@@ -113,11 +113,6 @@
                               <Text fx:id="txtPaidAmount" strokeType="OUTSIDE" strokeWidth="0.0" />
                            </children>
                         </HBox>
-                        <Button fx:id="btnRegisterPayment" onAction="#onRegisterPayment" prefWidth="200" text="Registrar pago">
-                           <HBox.margin>
-                              <Insets left="15" top="10" />
-                           </HBox.margin>
-                        </Button>
                         <HBox prefHeight="21.0" prefWidth="307.0">
                            <children>
                               <Label id="txtRemainingBalance" prefHeight="17.0" prefWidth="116.0" style="-fx-font-weight: bold;" text="Cantidad pendiente: " textFill="#778087">
@@ -127,6 +122,17 @@
                               </Label>
                               <Text fx:id="txtRemainingBalance" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="152.21630859375" />
                            </children>
+                        </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="btnRegisterPayment" alignment="CENTER" contentDisplay="CENTER" onAction="#onRegisterPayment" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #66C288; -fx-text-fill: WHITE; -fx-font-weight: BOLD;" text="REGISTRAR PAGO">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin></Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
                      <VBox.margin>
@@ -149,7 +155,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                      <children>
-                        <TableView fx:id="lvProducts" prefHeight="370.0" prefWidth="330.0" styleClass="tableProducts" stylesheets="@../styles/styles.css">
+                        <TableView fx:id="lvProducts" prefHeight="370.0" prefWidth="329.0" styleClass="tableProducts" stylesheets="@../styles/styles.css">
                           <columns>
                             <TableColumn fx:id="colNameDetail" prefWidth="186.0" text="Nombre" />
                             <TableColumn fx:id="colQuantityDetail" prefWidth="77.5" text="Cantidad" />
