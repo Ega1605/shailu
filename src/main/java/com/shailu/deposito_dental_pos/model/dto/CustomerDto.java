@@ -11,7 +11,9 @@ public class CustomerDto {
 
     private String code;
 
-    private String taxRegime;
+    private String taxRegimeLabel;
+
+    private Long taxRegimeId;
 
     private String firstName;
 

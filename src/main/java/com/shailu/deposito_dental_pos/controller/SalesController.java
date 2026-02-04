@@ -9,6 +9,7 @@ import com.shailu.deposito_dental_pos.service.CustomerService;
 import com.shailu.deposito_dental_pos.service.FXMLPrintService;
 import com.shailu.deposito_dental_pos.service.ProductService;
 import com.shailu.deposito_dental_pos.service.SalesService;
+import com.shailu.deposito_dental_pos.utils.UIUtils;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
@@ -228,6 +229,8 @@ public class SalesController {
         Platform.runLater(() -> {
             updateCashVisibility(cbPaymentType.getValue());
         });
+
+        UIUtils.applyHoverEffect(btnAddProduct);
     }
 
     private void calculateChange() {

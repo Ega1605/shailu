@@ -114,6 +114,8 @@ public class ReportsService {
                 cell.setCellStyle(headerStyle);
             }
 
+            Double total = 0.0;
+
             rowIdx = 1;
             for (SalesByPaymentProjection s : sales) {
                 String paymentLabel = PaymentType
@@ -127,9 +129,17 @@ public class ReportsService {
                 row.createCell(1).setCellValue(s.getTotalSales());
                 row.getCell(1).setCellStyle(numberStyle);
 
-                row.createCell(2).setCellValue(s.getTotalAmount().doubleValue());
+                row.createCell(2).setCellValue(s.getTotalAmount());
                 row.getCell(2).setCellStyle(moneyStyle);
+                total += s.getTotalAmount();
             }
+
+            Row rowTotal = salesSheet.createRow(rowIdx++);
+            rowTotal.createCell(1).setCellValue("TOTAL: ");
+            rowTotal.getCell(1).setCellStyle(textStyle);
+            rowTotal.createCell(2).setCellValue(total);
+            rowTotal.getCell(2).setCellStyle(moneyStyle);
+
 
             for (int i = 0; i < 3; i++) {
                 productSheet.autoSizeColumn(i);

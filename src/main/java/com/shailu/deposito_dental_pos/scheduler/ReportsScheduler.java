@@ -15,7 +15,7 @@ public class ReportsScheduler {
     @Autowired
     private ReportsService reportsService ;
 
-    @Scheduled(cron = "0 29 19 * * *", zone = "America/Mexico_City")
+    @Scheduled(cron = "0 0 20 * * *", zone = "America/Mexico_City")
     public void executeDailyReport(){
         logger.info("Generating daily Excel report...");
         reportsService.createDailyReport();
