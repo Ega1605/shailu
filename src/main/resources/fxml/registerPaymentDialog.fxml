@@ -1,31 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<GridPane xmlns="http://javafx.com/javafx/17"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="com.shailu.deposito_dental_pos.controller.RegisterPaymentDialogController"
-          hgap="10" vgap="10"
-          style="-fx-padding: 20">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
-    <Label text="Monto:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtAmount" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-    <Label text="Tipo de pago:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-    <ComboBox fx:id="cbPaymentType" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-    <HBox spacing="10" alignment="CENTER_RIGHT" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="2">
-        <padding>
-            <Insets top="10" />
-        </padding>
-        <children>
-            <Button fx:id="btnCancel" text="Cancelar" onAction="#onCancel"
-                    style="-fx-background-color: #e0e0e0;" />
-            <Button fx:id="btnRegister" text="Registrar Pago" onAction="#onRegister"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" />
-        </children>
-    </HBox>
-
-</GridPane>
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.RegisterPaymentDialogController">
+   <center>
+      <GridPane hgap="10" style="-fx-padding: 20; -fx-background-color: WHITE;" vgap="10">
+      
+          <Label text="Monto:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+          <TextField fx:id="txtAmount" prefHeight="26.0" prefWidth="145.0" promptText="\$" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+      
+          <Label text="Tipo de pago:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+          <ComboBox fx:id="cbPaymentType" style="-fx-background-color: #F2F2F2;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      
+          <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+              <padding>
+                  <Insets top="10" />
+              </padding>
+              <children>
+                  <Button fx:id="btnCancel" onAction="#onCancel" styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Cancelar" />
+                  <Button fx:id="btnRegister" onAction="#onRegister" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Registrar Pago" />
+              </children>
+          </HBox>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+      
+      </GridPane>
+   </center>
+   <bottom>
+      <Separator prefHeight="20.0" prefWidth="269.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

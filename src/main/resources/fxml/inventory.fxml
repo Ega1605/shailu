@@ -15,42 +15,42 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<BorderPane prefHeight="800" prefWidth="1486.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController">
+<BorderPane prefHeight="800" prefWidth="1486.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController">
     <top>
         <fx:include source="menuBar.fxml" />
     </top>
     <!-- ================= LEFT PANEL ================= -->
     <left>
-        <VBox prefWidth="300" spacing="10" style="-fx-padding:15; -fx-background-color:#f5f5f5;">
+        <VBox prefWidth="300" spacing="8.0" style="-fx-padding:15; -fx-background-color:#f5f5f5;">
 
             <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Producto" />
 
-            <Label text="Código" />
-            <TextField fx:id="txtCode" promptText="Escribe el código" />
+            <Label text="Código" textFill="#4d4d54">
+            <VBox.margin>
+               <Insets top="20.0" />
+            </VBox.margin></Label>
+            <TextField fx:id="txtCode" prefHeight="26.0" prefWidth="270.0" promptText="Escribe el código" styleClass="text-field" stylesheets="@../styles/styles.css" />
 
-            <Label text="Código de barras" />
-            <TextField fx:id="txtBarCode" promptText="Escanea código" />
+            <Label text="Código de barras" textFill="#4d4d54" />
+            <TextField fx:id="txtBarCode" prefHeight="26.0" prefWidth="270.0" promptText="Escanea código" stylesheets="@../styles/styles.css" />
 
-            <Label text="Nombre" />
-            <TextField fx:id="txtName" />
+            <Label text="Nombre" textFill="#4d4d54" />
+            <TextField fx:id="txtName" prefHeight="26.0" prefWidth="270.0" stylesheets="@../styles/styles.css" />
 
-            <Label text="Descripción" />
-            <TextField fx:id="txtDescription" prefHeight="60" />
+            <Label text="Descripción" textFill="#4d4d54" />
+            <TextField fx:id="txtDescription" prefHeight="60" styleClass="text-field" stylesheets="@../styles/styles.css" />
 
-            <Label text="Precio de compra" />
-            <TextField fx:id="txtPurchasePrice" />
+            <Label text="Precio de compra" textFill="#4d4d54" />
+            <TextField fx:id="txtPurchasePrice" prefHeight="26.0" prefWidth="270.0" stylesheets="@../styles/styles.css" />
 
-            <Label text="Ganancia %" />
-            <TextField fx:id="txtProfit" />
+            <Label text="Ganancia %" textFill="#4d4d54" />
+            <TextField fx:id="txtProfit" prefHeight="26.0" prefWidth="270.0" stylesheets="@../styles/styles.css" />
 
-            <Label text="Cantidad" />
-            <TextField fx:id="txtQuantity" />
+            <Label text="Cantidad" textFill="#4d4d54" />
+            <TextField fx:id="txtQuantity" prefHeight="26.0" prefWidth="270.0" styleClass="text-field" stylesheets="@../styles/styles.css" />
          <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-               <ImageView fx:id="btnCleanProductInfo" fitHeight="27.0" fitWidth="28.0" opacity="0.54" pickOnBounds="true" preserveRatio="true"
-                          onMouseClicked="#onCleanProductInfo">
+               <ImageView fx:id="btnCleanProductInfo" fitHeight="27.0" fitWidth="28.0" onMouseClicked="#onCleanProductInfo" opacity="0.54" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../img/borrar.png" />
                   </image>
@@ -69,12 +69,14 @@
     <center>
         <VBox spacing="10" style="-fx-padding: 15; -fx-background-color: WHITE;">
             <Label style="-fx-font-size:20px; -fx-font-weight:bold;" text="Inventario" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Busqueda" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Busqueda">
+            <VBox.margin>
+               <Insets top="20.0" />
+            </VBox.margin></Text>
+            <HBox prefHeight="72.0" prefWidth="1156.0">
                 <children>
-                    <TextField fx:id="txtSearch" alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="400.0" promptText="Nombre del producto" />
-                    <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="25.0" opacity="0.54" pickOnBounds="true" preserveRatio="true"
-                               onMouseClicked="#clearSearch">
+                    <TextField fx:id="txtSearch" alignment="TOP_LEFT" maxWidth="-Infinity" prefHeight="26.0" prefWidth="392.0" promptText="🔍 Nombre del producto" />
+                    <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="25.0" onMouseClicked="#clearSearch" opacity="0.54" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../img/borrar.png" />
                         </image>
@@ -82,11 +84,9 @@
                             <Insets left="10.0" />
                         </HBox.margin>
                     </ImageView>
-                    <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0"
-                            styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Eliminar" textFill="WHITE"
-                            onAction="#deleteSelectedProduct">
+                    <Button mnemonicParsing="false" onAction="#deleteSelectedProduct" prefHeight="31.0" prefWidth="166.0" styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Eliminar" textFill="WHITE">
                         <HBox.margin>
-                            <Insets left="300.0" />
+                            <Insets left="550.0" />
                         </HBox.margin>
                     </Button>
                 </children>
