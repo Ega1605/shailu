@@ -12,20 +12,24 @@
 
 <AnchorPane prefHeight="473.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.LoginController">
    <Rectangle arcHeight="5.0" arcWidth="7.0" fill="WHITE" height="473.0" layoutY="-1.0" stroke="SILVER" strokeType="INSIDE" strokeWidth="9.0" width="488.0" />
+   <ImageView fitHeight="313.0" fitWidth="472.0" layoutX="9.0" layoutY="9.0" opacity="0.46" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../img/fondoLogin.jpg" />
+      </image>
+   </ImageView>
 
-    <VBox alignment="CENTER" layoutY="30.0" prefHeight="237.0" prefWidth="419.0" spacing="10" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="30.0">
-      <ImageView fitHeight="197.0" fitWidth="184.0" pickOnBounds="true" preserveRatio="true">
+    <VBox alignment="CENTER" layoutY="30.0" prefHeight="237.0" prefWidth="448.0" spacing="10" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="30.0">
+      <ImageView fitHeight="182.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Shailu.jpeg" />
+            <Image url="@../img/Shailu_Ajustada.png" />
          </image>
       </ImageView>
 
     </VBox>
-   <Label contentDisplay="CENTER" layoutX="228.0" layoutY="338.0" />
 
-     <Button layoutX="194.0" layoutY="373.0" onAction="#onLogin" styleClass="mi-boton" stylesheets="@../styles/styles.css" text="Ingresar" />
+     <Button layoutX="194.0" layoutY="396.0" onAction="#onLogin" styleClass="mi-boton" stylesheets="@../styles/styles.css" text="Ingresar" />
+     <PasswordField fx:id="passwordField" layoutX="27.0" layoutY="336.0" onAction="#onLogin" prefHeight="26.0" prefWidth="434.0" promptText="Contraseña" />
 
-     <TextField fx:id="usernameField" layoutX="27.0" layoutY="254.0" prefHeight="26.0" prefWidth="434.0" promptText="Usuario" />
-     <PasswordField fx:id="passwordField" layoutX="26.0" layoutY="301.0" onAction="#onLogin" prefHeight="26.0" prefWidth="434.0" promptText="Contraseña" />
-     <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="338.0" prefHeight="17.0" prefWidth="434.0" textAlignment="CENTER" textFill="red" />
+     <TextField fx:id="usernameField" layoutX="27.0" layoutY="302.0" prefHeight="26.0" prefWidth="434.0" promptText="Usuario" />
+     <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="368.0" prefHeight="17.0" prefWidth="434.0" textAlignment="CENTER" textFill="red" />
 </AnchorPane>

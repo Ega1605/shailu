@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -34,26 +35,24 @@
                   <Font name="System Bold" size="18.0" />
                </font></Label>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-            <Label text="Nombre(s)" />
+            <Label text="Nombre(s)" textFill="#4d4d54" />
             <TextField fx:id="txtName" prefHeight="25.0" prefWidth="262.0" />
-            <Label text="Apellidos" />
+            <Label text="Apellidos" textFill="#4d4d54" />
             <TextField fx:id="txtLastName" prefHeight="25.0" prefWidth="262.0" stylesheets="@../styles/styles.css" />
             <Label text="Razón Social" />
             <TextField fx:id="txtReasonSocial" prefHeight="25.0" prefWidth="262.0" stylesheets="@../styles/styles.css" />
-            <Label text="Régimen fiscal" />
-            <ComboBox fx:id="cmbTaxRegime"
-                      prefHeight="25.0"
-                      prefWidth="262.0"
-                      promptText="Seleccione un régimen fiscal" />
-            <Label text="RFC" />
+            <Label text="Régimen fiscal" textFill="#4d4d54" />
+            <ComboBox fx:id="cmbTaxRegime" prefHeight="26.0" prefWidth="261.0" style="-fx-background-color: #f5f5f5;
+             -fx-border-color: transparent transparent #B0B0B0 transparent;" promptText="Seleccione un régimen fiscal"/>
+            <Label text="RFC" textFill="#4d4d54" />
             <TextField fx:id="txtRfc" prefHeight="25.0" prefWidth="262.0" />
-            <Label text="Dirección" />
+            <Label text="Dirección" textFill="#4d4d54" />
             <TextField fx:id="txtAddress" prefHeight="25.0" prefWidth="262.0" />
             <HBox prefHeight="23.0" prefWidth="262.0">
                <children>
-                  <Label text="Código Postal">
+                  <Label text="Código Postal" textFill="#4d4d54">
                      <graphic>
-                        <Label prefHeight="17.0" prefWidth="130.0" text="Teléfono" />
+                        <Label prefHeight="17.0" prefWidth="130.0" text="Teléfono" textFill="#4d4d54" />
                      </graphic>
                      <HBox.margin>
                         <Insets />
@@ -77,14 +76,14 @@
                   <TextField fx:id="txtZipCode" prefHeight="26.0" prefWidth="166.0" />
                </children>
             </HBox>
-            <Label text="Correo" />
+            <Label text="Correo" textFill="#4d4d54" />
             <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="262.0" />
-            <Label text="Límite de crédito" />
-            <TextField fx:id="txtCreditLimit" prefHeight="25.0" prefWidth="262.0"  promptText="0" />
+            <Label text="Límite de crédito" textFill="#4d4d54" />
+            <TextField fx:id="txtCreditLimit" prefHeight="25.0" prefWidth="262.0" />
             <HBox prefHeight="16.0" prefWidth="272.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="135.0" text="Días de crédito" />
-                  <Label text="Descuento" />
+                  <Label prefHeight="17.0" prefWidth="135.0" text="Días de crédito" textFill="#4d4d54" />
+                  <Label text="Descuento" textFill="#4d4d54" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -133,13 +132,15 @@
                </VBox.margin></Label>
             <HBox prefHeight="53.0" prefWidth="1110.0">
                <children>
-                  <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="351.0" promptText="Nombre del cliente" />
+                  <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="351.0" promptText="🔍 Nombre del cliente" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="580.21630859375" />
+                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="162.0" styleClass="btn-eliminar" text="Eliminar" />
                </children>
                <VBox.margin>
                   <Insets top="14.0" />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tableCustomers" prefHeight="200.0" prefWidth="1098.0" stylesheets="@../styles/styles.css">
+            <TableView fx:id="tableCustomers" prefHeight="527.0" prefWidth="1110.0" stylesheets="@../styles/styles.css">
               <columns>
                 <TableColumn fx:id="colCode" minWidth="-Infinity" prefWidth="62.0" text="Folio" />
                 <TableColumn fx:id="colName" minWidth="-Infinity" prefWidth="177.5" text="Nombre" />

@@ -50,25 +50,25 @@
 
             <VBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Código del Producto" />
+                    <Label text="Código del Producto" textFill="#4d4d54" />
                     <TextField fx:id="txtCode" prefHeight="25.0" prefWidth="300.0" stylesheets="@../styles/styles.css" />
                 </VBox>
                 <VBox spacing="5">
-                    <Label text="Nombre del Producto" />
+                    <Label text="Nombre del Producto" textFill="#4b4b52" />
                     <TextField fx:id="txtName" prefHeight="25.0" prefWidth="300.0" stylesheets="@../styles/styles.css" />
                 </VBox>
                 <VBox spacing="5">
-                    <Label text="Descripcion" />
+                    <Label text="Descripcion" textFill="#4b4b52" />
                     <TextField fx:id="txtDesc" editable="false" prefHeight="25.0" prefWidth="300.0" stylesheets="@../styles/styles.css" />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Precio" />
+                    <Label text="Precio" textFill="#4b4b52" />
                     <TextField fx:id="txtPrice" editable="false" />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Cantidad" />
+                    <Label text="Cantidad" textFill="#4b4b52" />
                     <TextField fx:id="txtQuantity" promptText="0" />
                 </VBox>
 
