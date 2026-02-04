@@ -137,7 +137,7 @@
                   <Insets top="14.0" />
                </VBox.margin>
             </HBox>
-            <TableView prefHeight="200.0" prefWidth="1098.0" stylesheets="@../styles/styles.css">
+            <TableView prefHeight="527.0" prefWidth="1110.0" stylesheets="@../styles/styles.css">
               <columns>
                 <TableColumn minWidth="-Infinity" prefWidth="62.0" text="Folio" />
                 <TableColumn minWidth="-Infinity" prefWidth="177.5" text="Nombre" />
