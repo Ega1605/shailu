@@ -2,8 +2,10 @@ package com.shailu.deposito_dental_pos.controller;
 
 import com.shailu.deposito_dental_pos.config.ScreenManager;
 import com.shailu.deposito_dental_pos.config.UserSession;
+import com.shailu.deposito_dental_pos.utils.UIUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +18,23 @@ public class MainController {
     private ScreenManager screenManager;
 
     @FXML
-    private Label lblUsuario, lblFecha, lblHora;
+    private Label lblUsuario;
+    @FXML private ImageView btnInventoryModule;
+    @FXML private ImageView btnCustomerModule;
+    @FXML private ImageView btnSalesModule;
+    @FXML private ImageView btnFactureModule;
+    @FXML private ImageView btnSalesDetailsModule;
 
 
     public void initialize() {
         //Crontoller connects UI with business logic
         lblUsuario.setText(userSession.getUsername());
         System.out.println("Home loaded");
+        UIUtils.applyHoverEffect(btnInventoryModule);
+        UIUtils.applyHoverEffect(btnCustomerModule);
+        UIUtils.applyHoverEffect(btnSalesModule);
+        UIUtils.applyHoverEffect(btnFactureModule);
+        UIUtils.applyHoverEffect(btnSalesDetailsModule);
     }
 
     @FXML

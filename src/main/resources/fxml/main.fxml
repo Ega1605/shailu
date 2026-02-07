@@ -85,7 +85,7 @@
             </VBox>
               <GridPane alignment="CENTER" hgap="15.0" prefHeight="818.0" prefWidth="1367.0" style="-fx-padding:40;" vgap="15.0">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="570.0" GridPane.columnIndex="5" />
-               <ImageView fitHeight="204.0" fitWidth="199.0" nodeOrientation="INHERIT" onMouseClicked="#openInventory" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+               <ImageView fx:id="btnInventoryModule" fitHeight="204.0" fitWidth="199.0" nodeOrientation="INHERIT" onMouseClicked="#openInventory" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                   <image>
                      <Image url="@../img/inventarioNuevo.png" />
                   </image>
@@ -96,7 +96,7 @@
                   </font>
                </Text>
                <Separator prefWidth="200.0" GridPane.rowIndex="2" />
-               <ImageView fitHeight="154.0" fitWidth="155.0" onMouseClicked="#openCustomers" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+               <ImageView fx:id="btnCustomerModule" fitHeight="154.0" fitWidth="155.0" onMouseClicked="#openCustomers" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                   <image>
                      <Image url="@../img/icon2.png" />
                   </image>
@@ -107,7 +107,7 @@
                   </font>
                </Text>
                <Separator prefWidth="200.0" GridPane.rowIndex="5" />
-               <ImageView fitHeight="182.0" fitWidth="181.0" onMouseClicked="#openSales" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+               <ImageView fx:id="btnSalesModule" fitHeight="182.0" fitWidth="181.0" onMouseClicked="#openSales" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER">
                   <image>
                      <Image url="@../img/salesIcon2.png" />
                   </image>
@@ -117,7 +117,7 @@
                      <Font size="20.0" />
                   </font>
                </Text>
-               <ImageView fitHeight="174.0" fitWidth="173.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <ImageView fx:id="btnFactureModule" fitHeight="174.0" fitWidth="173.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                   <image>
                      <Image url="@../img/factura.png" />
                   </image>
@@ -127,7 +127,7 @@
                      <Font size="20.0" />
                   </font>
                </Text>
-               <ImageView fitHeight="149.0" fitWidth="152.0" onMouseClicked="#openSaleDetails" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <ImageView fx:id="btnSalesDetailsModule" fitHeight="149.0" fitWidth="152.0" onMouseClicked="#openSaleDetails" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                   <image>
                      <Image url="@../img/DetVenta.png" />
                   </image>
