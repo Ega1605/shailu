@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="mainContainer" style="-fx-background-color: WHITE;" styleClass="main-container" prefHeight="863.0" prefWidth="1500" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.SalesController">
+<BorderPane fx:id="mainContainer" prefHeight="812.0" prefWidth="1489.0" style="-fx-background-color: WHITE;" styleClass="main-container" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.SalesController">
 
     <top>
         <fx:include source="menuBar.fxml" />
@@ -74,7 +74,7 @@
 
                 <Button fx:id="btnAddProduct" maxWidth="Infinity" prefHeight="45" styleClass="mi-boton" stylesheets="@../styles/sales.css" text="AGREGAR">
                <VBox.margin>
-                  <Insets top="20.0" />
+                  <Insets top="30.0" />
                </VBox.margin></Button>
             <VBox.margin>
                <Insets top="5.0" />
@@ -88,7 +88,7 @@
 
     <!-- CENTRO: Table of products -->
     <center>
-        <VBox spacing="10.0" style="-fx-padding: 0 15 15 15; -fx-background-color: #DCDCDC;">
+        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="923.0" spacing="10.0" style="-fx-padding: 0 15 15 15; -fx-background-color: #DCDCDC;">
          <Text strokeType="OUTSIDE" strokeWidth="0.0" />
          <HBox prefHeight="23.0" prefWidth="399.0">
             <children>
@@ -99,7 +99,7 @@
                </Label>
             </children>
          </HBox>
-            <TableView fx:id="tableSales" prefWidth="622.0" stylesheets="@../styles/sales.css" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableSales" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="889.0" stylesheets="@../styles/sales.css" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="colName" prefWidth="100" text="Nombre" />
                     <TableColumn fx:id="colDesc" prefWidth="250" text="Descripción" />
@@ -111,7 +111,7 @@
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
             <VBox.margin>
-               <Insets top="27.0" />
+               <Insets />
             </VBox.margin>
             </TableView>
             <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="501.0">
@@ -125,7 +125,7 @@
 
 
     <right>
-        <VBox prefWidth="300.0" spacing="15" styleClass="checkout-panel">
+        <VBox prefWidth="300.0" spacing="12.0" styleClass="checkout-panel">
          <Label text="Resumen">
             <font>
                <Font name="Tahoma Bold" size="14.0" />
