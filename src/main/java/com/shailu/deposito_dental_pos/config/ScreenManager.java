@@ -45,7 +45,7 @@ public class ScreenManager {
             );
 
             stage.setScene(new Scene(root));
-            stage.setMaximized(bigScreen);
+            stage.setFullScreen(bigScreen);
             stage.setTitle(title);
             stage.show();
 

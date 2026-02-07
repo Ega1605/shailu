@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="800" prefWidth="1486.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController">
+<BorderPane prefHeight="816.0" prefWidth="1486.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.InventoryController">
     <top>
         <fx:include source="menuBar.fxml" />
     </top>
@@ -113,7 +113,7 @@
     <bottom>
         <VBox prefHeight="51.0" prefWidth="1200.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER">
             <children>
-                <Separator prefHeight="41.0" prefWidth="1200.0" />
+                <Separator prefHeight="60.0" prefWidth="1486.0" />
             </children>
         </VBox>
     </bottom>

@@ -222,6 +222,6 @@
       </VBox>
    </center>
    <bottom>
-      <Separator prefHeight="72.0" prefWidth="1200.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER" />
+      <Separator prefHeight="60.0" prefWidth="1209.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

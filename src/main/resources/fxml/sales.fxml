@@ -192,7 +192,7 @@
         </VBox>
     </right>
    <bottom>
-      <Separator prefHeight="39.0" prefWidth="1282.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER">
+      <Separator prefHeight="60.0" prefWidth="1282.0" style="-fx-background-color: #d0aac1;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets top="15.0" />
          </BorderPane.margin></Separator>
