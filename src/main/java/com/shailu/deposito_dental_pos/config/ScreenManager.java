@@ -51,7 +51,6 @@ public class ScreenManager {
                 stage.setY(0);
             }
             stage.setResizable(true);
-            stage.setMaximized(bigScreen);
             stage.setTitle(title);
             stage.show();
 
