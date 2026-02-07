@@ -46,12 +46,13 @@ public class ScreenManager {
             );
 
             stage.setScene(new Scene(root));
-            stage.setMaximized(bigScreen);
-            stage.setTitle(title);
             if(bigScreen){
                 stage.setX(0);
                 stage.setY(0);
             }
+            stage.setResizable(true);
+            stage.setMaximized(bigScreen);
+            stage.setTitle(title);
             stage.show();
 
         } catch (Exception e) {
