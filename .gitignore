@@ -13,6 +13,13 @@
 #LocalProperties
 !**/src/main/resources/application.properties
 
+# Java Runtime personalizado y carpeta de salida de jpackage
+/runtime/
+/installer/
+
+# Archivos de log generados por la app
+/logs/
+
 # Package Files #
 *.jar
 *.war
