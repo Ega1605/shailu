@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.stage.StageStyle;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +46,11 @@ public class ScreenManager {
             );
 
             stage.setScene(new Scene(root));
-            stage.setFullScreen(bigScreen);
+            if(bigScreen){
+                stage.setX(0);
+                stage.setY(0);
+            }
+            stage.setResizable(true);
             stage.setTitle(title);
             stage.show();
 
