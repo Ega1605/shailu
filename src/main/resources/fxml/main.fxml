@@ -20,7 +20,7 @@
    <top>
       <StackPane BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="913.0" fitWidth="1600" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+            <ImageView fitHeight="913.0" fitWidth="1500" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                <image>
                   <Image url="@../img/fondo4.jpeg" />
                </image>
