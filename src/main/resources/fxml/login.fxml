@@ -27,9 +27,9 @@
 
     </VBox>
 
-     <Button layoutX="194.0" layoutY="396.0" onAction="#onLogin" styleClass="mi-boton" stylesheets="@../styles/styles.css" text="Ingresar" />
+     <TextField fx:id="usernameField" layoutX="27.0" layoutY="302.0" prefHeight="26.0" prefWidth="434.0" promptText="Usuario" />
      <PasswordField fx:id="passwordField" layoutX="27.0" layoutY="336.0" onAction="#onLogin" prefHeight="26.0" prefWidth="434.0" promptText="Contraseña" />
 
-     <TextField fx:id="usernameField" layoutX="27.0" layoutY="302.0" prefHeight="26.0" prefWidth="434.0" promptText="Usuario" />
-     <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="368.0" prefHeight="17.0" prefWidth="434.0" textAlignment="CENTER" textFill="red" />
+     <Button layoutX="194.0" layoutY="396.0" onAction="#onLogin" styleClass="mi-boton" stylesheets="@../styles/styles.css" text="Ingresar" />
+     <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="25.0" layoutY="368.0" prefHeight="17.0" prefWidth="434.0" textAlignment="CENTER" textFill="red" />
 </AnchorPane>
