@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface SaleDetailMapper {
 
+    @Mapping(target = "status", expression = "java(entity.getStatus().toString())")
     @Mapping(target = "paymentType", expression = "java(entity.getPaymentType().toString())")
     @Mapping(source = "entity.id", target = "folio")
     @Mapping(target = "customerName", expression = "java(entity.getCustomer().getFirstName() + \" \" + entity.getCustomer().getLastName())")

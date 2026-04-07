@@ -29,19 +29,25 @@ public class ProductService {
     public static final int DEFAULT_MINIMUM_STOCK = 5;
 
     public Optional<ProductDto> findByBarCode(String barCode) {
-        return productRepository.findByBarCode(barCode)
+        return productRepository.findByBarCodeAndDeleteDateIsNull(barCode)
                 .map(productMapper::entityToDto);
     }
 
     public Optional<ProductDto> findByCode(String code) {
-        return productRepository.findByCode(code)
+        return productRepository.findByCodeAndDeleteDateIsNull(code)
                 .map(productMapper::entityToDto);
     }
 
     public List<ProductDto> searchProductsByName(String description) {
         return productMapper.convertListEntityToListDto(
-                productRepository.findByNameContainingIgnoreCaseOrderByNameAsc(description)
+                productRepository.findByNameContainingIgnoreCaseAndDeleteDateIsNullOrderByNameAsc(description)
         );
+    }
+
+    public Product findProductById(Long productId){
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
     }
 
     public void addProduct(ProductDto productDto){
@@ -64,7 +70,7 @@ public class ProductService {
 
     public void updateName(ProductDto productDto){
 
-        Optional<Product> product = productRepository.findByCode(productDto.getCode());
+        Optional<Product> product = productRepository.findByCodeAndDeleteDateIsNull(productDto.getCode());
 
         if(product.isPresent()){
 
@@ -77,11 +83,33 @@ public class ProductService {
 
     private void addProductStock(Product product, int quantity, ProductDto productDto){
 
+        if (product.getDeleteDate() != null) {
+            product.setDeleteDate(null);
+            product.setCurrentStock(quantity);
+        } else {
+
+            product.setCurrentStock(product.getCurrentStock() + quantity);
+
+        }
         product.setBarCode(productDto.getBarCode());
+        product.setProfit(productDto.getProfit());
         product.setPurchasePrice(productDto.getPurchasePrice());
-        product.setCurrentStock(product.getCurrentStock() + quantity);
+        product.setBarCode(productDto.getBarCode());
 
         productRepository.save(product);
+
+    }
+
+    private void updateCurrentStockFromTable(ProductDto productDto){
+        Optional<Product> product = productRepository.findByCodeAndDeleteDateIsNull(productDto.getCode());
+
+        if(product.isPresent()){
+
+            Product productUpdated = product.get();
+            productUpdated.setCurrentStock(productDto.getCurrentStock());
+            productRepository.save(productUpdated);
+
+        }
 
     }
 

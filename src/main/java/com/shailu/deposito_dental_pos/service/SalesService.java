@@ -1,6 +1,7 @@
 package com.shailu.deposito_dental_pos.service;
 
 import com.shailu.deposito_dental_pos.model.dto.CurrentSaleDto;
+import com.shailu.deposito_dental_pos.model.dto.SaleDetailsDto;
 import com.shailu.deposito_dental_pos.model.dto.SalesDto;
 import com.shailu.deposito_dental_pos.model.entity.*;
 import com.shailu.deposito_dental_pos.model.enums.*;
@@ -51,7 +52,7 @@ public class SalesService {
 
         for (SalesDto item : currentSaleDto.getItems()) {
 
-            Product product = productRepository.findByCode(item.getCode())
+            Product product = productRepository.findByCodeAndDeleteDateIsNull(item.getCode())
                     .orElseThrow(() -> new RuntimeException("Product not found" + item.getCode()));
 
             int previousStock = product.getCurrentStock();
@@ -59,7 +60,7 @@ public class SalesService {
             int newStock = previousStock - saleQuantity;
 
             if (newStock < 0) {
-                throw new RuntimeException("Stock is not enough for : " + product.getName());
+                throw new RuntimeException("Stock no es suficiente para : " + product.getName());
             }
 
             //Update stock product
@@ -117,7 +118,7 @@ public class SalesService {
     private void saveSaleDetail(CurrentSaleDto currentSaleDto, Sales sale){
 
         for (SalesDto item : currentSaleDto.getItems()) {
-            Product product = productRepository.findByCode(item.getCode())
+            Product product = productRepository.findByCodeAndDeleteDateIsNull(item.getCode())
                     .orElseThrow(() -> new RuntimeException("Product not found: " + item.getCode()));
 
             // Create Detail
@@ -161,6 +162,13 @@ public class SalesService {
         movement.setNotes("Venta de mostrador");
 
         movementsRepository.save(movement);
+    }
+
+    public Sales findSale(Long saleId){
+
+         return salesRepository.findByIdWithDetails(saleId)
+                .orElseThrow(() -> new RuntimeException("Sale not found"));
+
     }
 
 

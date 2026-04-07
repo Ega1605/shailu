@@ -1,22 +1,26 @@
 package com.shailu.deposito_dental_pos.controller;
 
 import com.shailu.deposito_dental_pos.config.ScreenManager;
-import com.shailu.deposito_dental_pos.model.dto.ProductDto;
 import com.shailu.deposito_dental_pos.model.dto.SaleDetailsDto;
 import com.shailu.deposito_dental_pos.model.dto.SalesDto;
 import com.shailu.deposito_dental_pos.model.entity.AccountReceivable;
 import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
+import com.shailu.deposito_dental_pos.model.entity.Sales;
 import com.shailu.deposito_dental_pos.model.enums.PaymentType;
+import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
 import com.shailu.deposito_dental_pos.service.AccountReceivablePaymentService;
 import com.shailu.deposito_dental_pos.service.AccountReceivableService;
 import com.shailu.deposito_dental_pos.service.SaleDetailsService;
+import com.shailu.deposito_dental_pos.service.SalesService;
+import com.shailu.deposito_dental_pos.utils.UIUtils;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -24,11 +28,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -41,10 +47,18 @@ public class SaleDetailsController {
     private SaleDetailsService saleDetailService;
 
     @Autowired
+    private SalesController salesController;
+
+    @Autowired
     private ScreenManager screenManager;
 
     @Autowired
     private AccountReceivablePaymentService accountReceivablePaymentService;
+
+
+
+    @Autowired
+    private SalesService salesService;
 
     @Autowired
     private AccountReceivableService accountReceivableService;
@@ -58,6 +72,11 @@ public class SaleDetailsController {
     @FXML private TableColumn<SaleDetailsDto, Timestamp> colDate;
 
     @FXML private TableColumn<SaleDetailsDto, PaymentType> colType;
+
+    @FXML private  TableColumn<SaleDetailsDto, SaleStatus> colStatus;
+
+    public TableColumn colUpdate;
+
 
     @FXML
     private TableView<SaleDetailsDto> salesTable;
@@ -86,6 +105,8 @@ public class SaleDetailsController {
 
     @FXML private ImageView btnResetSearch;
 
+    @FXML private ImageView btnResetDates;
+
 
     @FXML
     private TableView<SaleDetail> lvProducts;
@@ -98,6 +119,9 @@ public class SaleDetailsController {
 
     @FXML
     private TableColumn<SaleDetail, Double> colTotalDetail;
+
+    @FXML
+    public DatePicker dpFilterDate;
 
 
     private final ObservableList<SaleDetailsDto> sales =
@@ -179,6 +203,11 @@ public class SaleDetailsController {
                 new PropertyValueFactory<>("paymentType")
         );
 
+        colStatus.setCellValueFactory(
+                new PropertyValueFactory<>("status")
+        );
+
+
         txtSearch.textProperty().addListener((obs, old, newValue) -> {
             if (newValue == null || newValue.isBlank()) {
                 currentFilter = null;
@@ -241,11 +270,78 @@ public class SaleDetailsController {
         });
 
 
+        //update button
+        Callback<TableColumn<SaleDetailsDto, Void>, TableCell<SaleDetailsDto, Void>> cellFactory = param -> new TableCell<>() {
+            private final Button btnEdit = new Button();
+
+            {
+                // Estilo rápido para que se vea circular y azul
+                btnEdit.setText("Editar ✎");
+                btnEdit.setStyle(
+                        "-fx-background-color: #f0f0f0; " +
+                                "-fx-text-fill: #333333; " +
+                                "-fx-border-color: #cccccc; " +
+                                "-fx-border-radius: 3; " +
+                                "-fx-background-radius: 3; " +
+                                "-fx-font-size: 10px; " +
+                                "-fx-cursor: hand;"
+                );
+
+                // Efecto visual cuando pasas el mouse (opcional)
+                btnEdit.setOnMouseEntered(e -> btnEdit.setStyle(btnEdit.getStyle() + "-fx-background-color: #e0e0e0;"));
+                btnEdit.setOnMouseExited(e -> btnEdit.setStyle(btnEdit.getStyle() + "-fx-background-color: #f0f0f0;"));
+
+                btnEdit.setOnAction(event -> {
+                    // Obtenemos el objeto de la fila actual
+                    SaleDetailsDto sale = getTableView().getItems().get(getIndex());
+                    System.out.println("updating sale: " + sale.getFolio());
+                    // Aquí llamas a tu lógica de edición
+                    if (ValidateFields.showConfirm("¿Desea editar la venta #" + sale.getFolio() +"?")) {
+                        try {
+                            saleDetailService.cancelSale(sale.getFolio());
+
+                            Sales saleEntity = salesService.findSale(sale.getFolio());
+
+                            salesController.loadSaleFromSaleDetails(saleEntity);
+
+                            screenManager.show("sales.fxml", "Ventas", true);
+
+                        } catch(Exception e){
+                            ValidateFields.showError("Error: " + e.getMessage());
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnEdit);
+                    setAlignment(Pos.CENTER);
+                    setGraphic(btnEdit);
+                }
+            }
+        };
+
+        colUpdate.setCellFactory(cellFactory);
+
+
     }
 
     @FXML
     private void clearSearch() {
         txtSearch.clear();
+    }
+
+    @FXML
+    private void clearDate() {
+        dpFilterDate.setValue(null);
+        pagination.setCurrentPageIndex(0);
+        createPage(0);
     }
 
     @FXML
@@ -275,22 +371,6 @@ public class SaleDetailsController {
         });
 
     }
-
-    private void refreshCreditInfo(AccountReceivable ar) {
-
-        txtPaidAmount.setText(String.format("$ %.2f", ar.getPaidAmount()));
-        txtRemainingBalance.setText(
-                String.format("$ %.2f", ar.getRemainingBalance())
-        );
-
-        if (ar.getPaidAt() != null) {
-            txtPaidDate.setText(
-                    ar.getPaidAt()
-                            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
-            );
-        }
-    }
-
 
 
     private void onSaleDoubleClick(SaleDetailsDto sale) {
@@ -377,6 +457,7 @@ public class SaleDetailsController {
         Long filter = null;
 
         String text = txtSearch.getText();
+        LocalDate dateFilter = dpFilterDate.getValue();
         if (text != null && !text.isBlank()) {
             try {
                 filter = Long.valueOf(text.trim());
@@ -388,7 +469,7 @@ public class SaleDetailsController {
         int ROWS_PER_PAGE = 15;
 
         Page<SaleDetailsDto> productPage =
-                saleDetailService.findPaginated(currentFilter, pageIndex, ROWS_PER_PAGE);
+                saleDetailService.findPaginated(currentFilter,dateFilter, pageIndex, ROWS_PER_PAGE);
 
 
         // Update totalPages dynamic
@@ -403,5 +484,34 @@ public class SaleDetailsController {
 
     private void updatePagination() {
         pagination.setPageFactory(this::createPage);
+    }
+
+    @FXML
+    public void cancelSale() {
+
+        SaleDetailsDto selectedItem = salesTable.getSelectionModel().getSelectedItem();
+
+
+        if (ValidateFields.showConfirm("¿Desea cancelar la venta #" + selectedItem.getFolio() +"?")) {
+
+            saleDetailService.cancelSale(selectedItem.getFolio());
+            updatePagination();
+        }
+
+    }
+
+    public void searchByDate(ActionEvent actionEvent) {
+
+        LocalDate selectedDate = dpFilterDate.getValue();
+
+        if (selectedDate == null) {
+            ValidateFields.showError("Por favor, selecciona una fecha para buscar.");
+            return;
+        }
+
+        txtSearch.clear();
+
+        pagination.setCurrentPageIndex(0);
+        createPage(0);
     }
 }

@@ -13,7 +13,8 @@ public interface SaleDetailRepository extends JpaRepository<SaleDetail, Long> {
         SELECT sd
         FROM SaleDetail sd
         JOIN FETCH sd.product
-        WHERE sd.sales.id = :saleId
+        WHERE sd.sales.id = :saleId and
+            sd.product.deleteDate IS NULL
     """)
     List<SaleDetail> findBySaleIdWithProduct(@Param("saleId") Long saleId);
 }

@@ -21,4 +21,6 @@ public class SaleDetailsDto {
 
     private String paymentType;
 
+    private String status;
+
 }

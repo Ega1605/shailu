@@ -2,13 +2,11 @@ package com.shailu.deposito_dental_pos.controller;
 
 import com.shailu.deposito_dental_pos.config.UserSession;
 import com.shailu.deposito_dental_pos.model.dto.*;
+import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
 import com.shailu.deposito_dental_pos.model.entity.Sales;
 import com.shailu.deposito_dental_pos.model.enums.PaymentType;
 import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
-import com.shailu.deposito_dental_pos.service.CustomerService;
-import com.shailu.deposito_dental_pos.service.FXMLPrintService;
-import com.shailu.deposito_dental_pos.service.ProductService;
-import com.shailu.deposito_dental_pos.service.SalesService;
+import com.shailu.deposito_dental_pos.service.*;
 import com.shailu.deposito_dental_pos.utils.UIUtils;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
 import javafx.animation.FadeTransition;
@@ -31,6 +29,8 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import org.controlsfx.control.textfield.TextFields;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -40,6 +40,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class SalesController {
@@ -99,6 +100,12 @@ public class SalesController {
 
     @FXML private ComboBox<PaymentType> cbPaymentType;
     @FXML private ComboBox<SaleStatus> cbStatus;
+    @Autowired
+    private SaleDetailsService saleDetailsService;
+
+    private Sales saleWaitingForEdit;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @FXML
     public void initialize() {
@@ -231,6 +238,13 @@ public class SalesController {
         });
 
         UIUtils.applyHoverEffect(btnAddProduct);
+
+        calculateTotals();
+
+        if (saleWaitingForEdit != null) {
+            populateSalesFieldsFromSaleDetails(saleWaitingForEdit);
+            saleWaitingForEdit = null;
+        }
     }
 
     private void calculateChange() {
@@ -367,7 +381,9 @@ public class SalesController {
                 ((Label) ticketNode.lookup("#lblTotal")).setText("$ " + lblTotal.getText());
                 ((Label) ticketNode.lookup("#lblSaleId")).setText(String.format("Venta: #%06d", sale.getId()));
                 ((Label) ticketNode.lookup("#lblCustomer"))
-                        .setText(sale.getCustomer().getFirstName() +" "+ sale.getCustomer().getLastName());
+                        .setText("Cliente: "+sale.getCustomer().getFirstName() +" "+ sale.getCustomer().getLastName());
+                ((Label) ticketNode.lookup("#lblPaymentType"))
+                        .setText("Tipo de pago: "+sale.getPaymentType().getPaymentType());
 
                 DateTimeFormatter formatter =
                         DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -376,36 +392,33 @@ public class SalesController {
                         .setText("Fecha: " + LocalDateTime.now().format(formatter));
 
 
-                GridPane gridProducts = (GridPane) ticketNode.lookup("#gridProducts");
+                //GridPane gridProducts = (GridPane) ticketNode.lookup("#gridProducts");
+                VBox vboxProducts = (VBox) ticketNode.lookup("#vboxProducts");
+                vboxProducts.getChildren().clear();
 
                 int row = 0;
                 for (SalesDto item : items) {
+                    javafx.scene.text.Text txtName = new javafx.scene.text.Text(item.getName() + " ");
+                    txtName.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced;");
 
-                    Label lblName = new Label(item.getName());
-                    lblName.setWrapText(true);
-                    lblName.setStyle("-fx-font-size: 8px; -fx-font-family: Monospaced;");
-
-                    Label lblUnit = new Label(String.format("%.2f", item.getPrice()));
-                    lblUnit.setStyle("-fx-font-size: 8px; -fx-font-family: Monospaced;");
-
-                    Label lblQty = new Label("x" + item.getQuantity());
-                    lblQty.setStyle("-fx-font-size: 8px; -fx-font-family: Monospaced;");
-
+                    // 2. La cantidad con la "X" y el precio final
                     double subtotal = item.getPrice() * item.getQuantity();
-                    Label lblSub = new Label(String.format("%.2f", subtotal));
-                    lblSub.setStyle("-fx-font-size: 8px; -fx-font-family: Monospaced;");
+                    javafx.scene.text.Text txtDetails = new javafx.scene.text.Text(
+                            String.format("x%d $%.2f", item.getQuantity(), subtotal)
+                    );
+                    // Ponemos los detalles en negrita para que resalten al final del bloque
+                    txtDetails.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced; -fx-font-weight: bold;");
 
-                    gridProducts.add(lblName, 0, row);
-                    gridProducts.add(lblUnit, 1, row);
-                    gridProducts.add(lblQty, 2, row);
-                    gridProducts.add(lblSub, 3, row);
+                    javafx.scene.text.TextFlow flow = new javafx.scene.text.TextFlow(txtName, txtDetails);
+                    flow.setMaxWidth(130); // Para asegurar el salto de línea correcto
 
-                    row++;
+                    vboxProducts.getChildren().add(flow);
+
                 }
 
-                showInfo("Venta finalizada.\nImprimiendo ticket…");
-
                 fxmlPrintService.printNode(ticketNode, "POS-58");
+
+                showInfo("Venta finalizada.\nImprimiendo ticket…");
 
             } catch (Exception printEx) {
                 System.err.println("Error de impresión: " + printEx.getMessage());
@@ -427,7 +440,7 @@ public class SalesController {
         alert.setContentText(message);
 
         alert.initOwner(lblTotal.getScene().getWindow());
-        alert.show();
+        alert.showAndWait();
     }
 
     private void resetToDefaultCustomer() {
@@ -451,7 +464,7 @@ public class SalesController {
                 .mapToDouble(SalesDto::getSubtotal)
                 .sum();
 
-        lblTotal.setText(String.format("%.2f", total));
+        lblTotal.setText(String.format("%.2f", (double) Math.round(total)));
     }
 
     @FXML
@@ -478,6 +491,37 @@ public class SalesController {
         } else {
             ValidateFields.showError("Por favor, selecciona un artículo de la tabla para eliminarlo.");
         }
+    }
+
+    public void loadSaleFromSaleDetails(Sales sale) {
+        this.saleWaitingForEdit = sale;
+    }
+
+    public void populateSalesFieldsFromSaleDetails(Sales sale) {
+        this.cancelSale();
+
+
+        List<SaleDetail> saleDetails = saleDetailsService.findItemsBySaleId(sale.getId());
+
+        List<SalesDto> dtos = saleDetails.stream().map(item -> {
+            SalesDto dto = new SalesDto();
+            dto.setName(item.getProduct().getName());
+            dto.setDescription(item.getProduct().getDescription());
+            dto.setPrice(item.getUnitPrice());
+            dto.setQuantity(item.getQuantity());
+            dto.setSubtotal(item.getQuantity() * item.getUnitPrice());
+            return dto;
+        }).toList();
+
+        this.saleItems.setAll(dtos);
+
+        this.selectedCustomerIdSale = sale.getCustomer().getId();
+        this.lblSelectedCustomer.setText(sale.getCustomer().getFirstName() + " " + sale.getCustomer().getLastName());
+
+        this.calculateTotals();
+
+        logger.info("Sale #{} Loaded.", sale.getId());
+
     }
 
 

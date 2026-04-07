@@ -120,6 +120,16 @@ public class InventoryController {
             productService.updateName(product);
         });
 
+        //Edit Stock in the table
+
+        colStock.setOnEditCommit(event -> {
+            ProductDto product = event.getRowValue();
+            int newStock = event.getNewValue();
+            product.setCurrentStock(newStock);
+            productService.updateName(product);
+        });
+
+
 
 
         //Listeners
@@ -266,6 +276,7 @@ public class InventoryController {
         product.setQuantity(Integer.parseInt(txtQuantity.getText()));
 
         productService.addProduct(product);
+        ValidateFields.showInfo("Producto agregado correctamente.");
 
         clearForm();
         updatePagination();

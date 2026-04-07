@@ -15,4 +15,9 @@ public enum SaleStatus {
     public String getSaleStatus() {
         return saleStatus;
     }
+
+    @Override
+    public String toString() {
+        return saleStatus;
+    }
 }
