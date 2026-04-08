@@ -505,6 +505,7 @@ public class SalesController {
 
         List<SalesDto> dtos = saleDetails.stream().map(item -> {
             SalesDto dto = new SalesDto();
+            dto.setCode(item.getProduct().getCode());
             dto.setName(item.getProduct().getName());
             dto.setDescription(item.getProduct().getDescription());
             dto.setPrice(item.getUnitPrice());
