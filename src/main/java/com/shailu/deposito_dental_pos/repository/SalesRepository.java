@@ -50,13 +50,12 @@ public interface SalesRepository extends JpaRepository<Sales, Long> {
     Page<Sales> findSalesById(
             Long id, Pageable pageable);
 
-
     @Query("""
         SELECT s.paymentType AS paymentType,
             COUNT(s) AS totalSales,
-            SUM(s.total) AS totalAmount
+            COALESCE(SUM(s.total), 0) AS totalAmount
         FROM Sales s
-        WHERE s.status = 'COMPLETED'
+        WHERE s.status IN ('COMPLETED', 'UPDATED')
           AND s.createdDate BETWEEN :start AND :end
         GROUP BY s.paymentType
     """)
