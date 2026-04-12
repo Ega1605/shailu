@@ -4,7 +4,8 @@ public enum SaleStatus {
 
     COMPLETED("Completado"),
     PENDING("Pendientes"),
-    CANCELLED("Cancelado");
+    CANCELLED("Cancelado"),
+    UPDATED("Editado");
 
     private final String saleStatus;
 

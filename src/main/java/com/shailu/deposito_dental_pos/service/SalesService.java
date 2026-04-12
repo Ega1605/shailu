@@ -1,16 +1,19 @@
 package com.shailu.deposito_dental_pos.service;
 
 import com.shailu.deposito_dental_pos.model.dto.CurrentSaleDto;
-import com.shailu.deposito_dental_pos.model.dto.SaleDetailsDto;
 import com.shailu.deposito_dental_pos.model.dto.SalesDto;
 import com.shailu.deposito_dental_pos.model.entity.*;
 import com.shailu.deposito_dental_pos.model.enums.*;
 import com.shailu.deposito_dental_pos.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -40,8 +43,37 @@ public class SalesService {
     @Autowired
     private AccountReceivableRepository accountReceivableRepository;
 
+    @Autowired
+    private ProductService productService;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Transactional
     public Sales processSale(CurrentSaleDto currentSaleDto, String currentUser, Long customerId) {
+
+        Sales sale;
+
+        if(currentSaleDto.getSaleId() != null){
+            //UPDATE SALE
+            sale = this.findSale(currentSaleDto.getSaleId());
+
+            List<SaleDetail> saleDetails = saleDetailRepository.findBySaleIdWithProduct(currentSaleDto.getSaleId());
+
+            productService.restoreProductsInStock(saleDetails);
+
+            //delete salesDetails
+            saleDetailRepository.deleteBySaleId(currentSaleDto.getSaleId());
+            logger.info("Restaurado Sales Details de {}", currentSaleDto.getSaleId());
+            sale.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
+            sale.setStatus(SaleStatus.UPDATED);
+
+        } else {
+            //new sale
+
+            sale = new Sales();
+            sale.setStatus(currentSaleDto.getStatus());
+
+        }
 
         Long finalCustomerId = (customerId != null) ? customerId : 1L;
 
@@ -71,7 +103,7 @@ public class SalesService {
             createInventoryMovements(product, saleQuantity, previousStock, newStock, user);
         }
 
-        Sales sale = saveSale(currentSaleDto, customer, user);
+        sale = saveSale(currentSaleDto, customer, user,sale);
 
         System.out.println("ID sale: " + sale.getId());
 
@@ -134,15 +166,13 @@ public class SalesService {
 
     }
 
-    private Sales saveSale(CurrentSaleDto currentSaleDto, Customers customer, User user){
+    private Sales saveSale(CurrentSaleDto currentSaleDto, Customers customer, User user, Sales sale){
 
-        Sales sale = new Sales();
 
         sale.setCustomer(customer);
         sale.setSeller(user);
         sale.setTotal(currentSaleDto.getTotal());
         sale.setPaymentType(currentSaleDto.getPaymentType());
-        sale.setStatus(currentSaleDto.getStatus());
         sale.setNotes(currentSaleDto.getNotes());
 
         return salesRepository.save(sale);

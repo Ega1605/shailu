@@ -1,7 +1,6 @@
 package com.shailu.deposito_dental_pos.service;
 
 import com.shailu.deposito_dental_pos.model.dto.SaleDetailsDto;
-import com.shailu.deposito_dental_pos.model.entity.Product;
 import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
 import com.shailu.deposito_dental_pos.model.entity.Sales;
 import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
@@ -83,27 +82,23 @@ public class SaleDetailsService {
             throw new RuntimeException("LA VENTA YA ESTA CANCELADA");
         }
 
-        List<SaleDetail> saleDetails = saleDetailRepository.findBySaleIdWithProduct(saleId);
-
-        for(SaleDetail productSale : saleDetails){
-            Product product = productService.findProductById(productSale.getProduct().getId());
-
-            int newStock = product.getCurrentStock() + productSale.getQuantity();
-
-            product.setCurrentStock(newStock);
-
-            productRepository.save(product);
-
-            logger.info("Restaurado stock de {}: +{} unidades. Stock actual: {}",
-                    product.getName(),  productSale.getQuantity(), newStock);
-
-        }
+        restoreProductsInStock(saleId);
 
         sale.setStatus(SaleStatus.CANCELLED);
         sale.setNotes(sale.getNotes() + " [Canelada POR CORRECCIÓN EL " + LocalDateTime.now() + "]");
 
         salesRepository.save(sale);
 
+    }
+
+    public void restoreProductsInStock(Long saleId) {
+        List<SaleDetail> saleDetails = saleDetailRepository.findBySaleIdWithProduct(saleId);
+
+        productService.restoreProductsInStock(saleDetails);
+    }
+
+    public void deleteDetailsBySaleId(Long saleId){
+        saleDetailRepository.deleteBySaleId(saleId);
     }
 
 }

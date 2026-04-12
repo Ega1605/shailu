@@ -2,8 +2,10 @@ package com.shailu.deposito_dental_pos.repository;
 
 import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,4 +19,9 @@ public interface SaleDetailRepository extends JpaRepository<SaleDetail, Long> {
             sd.product.deleteDate IS NULL
     """)
     List<SaleDetail> findBySaleIdWithProduct(@Param("saleId") Long saleId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM SaleDetail d WHERE d.sales.id = :saleId")
+    void deleteBySaleId(@Param("saleId") Long saleId);
 }

@@ -8,10 +8,7 @@ import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
 import com.shailu.deposito_dental_pos.model.entity.Sales;
 import com.shailu.deposito_dental_pos.model.enums.PaymentType;
 import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
-import com.shailu.deposito_dental_pos.service.AccountReceivablePaymentService;
-import com.shailu.deposito_dental_pos.service.AccountReceivableService;
-import com.shailu.deposito_dental_pos.service.SaleDetailsService;
-import com.shailu.deposito_dental_pos.service.SalesService;
+import com.shailu.deposito_dental_pos.service.*;
 import com.shailu.deposito_dental_pos.utils.UIUtils;
 import com.shailu.deposito_dental_pos.utils.ValidateFields;
 import javafx.application.Platform;
@@ -20,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -27,14 +25,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -55,10 +59,14 @@ public class SaleDetailsController {
     @Autowired
     private AccountReceivablePaymentService accountReceivablePaymentService;
 
-
+    @Autowired
+    private ApplicationContext springContext;
 
     @Autowired
     private SalesService salesService;
+
+    @Autowired
+    private FXMLPrintService fxmlPrintService;
 
     @Autowired
     private AccountReceivableService accountReceivableService;
@@ -76,6 +84,7 @@ public class SaleDetailsController {
     @FXML private  TableColumn<SaleDetailsDto, SaleStatus> colStatus;
 
     public TableColumn colUpdate;
+    @FXML private TableColumn<SaleDetailsDto, Void> colPrint;
 
 
     @FXML
@@ -298,7 +307,6 @@ public class SaleDetailsController {
                     // Aquí llamas a tu lógica de edición
                     if (ValidateFields.showConfirm("¿Desea editar la venta #" + sale.getFolio() +"?")) {
                         try {
-                            saleDetailService.cancelSale(sale.getFolio());
 
                             Sales saleEntity = salesService.findSale(sale.getFolio());
 
@@ -328,6 +336,37 @@ public class SaleDetailsController {
         };
 
         colUpdate.setCellFactory(cellFactory);
+
+
+        //print button
+        colPrint.setCellFactory(param -> new TableCell<>() {
+            private final Button printButton = new Button();
+
+            {
+                // 1. Creamos el icono de la impresora con código vectorial (SVG)
+                SVGPath icon = new SVGPath();
+                icon.setContent("M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z");
+                icon.setFill(Color.web("#555555")); // Color del icono
+                printButton.setGraphic(icon);
+                printButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+                setAlignment(Pos.CENTER); // Centra el botón en la celda
+
+                // 2. Estilo del botón (puedes ajustarlo con tu CSS)
+                //printButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 16px;");
+
+                // 3. Acción del botón
+                printButton.setOnAction(event -> {
+                    SaleDetailsDto sale = getTableView().getItems().get(getIndex());
+                    printTicket(sale);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : printButton);
+            }
+        });
 
 
     }
@@ -513,5 +552,68 @@ public class SaleDetailsController {
 
         pagination.setCurrentPageIndex(0);
         createPage(0);
+    }
+
+    private void printTicket(SaleDetailsDto saleDetails ){
+
+        Sales sale = salesService.findSale(saleDetails.getFolio());
+
+        List<SaleDetail> products =
+                saleDetailService.findItemsBySaleId(saleDetails.getFolio());
+
+        //print Sale
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ticket_template.fxml"));
+            loader.setControllerFactory(springContext::getBean);
+            VBox ticketNode = loader.load();
+
+            ((Label) ticketNode.lookup("#lblTotal")).setText("$ " + saleDetails.getTotal());
+            ((Label) ticketNode.lookup("#lblSaleId")).setText(String.format("Venta: #%06d", sale.getId()));
+            ((Label) ticketNode.lookup("#lblCustomer"))
+                    .setText("Cliente: "+sale.getCustomer().getFirstName() +" "+ sale.getCustomer().getLastName());
+            ((Label) ticketNode.lookup("#lblPaymentType"))
+                    .setText("Tipo de pago: "+sale.getPaymentType().getPaymentType());
+
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+            ((Label) ticketNode.lookup("#lblDateTime"))
+                    .setText("Fecha: " + LocalDateTime.now().format(formatter));
+
+
+            //GridPane gridProducts = (GridPane) ticketNode.lookup("#gridProducts");
+            VBox vboxProducts = (VBox) ticketNode.lookup("#vboxProducts");
+            vboxProducts.getChildren().clear();
+
+            for (SaleDetail item : products) {
+                javafx.scene.text.Text txtName = new javafx.scene.text.Text(item.getProduct().getName() + " ");
+                txtName.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced;");
+
+                // 2. La cantidad con la "X" y el precio final
+                double subtotal = (item.getProduct().getPurchasePrice() * (1 + (item.getProduct().getProfit() / 100) ) * item.getQuantity());
+                javafx.scene.text.Text txtDetails = new javafx.scene.text.Text(
+                        String.format("x%d $%.2f", item.getQuantity(), BigDecimal.valueOf(subtotal)
+                                .setScale(0, RoundingMode.HALF_UP)
+                                .doubleValue())
+                );
+                // Ponemos los detalles en negrita para que resalten al final del bloque
+                txtDetails.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced; -fx-font-weight: bold;");
+
+                javafx.scene.text.TextFlow flow = new javafx.scene.text.TextFlow(txtName, txtDetails);
+                flow.setMaxWidth(130); // Para asegurar el salto de línea correcto
+
+                vboxProducts.getChildren().add(flow);
+
+            }
+
+            fxmlPrintService.printNode(ticketNode, "POS-58");
+
+            ValidateFields.showInfo("Imprimiendo ticket…");
+
+        } catch (Exception printEx) {
+            System.err.println("Error de impresión: " + printEx.getMessage());
+        }
+
+
     }
 }

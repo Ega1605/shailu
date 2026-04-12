@@ -243,7 +243,6 @@ public class SalesController {
 
         if (saleWaitingForEdit != null) {
             populateSalesFieldsFromSaleDetails(saleWaitingForEdit);
-            saleWaitingForEdit = null;
         }
     }
 
@@ -358,6 +357,10 @@ public class SalesController {
 
             CurrentSaleDto currentSaleDto = new CurrentSaleDto();
 
+            if (saleWaitingForEdit != null) {
+                currentSaleDto.setSaleId(saleWaitingForEdit.getId());
+            }
+
             List<SalesDto> items = tableSales.getItems();
 
             if (items.isEmpty()) {
@@ -396,7 +399,6 @@ public class SalesController {
                 VBox vboxProducts = (VBox) ticketNode.lookup("#vboxProducts");
                 vboxProducts.getChildren().clear();
 
-                int row = 0;
                 for (SalesDto item : items) {
                     javafx.scene.text.Text txtName = new javafx.scene.text.Text(item.getName() + " ");
                     txtName.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced;");
@@ -427,6 +429,7 @@ public class SalesController {
             // clean
             cancelSale();
             resetToDefaultCustomer();
+            this.saleWaitingForEdit = null;
 
         } catch (Exception e) {
             ValidateFields.showError("Error al procesar: " + e.getMessage());
@@ -475,6 +478,7 @@ public class SalesController {
         txtCashReceived.setText("0.00");
         txtChange.setText("0.00");
         resetToDefaultCustomer();
+        this.saleWaitingForEdit = null;
     }
 
     @FXML
@@ -498,8 +502,6 @@ public class SalesController {
     }
 
     public void populateSalesFieldsFromSaleDetails(Sales sale) {
-        this.cancelSale();
-
 
         List<SaleDetail> saleDetails = saleDetailsService.findItemsBySaleId(sale.getId());
 
@@ -518,6 +520,7 @@ public class SalesController {
 
         this.selectedCustomerIdSale = sale.getCustomer().getId();
         this.lblSelectedCustomer.setText(sale.getCustomer().getFirstName() + " " + sale.getCustomer().getLastName());
+        this.cbPaymentType.setValue(sale.getPaymentType());
 
         this.calculateTotals();
 

@@ -34,7 +34,7 @@ public interface ProductMapper {
         double subtotal = entity.getPurchasePrice() * (1 + (entity.getProfit() / 100));
 
         return BigDecimal.valueOf(subtotal)
-                .setScale(2, RoundingMode.HALF_UP)
+                .setScale(0, RoundingMode.HALF_UP)
                 .doubleValue();
     }
 

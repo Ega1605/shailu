@@ -2,8 +2,11 @@ package com.shailu.deposito_dental_pos.service;
 
 import com.shailu.deposito_dental_pos.model.dto.ProductDto;
 import com.shailu.deposito_dental_pos.model.entity.Product;
+import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
 import com.shailu.deposito_dental_pos.model.mapper.ProductMapper;
 import com.shailu.deposito_dental_pos.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +30,8 @@ public class ProductService {
 
     public static final String DEFAULT_UNIT_OF_MEASURE = "Unit";
     public static final int DEFAULT_MINIMUM_STOCK = 5;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public Optional<ProductDto> findByBarCode(String barCode) {
         return productRepository.findByBarCodeAndDeleteDateIsNull(barCode)
@@ -132,6 +137,23 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         product.setDeleteDate(Timestamp.valueOf(LocalDateTime.now()));
         productRepository.save(product);
+    }
+
+    public void restoreProductsInStock(List<SaleDetail> saleDetails) {
+
+        for(SaleDetail productSale : saleDetails){
+            Product product = this.findProductById(productSale.getProduct().getId());
+
+            int newStock = product.getCurrentStock() + productSale.getQuantity();
+
+            product.setCurrentStock(newStock);
+
+            productRepository.save(product);
+
+            logger.info("Restaurado stock de {}: +{} unidades. Stock actual: {}",
+                    product.getName(),  productSale.getQuantity(), newStock);
+
+        }
     }
 
 }
