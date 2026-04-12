@@ -4,7 +4,8 @@ public enum SaleStatus {
 
     COMPLETED("Completado"),
     PENDING("Pendientes"),
-    CANCELLED("Cancelado");
+    CANCELLED("Cancelado"),
+    UPDATED("Editado");
 
     private final String saleStatus;
 
@@ -13,6 +14,11 @@ public enum SaleStatus {
     }
 
     public String getSaleStatus() {
+        return saleStatus;
+    }
+
+    @Override
+    public String toString() {
         return saleStatus;
     }
 }

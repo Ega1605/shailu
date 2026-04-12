@@ -4,6 +4,7 @@ import com.shailu.deposito_dental_pos.model.enums.PaymentType;
 import com.shailu.deposito_dental_pos.model.projection.ProductOutProjection;
 import com.shailu.deposito_dental_pos.model.projection.SalesByPaymentProjection;
 import com.shailu.deposito_dental_pos.repository.InventoryMovementsRepository;
+import com.shailu.deposito_dental_pos.repository.SaleDetailRepository;
 import com.shailu.deposito_dental_pos.repository.SalesRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -29,6 +30,9 @@ public class ReportsService {
     @Autowired
     private SalesRepository salesRepository;
 
+    @Autowired
+    private SaleDetailRepository saleDetailRepository;
+
     public void createDailyReport(){
 
         ZoneId zone = ZoneId.of("America/Mexico_City");
@@ -37,7 +41,7 @@ public class ReportsService {
         LocalDateTime start = today.atStartOfDay();
         LocalDateTime end = today.atTime(20, 0);
 
-        List<ProductOutProjection> productOut = inventoryMovementsRepository.getDailyProductOut(start, end);
+        List<ProductOutProjection> productOut = saleDetailRepository.getDailyProductOut(start, end);
         List<SalesByPaymentProjection> salesByPayment = salesRepository.getSalesByPaymentType(start, end);
 
         createExcel(productOut, salesByPayment, today);

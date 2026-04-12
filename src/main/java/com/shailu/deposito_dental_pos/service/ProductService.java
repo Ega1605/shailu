@@ -2,8 +2,11 @@ package com.shailu.deposito_dental_pos.service;
 
 import com.shailu.deposito_dental_pos.model.dto.ProductDto;
 import com.shailu.deposito_dental_pos.model.entity.Product;
+import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
 import com.shailu.deposito_dental_pos.model.mapper.ProductMapper;
 import com.shailu.deposito_dental_pos.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,20 +31,28 @@ public class ProductService {
     public static final String DEFAULT_UNIT_OF_MEASURE = "Unit";
     public static final int DEFAULT_MINIMUM_STOCK = 5;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public Optional<ProductDto> findByBarCode(String barCode) {
-        return productRepository.findByBarCode(barCode)
+        return productRepository.findByBarCodeAndDeleteDateIsNull(barCode)
                 .map(productMapper::entityToDto);
     }
 
     public Optional<ProductDto> findByCode(String code) {
-        return productRepository.findByCode(code)
+        return productRepository.findByCodeAndDeleteDateIsNull(code)
                 .map(productMapper::entityToDto);
     }
 
     public List<ProductDto> searchProductsByName(String description) {
         return productMapper.convertListEntityToListDto(
-                productRepository.findByNameContainingIgnoreCaseOrderByNameAsc(description)
+                productRepository.findByNameContainingIgnoreCaseAndDeleteDateIsNullOrderByNameAsc(description)
         );
+    }
+
+    public Product findProductById(Long productId){
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
     }
 
     public void addProduct(ProductDto productDto){
@@ -64,7 +75,7 @@ public class ProductService {
 
     public void updateName(ProductDto productDto){
 
-        Optional<Product> product = productRepository.findByCode(productDto.getCode());
+        Optional<Product> product = productRepository.findByCodeAndDeleteDateIsNull(productDto.getCode());
 
         if(product.isPresent()){
 
@@ -77,11 +88,33 @@ public class ProductService {
 
     private void addProductStock(Product product, int quantity, ProductDto productDto){
 
+        if (product.getDeleteDate() != null) {
+            product.setDeleteDate(null);
+            product.setCurrentStock(quantity);
+        } else {
+
+            product.setCurrentStock(product.getCurrentStock() + quantity);
+
+        }
         product.setBarCode(productDto.getBarCode());
+        product.setProfit(productDto.getProfit());
         product.setPurchasePrice(productDto.getPurchasePrice());
-        product.setCurrentStock(product.getCurrentStock() + quantity);
+        product.setBarCode(productDto.getBarCode());
 
         productRepository.save(product);
+
+    }
+
+    private void updateCurrentStockFromTable(ProductDto productDto){
+        Optional<Product> product = productRepository.findByCodeAndDeleteDateIsNull(productDto.getCode());
+
+        if(product.isPresent()){
+
+            Product productUpdated = product.get();
+            productUpdated.setCurrentStock(productDto.getCurrentStock());
+            productRepository.save(productUpdated);
+
+        }
 
     }
 
@@ -104,6 +137,23 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         product.setDeleteDate(Timestamp.valueOf(LocalDateTime.now()));
         productRepository.save(product);
+    }
+
+    public void restoreProductsInStock(List<SaleDetail> saleDetails) {
+
+        for(SaleDetail productSale : saleDetails){
+            Product product = this.findProductById(productSale.getProduct().getId());
+
+            int newStock = product.getCurrentStock() + productSale.getQuantity();
+
+            product.setCurrentStock(newStock);
+
+            productRepository.save(product);
+
+            logger.info("Restaurado stock de {}: +{} unidades. Stock actual: {}",
+                    product.getName(),  productSale.getQuantity(), newStock);
+
+        }
     }
 
 }

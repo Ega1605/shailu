@@ -11,37 +11,51 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SalesRepository extends JpaRepository<Sales, Long> {
+
+    @Query("""
+                SELECT s
+                FROM Sales s
+                JOIN FETCH s.customer
+                WHERE s.deleteDate IS NULL
+                AND s.createdDate BETWEEN :start AND :end
+            """)
+    Page<Sales> findByCreatedDateBetween(LocalDateTime start, LocalDateTime end,
+                                         Pageable pageable);
+
+
+    @Query("SELECT s FROM Sales s JOIN FETCH s.customer WHERE s.id = :id")
+    Optional<Sales> findByIdWithDetails(@Param("id") Long id);
+
 
     // Find all active Sales
     @Query("""
             SELECT s
             FROM Sales s
             JOIN FETCH s.customer
-            WHERE s.deleteDate IS NULL
+            ORDER BY s.id desc
             """)
-    Page<Sales> findByDeleteDateIsNull(Pageable pageable);
+    Page<Sales> findAllSales(Pageable pageable);
 
     // Find by id or code if they are active
     @Query("""
                 SELECT s
                 FROM Sales s
                 JOIN FETCH s.customer
-                WHERE s.deleteDate IS NULL
-                AND s.id = :id
+                WHERE s.id = :id
             """)
-    Page<Sales> findByDeleteDateIsNullAndId(
+    Page<Sales> findSalesById(
             Long id, Pageable pageable);
-
 
     @Query("""
         SELECT s.paymentType AS paymentType,
             COUNT(s) AS totalSales,
-            SUM(s.total) AS totalAmount
+            COALESCE(SUM(s.total), 0) AS totalAmount
         FROM Sales s
-        WHERE s.status = 'COMPLETED'
+        WHERE s.status IN ('COMPLETED', 'UPDATED')
           AND s.createdDate BETWEEN :start AND :end
         GROUP BY s.paymentType
     """)

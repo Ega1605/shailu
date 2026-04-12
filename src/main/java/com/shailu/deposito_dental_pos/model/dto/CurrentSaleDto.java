@@ -12,15 +12,16 @@ import java.util.List;
 @Getter
 @Setter
 public class CurrentSaleDto extends SalesDto{
-    PaymentType paymentType;
-    SaleStatus status;
-    String notes;
-    int customerId;
-    int sellerId;
-    List<SalesDto> items;
-    Double subtotal;
-    Double generalDiscount ;
-    Double taxAmount;
-    Double total;
+    private Long saleId;
+    private PaymentType paymentType;
+    private SaleStatus status;
+    private String notes;
+    private int customerId;
+    private int sellerId;
+    private List<SalesDto> items;
+    private Double subtotal;
+    private Double generalDiscount ;
+    private Double taxAmount;
+    private Double total;
 
 }

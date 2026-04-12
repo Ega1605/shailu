@@ -16,6 +16,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.Cursor?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="863.0" prefWidth="1530" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.shailu.deposito_dental_pos.controller.SaleDetailsController">
    <top>
        <fx:include source="menuBar.fxml" />
@@ -174,7 +176,7 @@
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="713.0" prefWidth="1201.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Ventas">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Detalles de ventas">
                <font>
                   <Font size="16.0" />
                </font>
@@ -185,30 +187,52 @@
                <VBox.margin>
                   <Insets left="10.0" top="15.0" />
                </VBox.margin></Text>
-            <HBox prefHeight="64.0" prefWidth="902.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="902.0">
                <children>
                   <TextField fx:id="txtSearch" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="207.0" promptText=" 🔍  Id de venta" stylesheets="@../styles/styles.css">
-                     <HBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </HBox.margin>
                   </TextField>
                   <ImageView fx:id="btnResetSearch" fitHeight="26.0" fitWidth="24.0" onMouseClicked="#clearSearch" opacity="0.71" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/borrar.png" />
                      </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" /> <!-- Para que parezca un botón -->
+                     </cursor>
+                  </ImageView>
+                  <DatePicker fx:id="dpFilterDate" prefHeight="30.0" prefWidth="150.0" promptText="Seleccione día">
                      <HBox.margin>
-                        <Insets left="10.0" top="10.0" />
+                        <Insets left="100.0" />
                      </HBox.margin>
+                  </DatePicker>
+                  <Button onAction="#searchByDate" text="Buscar" styleClass="btn-secondary" >
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <ImageView fx:id="btnResetDates" fitHeight="26.0" fitWidth="24.0" onMouseClicked="#clearDate" opacity="0.71" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/borrar.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" /> <!-- Para que parezca un botón -->
+                     </cursor>
                   </ImageView>
                </children>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
             </HBox>
             <TableView fx:id="salesTable" prefHeight="462.0" prefWidth="1181.0" stylesheets="@../styles/styles.css">
               <columns>
-                 <TableColumn fx:id="colFolio" prefWidth="75.0" text="Folio" />
+                 <TableColumn fx:id="colFolio" prefWidth="30.0" text="Folio" />
                  <TableColumn fx:id="colName" prefWidth="75.0" text="Nombre" />
-                 <TableColumn fx:id="colTotal" prefWidth="75.0" text="Total" />
+                 <TableColumn fx:id="colTotal" prefWidth="30.0" text="Total" />
                  <TableColumn fx:id="colDate" prefWidth="75.0" text="Fecha" />
                  <TableColumn fx:id="colType" prefWidth="75.0" text="Tipo" />
+                 <TableColumn fx:id="colStatus" prefWidth="35.0" text="Estatus" />
+                 <TableColumn fx:id="colUpdate" prefWidth="50.0" />
+                 <TableColumn fx:id="colPrint" prefWidth="50.0" />
+
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -217,6 +241,17 @@
                   <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </TableView>
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="501.0">
+               <children>
+                  <Button onAction="#cancelSale" prefHeight="26.0" prefWidth="183.0" styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Cancelar Venta">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </HBox>
             <Pagination fx:id="pagination" maxPageIndicatorCount="5" prefHeight="26.0" prefWidth="870.0" />
          </children>
       </VBox>

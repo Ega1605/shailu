@@ -4,7 +4,6 @@ import com.shailu.deposito_dental_pos.model.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,9 +12,10 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Optional<Product> findByBarCode(String barCode);
+    Optional<Product> findByBarCodeAndDeleteDateIsNull(String barCode);
+    Optional<Product> findByCodeAndDeleteDateIsNull(String code);
     Optional<Product> findByCode(String code);
-    List<Product> findByNameContainingIgnoreCaseOrderByNameAsc(String name);
+    List<Product> findByNameContainingIgnoreCaseAndDeleteDateIsNullOrderByNameAsc(String name);
     // Find all active products
     Page<Product> findByDeleteDateIsNull(Pageable pageable);
 

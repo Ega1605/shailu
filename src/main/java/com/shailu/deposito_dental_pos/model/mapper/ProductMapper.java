@@ -12,6 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
+    @Mapping(source = "dto.barCode", target = "barCode")
     Product dtoToEntity (ProductDto dto);
 
     @Mapping(
@@ -26,17 +27,14 @@ public interface ProductMapper {
     default Double calculatePrice(Product entity) {
 
         if (entity.getPurchasePrice() == null ||
-                entity.getTax() == null ||
                 entity.getProfit() == null) {
             return 0.0;
         }
 
         double subtotal = entity.getPurchasePrice() * (1 + (entity.getProfit() / 100));
 
-        double total = subtotal * (1 + entity.getTax());
-
-        return BigDecimal.valueOf(total)
-                .setScale(2, RoundingMode.HALF_UP)
+        return BigDecimal.valueOf(subtotal)
+                .setScale(0, RoundingMode.HALF_UP)
                 .doubleValue();
     }
 
