@@ -590,7 +590,7 @@ public class SaleDetailsController {
                 txtName.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced;");
 
                 // 2. La cantidad con la "X" y el precio final
-                double subtotal = (item.getProduct().getPurchasePrice() * (1 + (item.getProduct().getProfit() / 100) ) * item.getQuantity());
+                double subtotal = item.getUnitPrice() * item.getQuantity();
                 javafx.scene.text.Text txtDetails = new javafx.scene.text.Text(
                         String.format("x%d $%.2f", item.getQuantity(), BigDecimal.valueOf(subtotal)
                                 .setScale(0, RoundingMode.HALF_UP)
