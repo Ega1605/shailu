@@ -2,6 +2,7 @@ package com.shailu.deposito_dental_pos.controller;
 
 import com.shailu.deposito_dental_pos.config.ScreenManager;
 import com.shailu.deposito_dental_pos.model.dto.SaleDetailsDto;
+import com.shailu.deposito_dental_pos.model.dto.SaleFilterDto;
 import com.shailu.deposito_dental_pos.model.dto.SalesDto;
 import com.shailu.deposito_dental_pos.model.entity.AccountReceivable;
 import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
@@ -132,11 +133,20 @@ public class SaleDetailsController {
     @FXML
     public DatePicker dpFilterDate;
 
+    @FXML
+    private TextField txtSearchName;
+
+    @FXML
+    private ImageView btnResetSearchName;
+
+    private final SaleFilterDto filter = new SaleFilterDto();
+
 
     private final ObservableList<SaleDetailsDto> sales =
             FXCollections.observableArrayList();
 
     private Long currentFilter;
+    private String currentNameFilter;
 
     private SaleDetailsDto saleSelected;
     private AccountReceivable currentAccountReceivable;
@@ -216,17 +226,40 @@ public class SaleDetailsController {
                 new PropertyValueFactory<>("status")
         );
 
+        //Search by Name
+        txtSearchName.textProperty().addListener((obs, old, newValue) -> {
 
+            filter.setCustomerName(
+                    newValue == null || newValue.isBlank()
+                            ? null
+                            : newValue.trim());
+
+            pagination.setCurrentPageIndex(0);
+            updatePagination();
+        });
+
+        //Search by Id
         txtSearch.textProperty().addListener((obs, old, newValue) -> {
             if (newValue == null || newValue.isBlank()) {
-                currentFilter = null;
+                filter.setSaleId(null);
             } else {
                 try {
+                    filter.setSaleId(Long.valueOf(newValue.trim()));
+
                     currentFilter = Long.valueOf(newValue.trim());
                 } catch (NumberFormatException e) {
-                    currentFilter = null;
+                    filter.setSaleId(null);
                 }
             }
+
+            pagination.setCurrentPageIndex(0);
+            updatePagination();
+        });
+        //Search by Date
+
+        dpFilterDate.valueProperty().addListener((obs, old, newDate) -> {
+
+            filter.setCreatedDate(newDate);
 
             pagination.setCurrentPageIndex(0);
             updatePagination();
@@ -351,10 +384,7 @@ public class SaleDetailsController {
                 printButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
                 setAlignment(Pos.CENTER); // Centra el botón en la celda
 
-                // 2. Estilo del botón (puedes ajustarlo con tu CSS)
-                //printButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 16px;");
-
-                // 3. Acción del botón
+                //  Acción del botón
                 printButton.setOnAction(event -> {
                     SaleDetailsDto sale = getTableView().getItems().get(getIndex());
                     printTicket(sale);
@@ -493,26 +523,17 @@ public class SaleDetailsController {
     // this method  is called when you change the number of page
     private Node createPage(int pageIndex) {
 
-        Long filter = null;
-
-        String text = txtSearch.getText();
         LocalDate dateFilter = dpFilterDate.getValue();
-        if (text != null && !text.isBlank()) {
-            try {
-                filter = Long.valueOf(text.trim());
-            } catch (NumberFormatException e) {
-                filter = null;
-            }
-        }
 
         int ROWS_PER_PAGE = 15;
 
         Page<SaleDetailsDto> productPage =
-                saleDetailService.findPaginated(currentFilter,dateFilter, pageIndex, ROWS_PER_PAGE);
+                saleDetailService.findPaginated(filter, pageIndex, ROWS_PER_PAGE);
 
 
         // Update totalPages dynamic
-        pagination.setPageCount(productPage.getTotalPages() <= 0 ? 1 : productPage.getTotalPages());
+        pagination.setPageCount(
+                Math.max(productPage.getTotalPages(),1));
 
         // load table
         sales.setAll(productPage.getContent());
@@ -554,6 +575,11 @@ public class SaleDetailsController {
         createPage(0);
     }
 
+    @FXML
+    private void clearSearchName() {
+        txtSearchName.clear();
+    }
+
     private void printTicket(SaleDetailsDto saleDetails ){
 
         Sales sale = salesService.findSale(saleDetails.getFolio());
@@ -578,7 +604,7 @@ public class SaleDetailsController {
                     DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
             ((Label) ticketNode.lookup("#lblDateTime"))
-                    .setText("Fecha: " + LocalDateTime.now().format(formatter));
+                    .setText("Fecha: " + sale.getCreatedDate().toLocalDateTime().format(formatter));
 
 
             //GridPane gridProducts = (GridPane) ticketNode.lookup("#gridProducts");
