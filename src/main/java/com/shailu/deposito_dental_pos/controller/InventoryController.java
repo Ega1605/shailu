@@ -15,10 +15,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
+import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Component
@@ -148,6 +151,30 @@ public class InventoryController {
                 fillFieldsByCode();
             }
         });
+
+        //Full field by name
+
+        TextFields.bindAutoCompletion(txtName, word -> {
+            String nameText = word.getUserText();
+            if (nameText == null || nameText.length() < 3) {
+                return Collections.emptyList();
+            }
+            return productService.searchProductsByName(nameText);
+        }, new StringConverter<ProductDto>() {
+            @Override
+            public String toString(ProductDto product) {
+                return product == null ? "" : product.getName();
+            }
+
+            @Override
+            public ProductDto fromString(String string) {
+                return null;
+            }
+        }).setOnAutoCompleted(event -> {
+            ProductDto selectedProduct = event.getCompletion();
+            fillProductFields(selectedProduct);
+        });
+
         //Filter table
         txtSearch.textProperty().addListener((obs, old, newValue) -> {
             pagination.setCurrentPageIndex(0);
@@ -292,6 +319,7 @@ public class InventoryController {
     private void fillProductFields(ProductDto product) {
 
         txtCode.setText(product.getCode());
+        txtBarCode.setText(product.getBarCode());
         txtName.setText(product.getName());
         txtDescription.setText(product.getDescription());
         txtPurchasePrice.setText(String.valueOf(product.getPurchasePrice()));

@@ -176,12 +176,18 @@
 
             <Separator />
 
-            <VBox spacing="5" styleClass="total-container">
+            <VBox fx:id="totalContainer" spacing="5" styleClass="total-container">
                 <Label style="-fx-text-fill: white;" text="TOTAL A PAGAR" />
                 <Label fx:id="lblTotal" styleClass="total-amount" text="0.00" />
             </VBox>
 
-            <Button maxWidth="Infinity" onAction="#finalizeSale" prefHeight="60" styleClass="btn-pay" text="FINALIZAR VENTA" />
+            <Button fx:id="btnFinalizeSale" maxWidth="Infinity" onAction="#finalizeSale" prefHeight="60" styleClass="btn-pay" text="FINALIZAR VENTA" />
+            <Button fx:id="btnGenerateQuotation" maxWidth="Infinity"
+                    text="GENERAR COTIZACIÓN"
+                    onAction="#generateQuotation"
+                    visible="false"
+                    managed="false"  prefHeight="60"
+                    styleClass="btn-pay"/>
             <Button maxWidth="Infinity" onAction="#cancelSale" styleClass="btn-eliminar" stylesheets="@../styles/styles.css" text="Cancelar" />
          <BorderPane.margin>
             <Insets right="5.0" />

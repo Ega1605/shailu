@@ -1,6 +1,7 @@
 package com.shailu.deposito_dental_pos.service;
 
 import com.shailu.deposito_dental_pos.model.dto.SaleDetailsDto;
+import com.shailu.deposito_dental_pos.model.dto.SaleFilterDto;
 import com.shailu.deposito_dental_pos.model.entity.SaleDetail;
 import com.shailu.deposito_dental_pos.model.entity.Sales;
 import com.shailu.deposito_dental_pos.model.enums.SaleStatus;
@@ -8,12 +9,15 @@ import com.shailu.deposito_dental_pos.model.mapper.SaleDetailMapper;
 import com.shailu.deposito_dental_pos.repository.ProductRepository;
 import com.shailu.deposito_dental_pos.repository.SaleDetailRepository;
 import com.shailu.deposito_dental_pos.repository.SalesRepository;
+import com.shailu.deposito_dental_pos.repository.SalesSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,24 +51,21 @@ public class SaleDetailsService {
 
 
 
-    public Page<SaleDetailsDto> findPaginated(Long filter,LocalDate dateFilter, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Sales> productPage;
+    public Page<SaleDetailsDto> findPaginated(SaleFilterDto filter,
+                                              int page, int size) {
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "createdDate")
+        );
 
-        if (filter != null) {
+        Specification<Sales> specification =
+                SalesSpecification.filter(filter);
 
-            productPage = salesRepository.findSalesById(filter, pageable);
-        } else if(dateFilter != null){
+        return salesRepository
+                .findAll(specification, pageable)
+                .map(saleDetailMapper::entityToDto);
 
-            LocalDateTime start = dateFilter.atStartOfDay(); // 00:00:00
-            LocalDateTime end = dateFilter.atTime(LocalTime.MAX); // 23:59:59
-            productPage = salesRepository.findByCreatedDateBetween(start, end, pageable);
-        } else {
-
-            productPage = salesRepository.findAllSales(pageable);
-        }
-
-        return productPage.map(saleDetailMapper::entityToDto);
     }
 
     @Transactional(readOnly = true)

@@ -96,10 +96,21 @@ public class SalesController {
     private final ObservableList<SalesDto> saleItems =
             FXCollections.observableArrayList();
 
-    private Long selectedCustomerIdSale = 1L;
+    private static Long selectedCustomerIdSale = 1L;
+    private static String selectedCustomerNameSale = "Público General";
 
     @FXML private ComboBox<PaymentType> cbPaymentType;
     @FXML private ComboBox<SaleStatus> cbStatus;
+
+    //generar cotizacion
+
+    @FXML
+    private Button btnFinalizeSale;
+    @FXML
+    private Button btnGenerateQuotation;
+    @FXML
+    private VBox totalContainer;
+
     @Autowired
     private SaleDetailsService saleDetailsService;
 
@@ -161,7 +172,7 @@ public class SalesController {
             }
         });
 
-        //searching product by description
+        //searching product by Name
         TextFields.bindAutoCompletion(txtName, suggestionRequest -> {
             String userText = suggestionRequest.getUserText();
             if (userText == null || userText.length() < 3) {
@@ -187,7 +198,7 @@ public class SalesController {
 
         //Customers
 
-        lblSelectedCustomer.setText("Público General");
+        lblSelectedCustomer.setText(selectedCustomerNameSale);
         TextFields.bindAutoCompletion(txtCustomerSearch, suggestionRequest -> {
             String text = suggestionRequest.getUserText();
             if (text == null || text.trim().length() < 3) return Collections.emptyList();
@@ -202,7 +213,8 @@ public class SalesController {
         }).setOnAutoCompleted(event -> {
             CustomerDto customer = event.getCompletion();
             selectedCustomerIdSale = customer.getId();
-            lblSelectedCustomer.setText(customer.getFirstName() + " " + customer.getLastName());
+            selectedCustomerNameSale = customer.getFirstName() + " " + customer.getLastName();
+            lblSelectedCustomer.setText(selectedCustomerNameSale);
             txtCustomerSearch.clear();
         });
 
@@ -244,6 +256,56 @@ public class SalesController {
         if (saleWaitingForEdit != null) {
             populateSalesFieldsFromSaleDetails(saleWaitingForEdit);
         }
+        //When Status change to Quatation
+        cbStatus.valueProperty().addListener(
+                (obs, oldValue, newValue) ->
+                        updateScreenByStatus(newValue)
+        );
+    }
+
+    private void updateScreenByStatus(SaleStatus status) {
+
+        boolean quotation = status == SaleStatus.QUOTATION;
+
+        cashContainer.setVisible(!quotation);
+        cashContainer.setManaged(!quotation);
+
+        totalContainer.setVisible(!quotation);
+        totalContainer.setManaged(!quotation);
+
+        btnFinalizeSale.setVisible(!quotation);
+        btnFinalizeSale.setManaged(!quotation);
+
+        btnGenerateQuotation.setVisible(quotation);
+        btnGenerateQuotation.setManaged(quotation);
+
+        btnFinalizeSale.setText(
+                quotation
+                        ? "GENERAR COTIZACIÓN"
+                        : "FINALIZAR VENTA"
+        );
+    }
+
+    @FXML
+    private void generateQuotation() {
+
+        // Generar cotización
+
+        if (!validateSaleItems("No hay productos para cotizar")) {
+            return;
+        }
+        // Crear PDF
+    }
+
+    private boolean validateSaleItems(String errorMessage) {
+        List<SalesDto> items = tableSales.getItems();
+
+        if (items.isEmpty()) {
+            ValidateFields.showError(errorMessage);
+            return false;
+        }
+
+        return true;
     }
 
     private void calculateChange() {
@@ -336,8 +398,9 @@ public class SalesController {
 
     @FXML
     private void finalizeSale() {
-
-        if (PaymentType.CASH.getPaymentType().equalsIgnoreCase(cbPaymentType.getValue().toString())) {
+        
+        if (saleWaitingForEdit == null &&
+                PaymentType.CASH.getPaymentType().equalsIgnoreCase(cbPaymentType.getValue().toString())) {
 
             if (txtCashReceived.getText().isBlank()) {
                 ValidateFields.showError("Ingresa el efectivo recibido");
@@ -353,6 +416,13 @@ public class SalesController {
             }
         }
 
+        if (!validateSaleItems("No hay productos en la venta")) {
+            return;
+        }
+
+        btnFinalizeSale.setDisable(true);
+        btnFinalizeSale.setText("PROCESANDO...");
+
         try {
 
             CurrentSaleDto currentSaleDto = new CurrentSaleDto();
@@ -363,11 +433,6 @@ public class SalesController {
 
             List<SalesDto> items = tableSales.getItems();
 
-            if (items.isEmpty()) {
-                ValidateFields.showError("No hay productos en la venta");
-                return;
-            }
-
             currentSaleDto.setItems(items);
             currentSaleDto.setPaymentType(cbPaymentType.getValue());
             currentSaleDto.setStatus(cbStatus.getValue());
@@ -375,65 +440,77 @@ public class SalesController {
             currentSaleDto.setTotal(Double.valueOf(lblTotal.getText()));
 
             Sales sale = salesService.processSale(currentSaleDto, userSession.getUsername(), selectedCustomerIdSale);
-            //print Sale
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ticket_template.fxml"));
-                loader.setControllerFactory(springContext::getBean);
-                VBox ticketNode = loader.load();
-
-                ((Label) ticketNode.lookup("#lblTotal")).setText("$ " + lblTotal.getText());
-                ((Label) ticketNode.lookup("#lblSaleId")).setText(String.format("Venta: #%06d", sale.getId()));
-                ((Label) ticketNode.lookup("#lblCustomer"))
-                        .setText("Cliente: "+sale.getCustomer().getFirstName() +" "+ sale.getCustomer().getLastName());
-                ((Label) ticketNode.lookup("#lblPaymentType"))
-                        .setText("Tipo de pago: "+sale.getPaymentType().getPaymentType());
-
-                DateTimeFormatter formatter =
-                        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
-                ((Label) ticketNode.lookup("#lblDateTime"))
-                        .setText("Fecha: " + LocalDateTime.now().format(formatter));
-
-
-                //GridPane gridProducts = (GridPane) ticketNode.lookup("#gridProducts");
-                VBox vboxProducts = (VBox) ticketNode.lookup("#vboxProducts");
-                vboxProducts.getChildren().clear();
-
-                for (SalesDto item : items) {
-                    javafx.scene.text.Text txtName = new javafx.scene.text.Text(item.getName() + " ");
-                    txtName.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced;");
-
-                    // 2. La cantidad con la "X" y el precio final
-                    double subtotal = item.getPrice() * item.getQuantity();
-                    javafx.scene.text.Text txtDetails = new javafx.scene.text.Text(
-                            String.format("x%d $%.2f", item.getQuantity(), subtotal)
-                    );
-                    // Ponemos los detalles en negrita para que resalten al final del bloque
-                    txtDetails.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced; -fx-font-weight: bold;");
-
-                    javafx.scene.text.TextFlow flow = new javafx.scene.text.TextFlow(txtName, txtDetails);
-                    flow.setMaxWidth(130); // Para asegurar el salto de línea correcto
-
-                    vboxProducts.getChildren().add(flow);
-
-                }
-
-                fxmlPrintService.printNode(ticketNode, "POS-58");
-
-                showInfo("Venta finalizada.\nImprimiendo ticket…");
-
-            } catch (Exception printEx) {
-                System.err.println("Error de impresión: " + printEx.getMessage());
-            }
+            printSale(sale, items);
 
             // clean
             cancelSale();
             resetToDefaultCustomer();
             this.saleWaitingForEdit = null;
+            resetFinalizeButton();
 
         } catch (Exception e) {
             ValidateFields.showError("Error al procesar: " + e.getMessage());
+            resetFinalizeButton();
         }
+    }
+
+    private void printSale(Sales sale, List<SalesDto> items) {
+        //print Sale
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ticket_template.fxml"));
+            loader.setControllerFactory(springContext::getBean);
+            VBox ticketNode = loader.load();
+
+            ((Label) ticketNode.lookup("#lblTotal")).setText("$ " + lblTotal.getText());
+            ((Label) ticketNode.lookup("#lblSaleId")).setText(String.format("Venta: #%06d", sale.getId()));
+            ((Label) ticketNode.lookup("#lblCustomer"))
+                    .setText("Cliente: "+ sale.getCustomer().getFirstName() +" "+ sale.getCustomer().getLastName());
+            ((Label) ticketNode.lookup("#lblPaymentType"))
+                    .setText("Tipo de pago: "+ sale.getPaymentType().getPaymentType());
+
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+            ((Label) ticketNode.lookup("#lblDateTime"))
+                    .setText("Fecha: " + LocalDateTime.now().format(formatter));
+
+
+            //GridPane gridProducts = (GridPane) ticketNode.lookup("#gridProducts");
+            VBox vboxProducts = (VBox) ticketNode.lookup("#vboxProducts");
+            vboxProducts.getChildren().clear();
+
+            for (SalesDto item : items) {
+                javafx.scene.text.Text txtName = new javafx.scene.text.Text(item.getName() + " ");
+                txtName.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced;");
+
+                // 2. La cantidad con la "X" y el precio final
+                double subtotal = item.getPrice() * item.getQuantity();
+                javafx.scene.text.Text txtDetails = new javafx.scene.text.Text(
+                        String.format("x%d $%.2f", item.getQuantity(), subtotal)
+                );
+                // Ponemos los detalles en negrita para que resalten al final del bloque
+                txtDetails.setStyle("-fx-font-size: 9px; -fx-font-family: Monospaced; -fx-font-weight: bold;");
+
+                javafx.scene.text.TextFlow flow = new javafx.scene.text.TextFlow(txtName, txtDetails);
+                flow.setMaxWidth(130); // Para asegurar el salto de línea correcto
+
+                vboxProducts.getChildren().add(flow);
+
+            }
+
+            fxmlPrintService.printNode(ticketNode, "POS-58");
+
+            showInfo("Venta finalizada.\nImprimiendo ticket…");
+
+        } catch (Exception printEx) {
+            System.err.println("Error de impresión: " + printEx.getMessage());
+            resetFinalizeButton();
+        }
+    }
+
+    private void resetFinalizeButton() {
+        btnFinalizeSale.setDisable(false);
+        btnFinalizeSale.setText("FINALIZAR VENTA");
     }
 
     private void showInfo(String message) {
@@ -448,7 +525,9 @@ public class SalesController {
 
     private void resetToDefaultCustomer() {
         selectedCustomerIdSale = 1L;
-        lblSelectedCustomer.setText("Público General");
+        selectedCustomerNameSale = "Público General";
+
+        lblSelectedCustomer.setText(selectedCustomerNameSale);
     }
 
     private boolean isFormValid() {
@@ -518,7 +597,7 @@ public class SalesController {
 
         this.saleItems.setAll(dtos);
 
-        this.selectedCustomerIdSale = sale.getCustomer().getId();
+        selectedCustomerIdSale = sale.getCustomer().getId();
         this.lblSelectedCustomer.setText(sale.getCustomer().getFirstName() + " " + sale.getCustomer().getLastName());
         this.cbPaymentType.setValue(sale.getPaymentType());
 

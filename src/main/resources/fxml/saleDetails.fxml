@@ -199,22 +199,41 @@
                         <Cursor fx:constant="HAND" /> <!-- Para que parezca un botón -->
                      </cursor>
                   </ImageView>
+                  <!-- Buscar por fecha -->
                   <DatePicker fx:id="dpFilterDate" prefHeight="30.0" prefWidth="150.0" promptText="Seleccione día">
                      <HBox.margin>
                         <Insets left="100.0" />
                      </HBox.margin>
                   </DatePicker>
-                  <Button onAction="#searchByDate" text="Buscar" styleClass="btn-secondary" >
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </Button>
                   <ImageView fx:id="btnResetDates" fitHeight="26.0" fitWidth="24.0" onMouseClicked="#clearDate" opacity="0.71" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/borrar.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" /> <!-- Para que parezca un botón -->
+                     </cursor>
+                  </ImageView>
+                  <!-- Buscar por nombre -->
+                  <TextField fx:id="txtSearchName"
+                             prefHeight="26.0"
+                             prefWidth="220.0"
+                             promptText="🔍 Nombre">
+                     <HBox.margin>
+                        <Insets left="50.0"/>
+                     </HBox.margin>
+                  </TextField>
+                  <ImageView fx:id="btnResetSearchName"
+                             fitHeight="26.0"
+                             fitWidth="24.0"
+                             onMouseClicked="#clearSearchName"
+                             opacity="0.71"
+                             pickOnBounds="true"
+                             preserveRatio="true">
+                     <image>
+                        <Image url="@../img/borrar.png"/>
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND"/>
                      </cursor>
                   </ImageView>
                </children>
