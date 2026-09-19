@@ -1,0 +1,113 @@
+.mi-boton {
+    -fx-background-color: #d0aac1;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10px 20px;
+    -fx-border: none;
+    -fx-border-radius: 10px;
+    -fx-cursor: pointer;
+    -fx-font-size: 17px;
+    -fx-transition: background-color 0.3s ease;
+    -fx-display: inline-block;
+}
+
+.btn-eliminar{
+    -fx-background-color: #DC143C;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+.mi-boton:hover {
+    -fx-background-color: #DB7093 ;
+    -fx-text-fill: #ffffff;
+}
+
+.root {
+    -fx-background-color: white;
+}
+
+
+.menu-bar .menu .label {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 3 12 0 12 !important;
+}
+
+.menu-bar .menu:hover,
+.menu-bar .menu:focused,
+.menu-bar .menu:showing {
+    -fx-background-color: #2c3e50 !important;
+}
+
+.menu:hover .menu .label,
+.menu:focused .menu .label,
+.menu:showing .menu .label{
+    -fx-text-fill: WHITE;
+}
+
+.menu-item {
+    -fx-background-color: #ecf0f1;
+}
+
+.menu-item .label{
+    -fx-text-fill: black !important;
+}
+
+.menu-item:focused {
+    -fx-background-color: #d0aac1;
+}
+
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color: #2c3e50;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/*.table-row-cell:odd {
+    -fx-background-color: #ffffff;
+}
+.table-row-cell:even {
+    -fx-background-color: #EFF3F5;
+}*/
+
+.tableProducts .column-header,
+.tableProducts .column-header-background .filler {
+    -fx-background-color: #d0aac1;
+}
+
+.tableProducts .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.menuButtons{
+    -fx-background-color: #B6C1D3;
+}
+
+.menuButtons .text {
+    -fx-font-weight: bold;
+}
+
+.menuButtons:pressed {
+    -fx-background-color: #DB7093 ;
+    -fx-text-fill: #ffffff;
+}
+
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #B0B0B0 transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 0;
+}
+
+.button-edit {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.button-edit:hover {
+    -fx-background-color: #e0e0e0;
+}

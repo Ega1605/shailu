@@ -1,0 +1,385 @@
+package com.shailu.deposito_dental_pos.controller;
+
+import com.shailu.deposito_dental_pos.config.ScreenManager;
+import com.shailu.deposito_dental_pos.model.dto.ProductDto;
+import com.shailu.deposito_dental_pos.service.ProductService;
+import com.shailu.deposito_dental_pos.utils.ValidateFields;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
+import org.controlsfx.control.textfield.TextFields;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+import java.util.Optional;
+
+@Component
+public class InventoryController {
+
+    public static final double TAX = 0.16D;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private ScreenManager screenManager;
+
+    @FXML private TextField txtCode;
+    @FXML private TextField txtBarCode;
+    @FXML private TextField txtName;
+    @FXML private TextField txtDescription;
+    @FXML private TextField txtPurchasePrice;
+    @FXML private TextField txtProfit;
+    @FXML private TextField txtQuantity;
+    @FXML private ImageView btnResetSearch;
+    @FXML private  ImageView btnCleanProductInfo;
+
+    @FXML private Button btnAdd;
+
+    @FXML private TextField txtSearch;
+    @FXML private Button btnDelete;
+    @FXML private TableView<ProductDto> tableProducts;
+
+    @FXML private TableColumn<ProductDto, String> colCode;
+
+    @FXML private TableColumn<ProductDto, String> colName;
+
+    @FXML private TableColumn<ProductDto, Integer> colStock;
+
+    @FXML private TableColumn<ProductDto, Double> colPrice;
+
+    @FXML private Pagination pagination;
+
+    private final ObservableList<ProductDto> products =
+            FXCollections.observableArrayList();
+
+
+    @FXML
+    public void initialize() {
+
+        //visualization
+        colCode.setCellValueFactory(
+                new PropertyValueFactory<>("code")
+        );
+        colName.setCellValueFactory(
+                new PropertyValueFactory<>("name")
+        );
+        colStock.setCellValueFactory(
+                new PropertyValueFactory<>("currentStock")
+        );
+        colPrice.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+        );
+
+        //validate current stock less or equal than 2
+        tableProducts.setRowFactory(tv -> new TableRow<ProductDto>() {
+            @Override
+            protected void updateItem(ProductDto item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setStyle("");
+                } else {
+                    if (item.getCurrentStock() <= 2) {
+                        setStyle("-fx-background-color: #d0aac1; -fx-text-background-color: black;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            }
+        });
+
+        //Pagination
+        pagination.setPageFactory(this::createPage);
+
+        //Edit ProdcutName in the table
+        tableProducts.setEditable(true);
+
+        colName.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        // Manage when the user enter de value in ColName
+
+        colName.setOnEditCommit(event -> {
+            ProductDto product = event.getRowValue();
+            String newName = event.getNewValue();
+
+            if (newName == null || newName.trim().isEmpty()) {
+                ValidateFields.showError("El nombre no puede estar vacío");
+                tableProducts.refresh();
+                return;
+            }
+            product.setName(newName);
+            productService.updateName(product);
+        });
+
+        //Edit Stock in the table
+
+        colStock.setOnEditCommit(event -> {
+            ProductDto product = event.getRowValue();
+            int newStock = event.getNewValue();
+            product.setCurrentStock(newStock);
+            productService.updateName(product);
+        });
+
+
+
+
+        //Listeners
+
+        txtBarCode.setOnAction(e -> onBarCodeScanned());
+
+        txtBarCode.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal ) {
+                onBarCodeScanned();
+            }
+        });
+        btnAdd.setOnAction(e -> addProduct());
+
+        txtCode.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal && txtCode.getText() != null && !txtCode.getText().trim().isEmpty()) {
+                fillFieldsByCode();
+            }
+        });
+
+        //Full field by name
+
+        TextFields.bindAutoCompletion(txtName, word -> {
+            String nameText = word.getUserText();
+            if (nameText == null || nameText.length() < 3) {
+                return Collections.emptyList();
+            }
+            return productService.searchProductsByName(nameText);
+        }, new StringConverter<ProductDto>() {
+            @Override
+            public String toString(ProductDto product) {
+                return product == null ? "" : product.getName();
+            }
+
+            @Override
+            public ProductDto fromString(String string) {
+                return null;
+            }
+        }).setOnAutoCompleted(event -> {
+            ProductDto selectedProduct = event.getCompletion();
+            fillProductFields(selectedProduct);
+        });
+
+        //Filter table
+        txtSearch.textProperty().addListener((obs, old, newValue) -> {
+            pagination.setCurrentPageIndex(0);
+            updatePagination();
+        });
+
+        //table Loaded
+        updatePagination();
+
+        //Initial Focus
+        Platform.runLater(() -> {
+            txtBarCode.requestFocus();
+            txtBarCode.selectAll();
+        });
+
+        //ClearSearch
+
+        btnResetSearch.setCursor(Cursor.HAND);
+
+        btnResetSearch.setOnMouseEntered(e -> {
+            btnResetSearch.setOpacity(1.0);
+        });
+
+        btnResetSearch.setOnMouseExited(e -> {
+            btnResetSearch.setOpacity(0.5);
+        });
+
+        // Click Reset Search
+        btnResetSearch.setOnMousePressed(e -> {
+            btnResetSearch.setScaleX(0.85);
+            btnResetSearch.setScaleY(0.85);
+        });
+
+        btnResetSearch.setOnMouseReleased(e -> {
+            btnResetSearch.setScaleX(1.0);  // change size of the image
+            btnResetSearch.setScaleY(1.0);
+        });
+
+        // Click Clean Product
+        btnCleanProductInfo.setCursor(Cursor.HAND);
+
+        btnCleanProductInfo.setOnMousePressed(e -> {
+            btnCleanProductInfo.setScaleX(0.85);
+            btnCleanProductInfo.setScaleY(0.85);
+        });
+
+        btnCleanProductInfo.setOnMouseReleased(e -> {
+            btnCleanProductInfo.setScaleX(1.0);
+            btnCleanProductInfo.setScaleY(1.0);
+        });
+
+        btnCleanProductInfo.setOnMouseEntered(e -> {
+            btnCleanProductInfo.setOpacity(1.0);
+        });
+
+        btnCleanProductInfo.setOnMouseExited(e -> {
+            btnCleanProductInfo.setOpacity(0.54);
+            btnCleanProductInfo.setScaleX(1.0);
+            btnCleanProductInfo.setScaleY(1.0);
+        });
+
+    }
+
+    @FXML
+    private void onCleanProductInfo() {
+        clearForm();
+    }
+
+    // this method  is called when you change the number of page
+    private Node createPage(int pageIndex) {
+        String filter = txtSearch.getText();
+        int ROWS_PER_PAGE = 15;
+        Page<ProductDto> productPage = productService.findPaginated(filter, pageIndex, ROWS_PER_PAGE);
+
+        // Update totalPages dynamic
+        pagination.setPageCount(productPage.getTotalPages() <= 0 ? 1 : productPage.getTotalPages());
+
+        // load table
+        products.setAll(productPage.getContent());
+        tableProducts.setItems(products);
+
+        return new VBox(); // return empty node to refresh view
+    }
+
+    private void updatePagination() {
+        pagination.setPageFactory(this::createPage);
+    }
+
+    private void onBarCodeScanned() {
+
+        if(!txtBarCode.getText().isBlank()){
+
+            handleSearchProductResult(productService.findByBarCode(txtBarCode.getText()),txtBarCode.getText());
+        }
+
+
+    }
+
+    private void fillFieldsByCode() {
+
+        handleSearchProductResult(productService.findByCode(txtCode.getText()),txtCode.getText());
+    }
+
+    private void handleSearchProductResult(Optional<ProductDto> result, String code){
+        if (code == null || code.isBlank()) {
+            return;
+        }
+
+        result.ifPresent(this::fillProductFields);
+    }
+
+    private void addProduct() {
+
+        if (!isFormValid()) {
+            return;
+        }
+
+        ProductDto product = new ProductDto();
+        product.setCode(txtCode.getText());
+        product.setBarCode(txtBarCode.getText());
+        product.setName(txtName.getText());
+        product.setDescription(txtDescription.getText());
+        product.setPurchasePrice(Double.valueOf(txtPurchasePrice.getText()));
+        product.setProfit(Double.valueOf(txtProfit.getText()));
+        product.setTax(TAX);
+        product.setQuantity(Integer.parseInt(txtQuantity.getText()));
+
+        productService.addProduct(product);
+        ValidateFields.showInfo("Producto agregado correctamente.");
+
+        clearForm();
+        updatePagination();
+
+    }
+
+    private void clearForm() {
+        txtCode.clear();
+        txtBarCode.clear();
+        clearProductFields();
+    }
+
+    private void fillProductFields(ProductDto product) {
+
+        txtCode.setText(product.getCode());
+        txtBarCode.setText(product.getBarCode());
+        txtName.setText(product.getName());
+        txtDescription.setText(product.getDescription());
+        txtPurchasePrice.setText(String.valueOf(product.getPurchasePrice()));
+        txtProfit.setText(String.valueOf(product.getProfit()));
+
+        btnAdd.requestFocus();
+    }
+
+    private void clearProductFields() {
+        txtName.clear();
+        txtDescription.clear();
+        txtPurchasePrice.clear();
+        txtProfit.clear();
+        txtQuantity.clear();
+    }
+
+    private boolean isFormValid() {
+
+        if (ValidateFields.isEmpty(txtCode)) return ValidateFields.showError("El código es obligatorio");
+        if (ValidateFields.isEmpty(txtName)) return ValidateFields.showError("El nombre es obligatorio");
+        if (ValidateFields.isEmpty(txtDescription)) return ValidateFields.showError("La descripción es obligatoria");
+        if (ValidateFields.isEmpty(txtPurchasePrice)) return ValidateFields.showError("El precio es obligatorio");
+        if (ValidateFields.isEmpty(txtProfit)) return ValidateFields.showError("La ganancia es obligatoria");
+        if (ValidateFields.isEmpty(txtQuantity)) return ValidateFields.showError("La cantidad es obligatoria");
+        if (!ValidateFields.isNumber(txtPurchasePrice)) return ValidateFields.showError("Precio inválido");
+        if (!ValidateFields.isNumber(txtProfit)) return ValidateFields.showError("Ganancia inválida");
+        if (!ValidateFields.isInteger(txtQuantity)) return ValidateFields.showError("Cantidad inválida");
+
+        return true;
+    }
+
+    @FXML
+    private void clearSearch() {
+        txtSearch.clear();
+    }
+
+
+    @FXML
+    private void deleteSelectedProduct() {
+
+        ProductDto selectedProduct = tableProducts.getSelectionModel().getSelectedItem();
+
+        if (selectedProduct == null) {
+            ValidateFields.showError("Por favor, selecciona un producto de la tabla");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar Eliminación");
+        alert.setHeaderText("¿Estás seguro de eliminar este producto?");
+        alert.setContentText(selectedProduct.getName());
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                productService.deleteById(selectedProduct.getId());
+
+                updatePagination();
+                ValidateFields.showError("Producto eliminado correctamente");
+            }
+        });
+    }
+
+}
