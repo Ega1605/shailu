@@ -35,8 +35,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +91,8 @@ public class SalesController {
 
     @Autowired
     private FXMLPrintService fxmlPrintService;
+    @Autowired
+    private PdfQuotationService pdfQuotationService;
 
     @Autowired
     private ApplicationContext springContext;
@@ -278,12 +282,6 @@ public class SalesController {
 
         btnGenerateQuotation.setVisible(quotation);
         btnGenerateQuotation.setManaged(quotation);
-
-        btnFinalizeSale.setText(
-                quotation
-                        ? "GENERAR COTIZACIÓN"
-                        : "FINALIZAR VENTA"
-        );
     }
 
     @FXML
@@ -295,6 +293,42 @@ public class SalesController {
             return;
         }
         // Crear PDF
+        btnGenerateQuotation.setDisable(true);
+        btnGenerateQuotation.setText("GENERANDO...");
+
+        try {
+
+            List<SalesDto> items =
+                    new ArrayList<>(tableSales.getItems());
+
+            String customerName =
+                    lblSelectedCustomer.getText();
+
+            Path pdf = pdfQuotationService.generateQuotation(
+                    items,
+                    customerName,
+                    txtNotes.getText()
+            );
+
+            showInfo(
+                    "Cotización generada correctamente."
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            ValidateFields.showError(
+                    "Error al generar la cotización: "
+                            + e.getMessage()
+            );
+        } finally {
+
+            btnGenerateQuotation.setDisable(false);
+            btnGenerateQuotation.setText(
+                    "GENERAR COTIZACIÓN"
+            );
+        }
     }
 
     private boolean validateSaleItems(String errorMessage) {
