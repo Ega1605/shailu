@@ -311,8 +311,7 @@ public class SalesController {
             );
 
             showInfo(
-                    "Cotización generada correctamente.\n\n"
-                            + pdf
+                    "Cotización generada correctamente."
             );
 
         } catch (Exception e) {
