@@ -328,6 +328,9 @@ public class SalesController {
             btnGenerateQuotation.setText(
                     "GENERAR COTIZACIÓN"
             );
+            // clean
+            cancelSale();
+            resetToDefaultCustomer();
         }
     }
 
@@ -591,6 +594,7 @@ public class SalesController {
         txtCashReceived.setText("0.00");
         txtChange.setText("0.00");
         resetToDefaultCustomer();
+        txtNotes.clear();
         this.saleWaitingForEdit = null;
     }
 
